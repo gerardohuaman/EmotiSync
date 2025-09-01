@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="assets/css/hu5.css"/>
+  <title>Modo Reflexión</title>
+</head>
+<body>
+  <header class="header-hu5">
+    <h2>Respira, estás a salvo</h2>
+    <button class="btn-salir"><a href="buscar.html">← Salir</a></button>
+  </header>
+
+  <main class="container">
+    <div class="timer" id="timer">01:00</div>
+
+    <div class="image-container">
+      <img src="assets/img/respira.png" alt="Respiración" class="img-hu5"/>
+    </div>
+
+    <div class="mensaje">
+      <p><strong>Inhala profundo,</strong><br/>Suelta la tensión</p>
+    </div>
+
+    <div class="btn-group">
+      <button id="finalizar" class="btn-hu5">Finalizar</button>
+      <button id="reiniciar" class="btn-hu5">Reiniciar</button>
+      <button id="musica" class="btn-hu5">Música</button>
+    </div>
+  </main>
+
+ <footer class="footer">
+  <div class="footer-container">
+    <div class="nav-btn">🏠<a href="home.html"><p>Home</p></a></div>
+    <div class="nav-btn">💬<a href="mensajes.html"><p>Mensajes</p></a></div>
+    <div class="nav-btn">🔍<a href="buscar.html"><p>Buscar</p></a></div>
+    <div class="nav-btn">🧑‍💼<a href="perfil.html"><p>Perfil</p></a></div>
+  </div>
+</footer>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h2>Ejercicio finalizado</h2>
+      <button id="cerrar-modal">Cerrar</button>
+    </div>
+  </div>
+
+  <audio id="audio" src="relajado.mp3" loop></audio>
+  <script src="assets/js/hu5.js"></script>
+</body>
+</html>

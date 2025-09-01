@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar - NeuroBridge</title>
+    <link rel="stylesheet" href="assets/css/buscar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="search-container">
+        <div class="search-header">
+            <button class="back-btn" onclick="goBack()">
+                <span>←</span> Salir
+            </button>
+            
+            <h1 class="search-title">Buscar</h1>
+        </div>
+        
+        <div class="search-section">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Escribe tu búsqueda">
+                <button class="search-btn" onclick="performSearch()">
+                    <span>🔍</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="suggestions-section">
+            <h2>Sugerencias</h2>
+            
+            <div class="suggestions-grid">
+                <div class="suggestion-card" onclick="openSuggestion('registro-emociones')">
+                    <div class="suggestion-preview">
+                        <img src="assets/img/hu 1.png" alt="Registro de emociones">
+                    </div>
+                    <div class="suggestion-content">
+                        <h3>Mi Registro Diario de Emociones</h3>
+                        <p>Herramienta para registrar y monitorear tus emociones diarias</p>
+                        <a href="hu1.html">Ingresar aquí</a>
+                    </div>
+                </div>
+                
+                <div class="suggestion-card" onclick="openSuggestion('semana-emociones')">
+                    <div class="suggestion-preview">
+                        <img src="assets/img/aplicacionesparadetectaremociones.png" alt="Semana de emociones">
+                    </div>
+                    <div class="suggestion-content">
+                        <h3>Mi semana de emociones</h3>
+                        <p>Visualiza tu progreso emocional semanal</p>
+                        <a href="hu2.html">Ingresar aquí</a>
+                    </div>
+                </div>
+                
+                <div class="suggestion-card" onclick="openSuggestion('seguimiento-emocional')">
+                    <div class="suggestion-preview">
+                        <img src="assets/img/evolucion emocional.png" alt="Seguimiento emocional">
+                    </div>
+                    <div class="suggestion-content">
+                        <h3>Seguimiento Emocional Detallado</h3>
+                        <p>Análisis completo de tu bienestar emocional</p>
+                        <a href="hu3.html">Ingresar aquí</a>
+                    </div>
+                </div>
+
+                <div class="suggestion-card" onclick="openSuggestion('mindfulness')">
+                    <div class="suggestion-preview">
+                        <img src="assets/img/hu4.jpg" alt="Técnicas de Mindfulness">
+                    </div>
+                <div class="suggestion-content">
+                  <h3>Preguntas de emociones</h3>
+                   <p>Observar las preguntas y analizarlas</p>
+                   <a href="hu4.html">Ingresar aquí</a>
+    </div>
+</div>
+
+<!-- Nueva sugerencia 5 -->
+<div class="suggestion-card" onclick="openSuggestion('ansiedad')">
+    <div class="suggestion-preview">
+        <img src="assets/img/hu5.jpg" alt="Manejo de Ansiedad">
+    </div>
+    <div class="suggestion-content">
+        <h3>Modo Reflexión</h3>
+        <p>Ejercicio guiado de respiración para ayudarte a reducir el estrés y recuperar el equilibrio emocional.</p>
+        <a href="hu5.html">Ingresar aquí</a>
+    </div>
+</div>      
+    <div class="search-results" id="searchResults" style="display: none;">
+            <h2>Resultados de búsqueda</h2>
+            <div class="results-list" id="resultsList">>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="bottom-nav">
+        <button class="nav-btn" onclick="redirectTo('home.html')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Home</span>
+        </button>
+        
+        <button class="nav-btn" onclick="redirectTo('mensajes.html')">
+            <span class="nav-icon">💬</span>
+            <span class="nav-text">Mensajes</span>
+        </button>
+        
+        <button class="nav-btn active">
+            <span class="nav-icon">🔍</span>
+            <span class="nav-text">Buscar</span>
+        </button>
+        
+        <button class="nav-btn" onclick="redirectTo('perfil.html')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">Perfil</span>
+        </button>
+    </nav>
+    
+    <script src="assets/js/buscar.js"></script>
+</body>
+</html>

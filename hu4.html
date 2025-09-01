@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HU4 - Estado Emocional</title>
+  <link rel="stylesheet" href="assets/css/hu4.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="hu4-header">
+    <button class="back-btn" onclick="goBack()">← Salir</button>
+    <h1 class="hu4-title">Preguntas</h1>
+  </div>
+
+  <div class="hu4-container">
+    <div class="section">
+      <h2 class="section-title">Preguntas sobre el estado emocional actual 🧠</h2>
+      <p class="question">¿Cómo te sientes en este momento?</p>
+      <p class="question">¿Qué parte de tu cuerpo sientes más afectada por esta emoción?</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Preguntas sobre el origen de la emoción 🗓️</h2>
+      <p class="question">¿Cómo te sientes en este momento?</p>
+      <p class="question">¿Qué parte de tu cuerpo sientes más afectada por esta emoción?</p>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn" onclick="redirectTo('home.html')">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-text">Home</span>
+    </button>
+    <button class="nav-btn" onclick="redirectTo('mensajes.html')">
+      <span class="nav-icon">💬</span>
+      <span class="nav-text">Mensajes</span>
+    </button>
+    <button class="nav-btn" onclick="redirectTo('buscar.html')">
+      <span class="nav-icon">🔍</span>
+      <span class="nav-text">Buscar</span>
+    </button>
+    <button class="nav-btn active">
+      <span class="nav-icon">👤</span>
+      <span class="nav-text">Perfil</span>
+    </button>
+  </nav>
+
+  <script src="assets/js/hu4.js"></script>
+</body>
+</html>

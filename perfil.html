@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - NeuroBridge</title>
+    <link rel="stylesheet" href="assets/css/perfil.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <button class="back-btn" onclick="goBack()">
+                <span>←</span> Back
+            </button>
+            
+            <div class="profile-image-container">
+                <img src="assets/img/avatar.png" alt="Avatar de usuario" class="profile-image" id="profileImage">
+            </div>
+            
+            <h1 class="profile-name" id="profileName">Valentina Rodriguez</h1>
+        </div>
+        
+        <div class="profile-menu">
+            <div class="menu-item" onclick="redirectTo('usuario.html')">
+                <span class="menu-text">Usuario</span>
+                <span class="menu-arrow">→</span>
+            </div>
+            
+            <div class="menu-item" onclick="redirectTo('sitio-web.html')">
+                <span class="menu-text">Sitio Web</span>
+                <span class="menu-arrow">→</span>
+            </div>
+            
+            <div class="menu-item" onclick="redirectTo('biografia.html')">
+                <span class="menu-text">Biografía</span>
+                <span class="menu-arrow">→</span>
+            </div>
+            
+            <div class="menu-item toggle-item">
+                <span class="menu-text">Perfil privado</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="perfilPrivado">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="menu-item toggle-item">
+                <span class="menu-text">Notificaciones</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="notificaciones" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="menu-item toggle-item">
+                <span class="menu-text">Recibir mensajes</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="recibirMensajes">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="logout-section">
+            <button class="logout-btn" onclick="logout()">
+                <a href="index.html">Cerrar Sesión</a>
+            </button>
+        </div>
+    </div>
+    
+    <nav class="bottom-nav">
+        <button class="nav-btn" onclick="redirectTo('index.html')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Home</span>
+        </button>
+        
+        <button class="nav-btn" onclick="redirectTo('mensajes.html')">
+            <span class="nav-icon">💬</span>
+            <span class="nav-text">Mensajes</span>
+        </button>
+        
+        <button class="nav-btn" onclick="redirectTo('buscar.html')">
+            <span class="nav-icon">🔍</span>
+            <span class="nav-text">Buscar</span>
+        </button>
+        
+        <button class="nav-btn active">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">Perfil</span>
+        </button>
+    </nav>
+    <div class="modal-overlay" id="logoutModal" style="display:none;">
+  <div class="modal-box">
+    <h2>¿Seguro que deseas cerrar sesión?</h2>
+    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+      <button class="cerrar-sesion-btn" onclick="showLogoutModal()">Cerrar Sesión</button>
+      <button class="hu3-btn" onclick="closeLogoutModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+    
+    <script src="assets/js/perfil.js"></script>
+</body>
+</html>
