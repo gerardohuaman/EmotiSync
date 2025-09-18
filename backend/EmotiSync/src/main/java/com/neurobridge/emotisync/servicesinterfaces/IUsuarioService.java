@@ -1,8 +1,6 @@
 package com.neurobridge.emotisync.servicesinterfaces;
 
 import com.neurobridge.emotisync.entities.Usuario;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -13,4 +11,6 @@ public interface IUsuarioService {
     public void update(Usuario usuario);
     public void delete(int id);
     public Usuario buscarFamiliarPorPacienteService(int id);
+    public List<Usuario> buscarPacientesPorMedico(int especialistaId);
+
 }

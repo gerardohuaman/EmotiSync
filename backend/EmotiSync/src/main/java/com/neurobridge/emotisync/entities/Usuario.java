@@ -1,8 +1,6 @@
 package com.neurobridge.emotisync.entities;
 
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -44,15 +42,15 @@ public class Usuario {
     @Column(name = "especialidad", nullable = true, length = 30)
     private String especialidad;
 
-    @Column(name = "familiar", nullable = true)
-    private Integer familiar;
+    @Column(name = "familiarDe", nullable = true)
+    private Integer familiarDe;
 
-    @Column(name = "pacientes", nullable = true)
-    private List<Integer> pacientes;
+    @Column(name = "pacienteDe", nullable = true)
+    private Integer pacienteDe;
 
     public Usuario() {}
 
-    public Usuario(int idUsuario, String nombre, String apellido, String email, String password, String telefono, LocalDate fechaNacimiento, String institucion, Integer nroColegiatura, String rol, String especialidad, Integer familiar, List<Integer> pacientes) {
+    public Usuario(int idUsuario, String nombre, String apellido, String email, String password, String telefono, LocalDate fechaNacimiento, String institucion, Integer nroColegiatura, String rol, String especialidad, Integer familiarDe, Integer pacienteDe) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -64,8 +62,8 @@ public class Usuario {
         this.nroColegiatura = nroColegiatura;
         this.rol = rol;
         this.especialidad = especialidad;
-        this.familiar = familiar;
-        this.pacientes = pacientes;
+        this.familiarDe = familiarDe;
+        this.pacienteDe = pacienteDe;
     }
 
     public String getInstitucion() {
@@ -100,22 +98,21 @@ public class Usuario {
         this.especialidad = especialidad;
     }
 
-    public List<Integer> getPacientes() {
-        return pacientes;
+    public Integer getFamiliarDe() {
+        return familiarDe;
     }
 
-    public void setPacientes(List<Integer> medicoDe) {
-        this.pacientes = medicoDe;
+    public void setFamiliarDe(Integer familiarDe) {
+        this.familiarDe = familiarDe;
     }
 
-    public Integer getFamiliar() {
-        return familiar;
+    public Integer getPacienteDe() {
+        return pacienteDe;
     }
 
-    public void setFamiliar(Integer familiar) {
-        this.familiar = familiar;
+    public void setPacienteDe(Integer pacienteDe) {
+        this.pacienteDe = pacienteDe;
     }
-
 
     public int getIdUsuario() {
         return idUsuario;

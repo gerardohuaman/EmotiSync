@@ -45,5 +45,10 @@ public class UsuarioServiceImplement implements IUsuarioService {
         return uS.buscarFamiliarPorPaciente(id);
     }
 
+    @Override
+    public List<Usuario> buscarPacientesPorMedico(int especialistaId) {
+        return uS.buscarPacientesPorMedico(especialistaId);
+    }
+
 
 }

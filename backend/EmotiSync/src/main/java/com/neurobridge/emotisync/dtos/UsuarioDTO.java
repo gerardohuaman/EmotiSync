@@ -1,7 +1,5 @@
 package com.neurobridge.emotisync.dtos;
 
-import jakarta.persistence.Column;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,12 +12,20 @@ public class UsuarioDTO {
     private String password;
     private String telefono;
     private LocalDate fechaNacimiento;
-    private Integer familiar;
-    private List<Integer> pacientes;
+    private Integer familiarDe;
+    private Integer pacienteDe;
     private String institucion;
     private Integer nroColegiatura;
     private String rol;
     private String especialidad;
+
+    public Integer getPacienteDe() {
+        return pacienteDe;
+    }
+
+    public void setPacienteDe(Integer pacienteDe) {
+        this.pacienteDe = pacienteDe;
+    }
 
     public String getInstitucion() {
         return institucion;
@@ -53,21 +59,14 @@ public class UsuarioDTO {
         this.especialidad = especialidad;
     }
 
-    public Integer getFamiliar() {
-        return familiar;
+    public Integer getFamiliarDe() {
+        return familiarDe;
     }
 
-    public void setFamiliar(Integer familiar) {
-        this.familiar = familiar;
+    public void setFamiliarDe(Integer familiarDe) {
+        this.familiarDe = familiarDe;
     }
 
-    public List<Integer> getPacientes() {
-        return pacientes;
-    }
-
-    public void setPacientes(List<Integer> pacientes) {
-        this.pacientes = pacientes;
-    }
 
     public int getIdUsuario() {
         return idUsuario;

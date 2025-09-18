@@ -84,5 +84,22 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioDTO);
     }
 
+
+    @GetMapping("/pacientes")
+    public ResponseEntity<?> buscarPacientePorMedico(@RequestParam int especialistaId) {
+        List<Usuario> usuarios = uS.buscarPacientesPorMedico(especialistaId);
+
+        if (usuarios.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existen pacientes del especialista con id: " + especialistaId);
+        }
+
+        List<UsuarioDTO> listaDTO = usuarios.stream().map(x -> {
+            ModelMapper m = new ModelMapper();
+            return m.map(x, UsuarioDTO.class);
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(listaDTO);
+    }
 }
 
