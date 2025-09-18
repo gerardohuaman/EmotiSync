@@ -1,6 +1,6 @@
-package com.example.emotisyncby.repositories;
+package com.neurobridge.emotisync.repositories;
 
-import com.example.emotisyncby.entities.Crisis;
+import com.neurobridge.emotisync.entities.Crisis;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

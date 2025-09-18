@@ -1,6 +1,4 @@
-package com.example.emotisyncby.dto;
-
-import jakarta.persistence.Column;
+package com.neurobridge.emotisync.dtos;
 
 import java.time.LocalDate;
 

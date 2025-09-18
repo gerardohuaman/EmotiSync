@@ -1,4 +1,4 @@
-package com.example.emotisyncby.dto;
+package com.neurobridge.emotisync.dtos;
 
 public class EmocionesDTOList {
     //mostrar

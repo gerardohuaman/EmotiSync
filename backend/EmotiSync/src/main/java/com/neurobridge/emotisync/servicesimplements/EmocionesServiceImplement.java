@@ -1,10 +1,8 @@
-package com.example.emotisyncby.servicesimplements;
+package com.neurobridge.emotisync.servicesimplements;
 
-import com.example.emotisyncby.entities.Crisis;
-import com.example.emotisyncby.entities.Emociones;
-import com.example.emotisyncby.repositories.IEmocionesRepository;
-import com.example.emotisyncby.servicesinterfaces.ICrisisService;
-import com.example.emotisyncby.servicesinterfaces.IEmocionesService;
+import com.neurobridge.emotisync.entities.Emociones;
+import com.neurobridge.emotisync.repositories.IEmocionesRepository;
+import com.neurobridge.emotisync.servicesinterfaces.IEmocionesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

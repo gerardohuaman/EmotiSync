@@ -1,4 +1,4 @@
-package com.example.emotisyncby.entities;
+package com.neurobridge.emotisync.entities;
 
 import jakarta.persistence.*;
 

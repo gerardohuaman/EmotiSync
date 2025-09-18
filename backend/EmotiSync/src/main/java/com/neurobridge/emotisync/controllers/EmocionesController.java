@@ -1,8 +1,8 @@
-package com.example.emotisyncby.controllers;
+package com.neurobridge.emotisync.controllers;
 
-import com.example.emotisyncby.dto.EmocionesDTOList;
-import com.example.emotisyncby.entities.Emociones;
-import com.example.emotisyncby.servicesinterfaces.IEmocionesService;
+import com.neurobridge.emotisync.dtos.EmocionesDTOList;
+import com.neurobridge.emotisync.entities.Emociones;
+import com.neurobridge.emotisync.servicesinterfaces.IEmocionesService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

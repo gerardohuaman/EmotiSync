@@ -1,8 +1,8 @@
-package com.example.emotisyncby.controllers;
+package com.neurobridge.emotisync.controllers;
 
-import com.example.emotisyncby.dto.CrisisDTO;
-import com.example.emotisyncby.entities.Crisis;
-import com.example.emotisyncby.servicesinterfaces.ICrisisService;
+import com.neurobridge.emotisync.dtos.CrisisDTO;
+import com.neurobridge.emotisync.entities.Crisis;
+import com.neurobridge.emotisync.servicesinterfaces.ICrisisService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

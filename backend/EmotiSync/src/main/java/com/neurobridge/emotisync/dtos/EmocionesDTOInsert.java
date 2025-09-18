@@ -1,6 +1,6 @@
-package com.example.emotisyncby.dto;
+package com.neurobridge.emotisync.dtos;
 
-import com.example.emotisyncby.entities.Crisis;
+import com.neurobridge.emotisync.entities.Crisis;
 
 public class EmocionesDTOInsert {
     private int idEmociones;

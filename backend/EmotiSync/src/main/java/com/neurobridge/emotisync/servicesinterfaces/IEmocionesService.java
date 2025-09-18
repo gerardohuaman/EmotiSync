@@ -1,6 +1,6 @@
-package com.example.emotisyncby.servicesinterfaces;
+package com.neurobridge.emotisync.servicesinterfaces;
 
-import com.example.emotisyncby.entities.Emociones;
+import com.neurobridge.emotisync.entities.Emociones;
 
 import java.util.List;
 
