@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class EmotiSyncApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EmotiSyncApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EmotiSyncApplication.class, args);
+    }
 
 }
