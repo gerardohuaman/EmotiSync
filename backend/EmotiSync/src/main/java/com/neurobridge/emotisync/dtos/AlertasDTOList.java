@@ -1,4 +1,4 @@
-package pe.edu.upc.emotisync.dtos;
+package com.neurobridge.emotisync.dtos;
 
 public class AlertasDTOList {
     private int idAlerta;

@@ -1,10 +1,10 @@
-package pe.edu.upc.emotisync.serviceimplements;
+package com.neurobridge.emotisync.serviceimplements;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pe.edu.upc.emotisync.entities.Alertas;
-import pe.edu.upc.emotisync.repositories.IAlertaRepository;
-import pe.edu.upc.emotisync.servicesinterfaces.IAlertaService;
+import com.neurobridge.emotisync.entities.Alertas;
+import com.neurobridge.emotisync.repositories.IAlertaRepository;
+import com.neurobridge.emotisync.servicesinterfaces.IAlertaService;
 
 import java.util.List;
 

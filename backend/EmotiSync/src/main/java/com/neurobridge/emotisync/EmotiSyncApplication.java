@@ -1,4 +1,4 @@
-package pe.edu.upc.emotisync;
+package com.neurobridge.emotisync;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

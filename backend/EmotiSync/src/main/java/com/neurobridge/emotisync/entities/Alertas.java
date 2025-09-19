@@ -1,4 +1,4 @@
-package pe.edu.upc.emotisync.entities;
+package com.neurobridge.emotisync.entities;
 import jakarta.persistence.*;
 
 @Entity

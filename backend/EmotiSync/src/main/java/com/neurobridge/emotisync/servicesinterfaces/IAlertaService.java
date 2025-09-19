@@ -1,6 +1,6 @@
-package pe.edu.upc.emotisync.servicesinterfaces;
+package com.neurobridge.emotisync.servicesinterfaces;
 
-import pe.edu.upc.emotisync.entities.Alertas;
+import com.neurobridge.emotisync.entities.Alertas;
 
 import java.util.List;
 

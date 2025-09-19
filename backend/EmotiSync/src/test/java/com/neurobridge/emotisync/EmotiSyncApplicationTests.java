@@ -1,4 +1,4 @@
-package pe.edu.upc.emotisync;
+package com.neurobridge.emotisync;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

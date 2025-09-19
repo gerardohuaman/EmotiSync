@@ -1,7 +1,6 @@
-package pe.edu.upc.emotisync.dtos;
+package com.neurobridge.emotisync.dtos;
 
-import pe.edu.upc.emotisync.entities.Alertas;
-import pe.edu.upc.emotisync.entities.Usuario;
+import com.neurobridge.emotisync.entities.Usuario;
 
 public class AlertasDTOInsert {
     private int idAlerta;
