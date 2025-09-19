@@ -1,13 +1,13 @@
-package com.neurobridge.emotisync;
+package com.example.emotisyncby;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EmotiSyncApplicationTests {
+class EmotiSyncByApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

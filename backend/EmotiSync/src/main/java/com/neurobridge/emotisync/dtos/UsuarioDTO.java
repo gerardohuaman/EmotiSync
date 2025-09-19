@@ -1,68 +1,29 @@
-package com.neurobridge.emotisync.entities;
-
-import jakarta.persistence.*;
+package com.neurobridge.emotisync.dtos;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
-@Table(name = "Usuario")
-public class Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UsuarioDTO {
+
     private int idUsuario;
-
-    @Column(name = "nombre", nullable = false,  length = 100)
     private String nombre;
-
-    @Column(name = "apellido", nullable = false, length = 100)
     private String apellido;
-
-    @Column(name = "email", nullable = false, length = 150)
     private String email;
-
-    @Column(name = "password", nullable = false, length = 100)
     private String password;
-
-    @Column(name = "telefono", nullable = false, length = 20)
     private String telefono;
-
-    @Column(name = "fechaNacimiento", nullable = false)
     private LocalDate fechaNacimiento;
-
-    @Column(name = "institucion", nullable = true, length = 150)
+    private Integer familiarDe;
+    private Integer pacienteDe;
     private String institucion;
-
-    @Column(name = "nroColegiatura", nullable = true)
     private Integer nroColegiatura;
-
-    @Column(name = "rol", nullable = false, length = 50)
     private String rol;
-
-    @Column(name = "especialidad", nullable = true, length = 30)
     private String especialidad;
 
-    @Column(name = "familiarDe", nullable = true)
-    private Integer familiarDe;
+    public Integer getPacienteDe() {
+        return pacienteDe;
+    }
 
-    @Column(name = "pacienteDe", nullable = true)
-    private Integer pacienteDe;
-
-    public Usuario() {}
-
-    public Usuario(int idUsuario, String nombre, String apellido, String email, String password, String telefono, LocalDate fechaNacimiento, String institucion, Integer nroColegiatura, String rol, String especialidad, Integer familiarDe, Integer pacienteDe) {
-        this.idUsuario = idUsuario;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.password = password;
-        this.telefono = telefono;
-        this.fechaNacimiento = fechaNacimiento;
-        this.institucion = institucion;
-        this.nroColegiatura = nroColegiatura;
-        this.rol = rol;
-        this.especialidad = especialidad;
-        this.familiarDe = familiarDe;
+    public void setPacienteDe(Integer pacienteDe) {
         this.pacienteDe = pacienteDe;
     }
 
@@ -106,20 +67,13 @@ public class Usuario {
         this.familiarDe = familiarDe;
     }
 
-    public Integer getPacienteDe() {
-        return pacienteDe;
-    }
-
-    public void setPacienteDe(Integer pacienteDe) {
-        this.pacienteDe = pacienteDe;
-    }
 
     public int getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int id) {
-        this.idUsuario = id;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNombre() {

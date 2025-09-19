@@ -19,7 +19,7 @@ public class Alertas {
     private int  nivel_alerta;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "idUsuario")
     private Usuario usuario;
 
     public  Alertas(){
