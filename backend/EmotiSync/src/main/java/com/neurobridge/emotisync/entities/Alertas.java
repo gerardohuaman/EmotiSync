@@ -33,6 +33,7 @@ public class Alertas {
         this.usuario = usuario;
     }
 
+
     public Usuario getUsuario() {
         return usuario;
     }

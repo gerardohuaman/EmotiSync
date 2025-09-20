@@ -21,4 +21,19 @@ public class AlertaServiceImplement implements IAlertaService {
 
     @Override
     public void insert(Alertas alerta) { repository.save(alerta);    }
+
+    @Override
+    public Alertas listId(int id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void update(Alertas alerta) {
+        repository.save(alerta);
+    }
+
+    @Override
+    public void delete(int id) {
+        repository.deleteById(id);
+    }
 }
