@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.neurobridge.emotisync.repositories.ICrisisRepository;
 import com.neurobridge.emotisync.servicesinterfaces.ICrisisService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -39,4 +40,19 @@ public class CrisisServiceImplement implements ICrisisService {
     public Crisis listId(int id) {
         return crisisRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public List<Crisis> buscarPorUsuario(int usuarioId) {
+        return crisisRepository.buscarPorUsuario(usuarioId);
+    }
+
+    @Override
+    public List<Crisis> buscarPorUsuarioYRangoFechas(Integer usuarioId, LocalDate desde, LocalDate hasta) {
+        return crisisRepository.buscarPorUsuarioYRangoFechas(usuarioId, desde, hasta);
+    }
+
+//    @Override
+//    public List<String[]> cantidadCrisisDelUsuario() {
+//        return crisisRepository.cantidadCrisisDelUsuario();
+//    }
 }
