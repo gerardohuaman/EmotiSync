@@ -1,8 +1,10 @@
 package com.neurobridge.emotisync.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -42,15 +44,26 @@ public class Usuario {
     @Column(name = "especialidad", nullable = true, length = 30)
     private String especialidad;
 
-    @Column(name = "familiarDe", nullable = true)
-    private Integer familiarDe;
+    @Column(length = 30, unique = true)
+    private String username;
 
-    @Column(name = "pacienteDe", nullable = true)
-    private Integer pacienteDe;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "especialistaId")
+    private Usuario especialista;
+
+    @OneToMany(mappedBy = "especialista", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Usuario> pacientes;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "familiarId")
+    private Usuario familiar;
+
+    private Boolean enabled;
 
     public Usuario() {}
 
-    public Usuario(int idUsuario, String nombre, String apellido, String email, String password, String telefono, LocalDate fechaNacimiento, String institucion, Integer nroColegiatura, String rol, String especialidad, Integer familiarDe, Integer pacienteDe) {
+    public Usuario(int idUsuario, String nombre, String apellido, String email, String password, String telefono, LocalDate fechaNacimiento, String institucion, Integer nroColegiatura, String rol, String especialidad, String username, Usuario especialista, List<Usuario> pacientes, Usuario familiar, Boolean enabled) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -62,64 +75,19 @@ public class Usuario {
         this.nroColegiatura = nroColegiatura;
         this.rol = rol;
         this.especialidad = especialidad;
-        this.familiarDe = familiarDe;
-        this.pacienteDe = pacienteDe;
-    }
-
-    public String getInstitucion() {
-        return institucion;
-    }
-
-    public void setInstitucion(String institucion) {
-        this.institucion = institucion;
-    }
-
-    public Integer getNroColegiatura() {
-        return nroColegiatura;
-    }
-
-    public void setNroColegiatura(Integer nroColegiatura) {
-        this.nroColegiatura = nroColegiatura;
-    }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
-
-    public String getEspecialidad() {
-        return especialidad;
-    }
-
-    public void setEspecialidad(String especialidad) {
-        this.especialidad = especialidad;
-    }
-
-    public Integer getFamiliarDe() {
-        return familiarDe;
-    }
-
-    public void setFamiliarDe(Integer familiarDe) {
-        this.familiarDe = familiarDe;
-    }
-
-    public Integer getPacienteDe() {
-        return pacienteDe;
-    }
-
-    public void setPacienteDe(Integer pacienteDe) {
-        this.pacienteDe = pacienteDe;
+        this.username = username;
+        this.especialista = especialista;
+        this.pacientes = pacientes;
+        this.familiar = familiar;
+        this.enabled = enabled;
     }
 
     public int getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int id) {
-        this.idUsuario = id;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNombre() {
@@ -168,5 +136,77 @@ public class Usuario {
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getInstitucion() {
+        return institucion;
+    }
+
+    public void setInstitucion(String institucion) {
+        this.institucion = institucion;
+    }
+
+    public Integer getNroColegiatura() {
+        return nroColegiatura;
+    }
+
+    public void setNroColegiatura(Integer nroColegiatura) {
+        this.nroColegiatura = nroColegiatura;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Usuario getEspecialista() {
+        return especialista;
+    }
+
+    public void setEspecialista(Usuario especialista) {
+        this.especialista = especialista;
+    }
+
+    public List<Usuario> getPacientes() {
+        return pacientes;
+    }
+
+    public void setPacientes(List<Usuario> pacientes) {
+        this.pacientes = pacientes;
+    }
+
+    public Usuario getFamiliar() {
+        return familiar;
+    }
+
+    public void setFamiliar(Usuario familiar) {
+        this.familiar = familiar;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }
