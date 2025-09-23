@@ -71,4 +71,31 @@ public class SintomaController {
         sService.delete(id);
         return ResponseEntity.ok("Síntoma eliminado correctamente");
     }
+
+    // ---- Búsqueda ----
+    @GetMapping("/buscar-nombre/{nombre}")
+    public List<SintomaDTO> buscarPorNombre(@PathVariable String nombre) {
+        return sService.buscarPorNombre(nombre).stream()
+                .map(s -> new ModelMapper().map(s, SintomaDTO.class))
+                .toList();
+    }
+
+    @GetMapping("/buscar-descripcion/{desc}")
+    public List<SintomaDTO> buscarPorDescripcion(@PathVariable String desc) {
+        return sService.buscarPorDescripcion(desc).stream()
+                .map(s -> new ModelMapper().map(s, SintomaDTO.class))
+                .toList();
+    }
+
+    // ---- Decisión ----
+    @GetMapping("/count")
+    public long contarTotal() {
+        return sService.contarTotal();
+    }
+
+    @GetMapping("/existe/{nombre}")
+    public boolean existePorNombre(@PathVariable String nombre) {
+        return sService.existePorNombre(nombre);
+    }
+
 }
