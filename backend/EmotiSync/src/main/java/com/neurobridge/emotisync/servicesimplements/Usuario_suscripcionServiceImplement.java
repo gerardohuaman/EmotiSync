@@ -22,4 +22,20 @@ public class Usuario_suscripcionServiceImplement implements IUsuario_suscripcion
     public void insert(Usuario_suscripcion usuario_suscripcion) {
         repository.save(usuario_suscripcion);
     }
+
+    @Override
+    public List<Object[]> buscarActivos() {
+        return repository.buscarActivos();
+    }
+
+    @Override
+    public List<Object[]> buscarPorEmail(int id_usuario) {
+        return repository.buscarPorEmail(id_usuario);
+    }
+
+    @Override
+    public List<Object[]> buscarPorIdPlanesSuscripcion() {
+        return repository.buscarPorIdPlanesSuscripcion();
+    }
+
 }

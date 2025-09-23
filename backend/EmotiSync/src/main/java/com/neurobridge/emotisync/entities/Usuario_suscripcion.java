@@ -12,9 +12,6 @@ public class Usuario_suscripcion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUsuarioSuscripcion;
 
-    //Falta asociar a la tabla de Usuario
-    //private int idUsuario;
-
     @Column(name = "fechaInicio", nullable = false)
     private LocalDate fechaInicio;
 
@@ -27,6 +24,10 @@ public class Usuario_suscripcion {
     @ManyToOne
     @JoinColumn(name = "idPlanes_Suscripcion")
     private Susbcription PlanesSuscripcion;
+
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
+    private Usuario idUsuario;
 
     public Usuario_suscripcion(){
 
