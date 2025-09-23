@@ -1,4 +1,4 @@
-package com.neurobridge.emotisync.serviceimplements;
+package com.neurobridge.emotisync.servicesimplements;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,4 +36,10 @@ public class AlertaServiceImplement implements IAlertaService {
     public void delete(int id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public List<Alertas> searchAlertasUser(int idUsuario) {return repository.buscarAlertasPorUsuario(idUsuario);}
+
+    @Override
+    public List<Integer> searchUserCrisisFrecuentes(int idUsuario) {return repository.usuariosConCrisisFrecuentes();}
 }

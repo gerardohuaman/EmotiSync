@@ -11,4 +11,6 @@ public interface IAlertaService {
     public Alertas listId(int id);
     public void update(Alertas alerta);
     public void delete(int id);
+    public List<Alertas> searchAlertasUser(int  idUsuario);
+    public List<Integer> searchUserCrisisFrecuentes(int idUsuario);
 }
