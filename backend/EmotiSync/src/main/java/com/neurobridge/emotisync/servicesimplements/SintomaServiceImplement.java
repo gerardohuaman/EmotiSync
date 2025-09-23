@@ -38,4 +38,25 @@ public class SintomaServiceImplement implements ISintomaService {
     public void update(Sintoma s) {
         sRepo.save(s);
     }
+
+    @Override
+    public List<Sintoma> buscarPorNombre(String nombre) {
+        return sRepo.buscarPorNombre(nombre);
+    }
+
+    @Override
+    public List<Sintoma> buscarPorDescripcion(String desc) {
+        return sRepo.buscarPorDescripcion(desc);
+    }
+
+    @Override
+    public long contarTotal() {
+        return sRepo.contarTotal();
+    }
+
+    @Override
+    public boolean existePorNombre(String nombre) {
+        return sRepo.existePorNombre(nombre);
+    }
+
 }
