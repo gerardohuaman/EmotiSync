@@ -1,5 +1,6 @@
 package com.neurobridge.emotisync.servicesimplements;
 
+import com.neurobridge.emotisync.entities.Ejercicio;
 import com.neurobridge.emotisync.entities.Usuario_suscripcion;
 import com.neurobridge.emotisync.repositories.IUsuario_suscripcionRepository;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuario_suscripcionService;
@@ -21,6 +22,21 @@ public class Usuario_suscripcionServiceImplement implements IUsuario_suscripcion
     @Override
     public void insert(Usuario_suscripcion usuario_suscripcion) {
         repository.save(usuario_suscripcion);
+    }
+
+    @Override
+    public void update(Usuario_suscripcion usuario_suscripcion) {
+        repository.save(usuario_suscripcion);
+    }
+
+    @Override
+    public void delete(int id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public Usuario_suscripcion listId(int id) {
+        return repository.findById(id).orElse(null);
     }
 
     @Override

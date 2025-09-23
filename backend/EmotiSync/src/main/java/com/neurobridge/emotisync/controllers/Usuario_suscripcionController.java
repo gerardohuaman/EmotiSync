@@ -1,20 +1,16 @@
 package com.neurobridge.emotisync.controllers;
 
-import com.neurobridge.emotisync.dtos.HistorialSuscripcionesPorUsuarioDTO;
-import com.neurobridge.emotisync.dtos.RendimientoPlanesDTO;
-import com.neurobridge.emotisync.dtos.SuscripcionesActivasInfoUsuarioDTO;
-import com.neurobridge.emotisync.dtos.Usuario_suscripcionDTO;
+import com.neurobridge.emotisync.dtos.*;
+import com.neurobridge.emotisync.entities.Ejercicio;
 import com.neurobridge.emotisync.entities.Usuario;
+import com.neurobridge.emotisync.entities.Usuario_suscripcion;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuario_suscripcionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,5 +60,29 @@ public class Usuario_suscripcionController {
             ModelMapper m = new ModelMapper();
             return m.map(x, RendimientoPlanesDTO.class);
         }).collect(Collectors.toList());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
+        Usuario_suscripcion usuario_suscripcion = uS.listId(id);
+        if (usuario_suscripcion == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        uS.delete(id);
+        return ResponseEntity.ok("Registro con ID " + id + " eliminado correctamente.");
+    }
+
+    @PutMapping
+    public ResponseEntity<String> modificar(@RequestBody EjercicioDTO dto) {
+        ModelMapper m = new ModelMapper();
+        Usuario_suscripcion userSus = m.map(dto, Usuario_suscripcion.class);
+        Usuario_suscripcion existente = uS.listId(userSus.getIdUsuarioSuscripcion());
+        if (existente == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se puede modificar. No existe un registro con el ID: " + userSus.getIdUsuarioSuscripcion());
+        }
+        uS.update(userSus);
+        return ResponseEntity.ok("Registro con ID " + userSus.getIdUsuarioSuscripcion() + " modificado correctamente.");
     }
 }
