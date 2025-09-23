@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ public class Usuario_suscripcionController {
     private IUsuario_suscripcionService uS;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Usuario_suscripcionDTO> listar(){
         return uS.list().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -33,6 +35,7 @@ public class Usuario_suscripcionController {
     }
 
     @GetMapping("/usuarioActivo")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<SuscripcionesActivasInfoUsuarioDTO> buscarActivos(){
         return uS.buscarActivos().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -41,6 +44,7 @@ public class Usuario_suscripcionController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> buscarPorEmail(@PathVariable("id") Integer id){
         Usuario usuario = (Usuario) uS.buscarPorEmail(id);
         if (usuario == null){
@@ -54,6 +58,7 @@ public class Usuario_suscripcionController {
     }
     
     @GetMapping("/planRendimiento")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<RendimientoPlanesDTO> buscarPlanRendimiento(){
         return uS.buscarPorIdPlanesSuscripcion().stream().map(x->{
             ModelMapper m = new ModelMapper();
