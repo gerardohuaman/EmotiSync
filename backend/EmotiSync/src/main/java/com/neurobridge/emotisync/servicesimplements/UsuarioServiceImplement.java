@@ -20,6 +20,11 @@ public class UsuarioServiceImplement implements IUsuarioService {
     }
 
     @Override
+    public List<Usuario> buscarPacientesService() {
+        return uS.buscarPacientes();
+    }
+
+    @Override
     public void insert(Usuario usuario) {
         uS.save(usuario);
     }
@@ -48,6 +53,11 @@ public class UsuarioServiceImplement implements IUsuarioService {
     @Override
     public List<Usuario> buscarPacientesPorMedico(int especialistaId) {
         return uS.buscarPacientesPorMedico(especialistaId);
+    }
+
+    @Override
+    public List<String[]> cantidadDePacientesPorEspecialista() {
+        return uS.cantidadDePacientesPorEspecialista();
     }
 
 
