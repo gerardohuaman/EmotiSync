@@ -12,12 +12,6 @@ public class Usuario_suscripcion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUsuarioSuscripcion;
 
-    //Falta asociar a la tabla de Usuario
-
-    @ManyToOne
-    @JoinColumn(name = "idUsuario")
-    private Usuario usuario;
-
     @Column(name = "fechaInicio", nullable = false)
     private LocalDate fechaInicio;
 
@@ -31,13 +25,16 @@ public class Usuario_suscripcion {
     @JoinColumn(name = "idPlanes_Suscripcion")
     private Susbcription PlanesSuscripcion;
 
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
+    private Usuario idUsuario;
+
     public Usuario_suscripcion(){
 
     }
 
-    public Usuario_suscripcion(int idUsuarioSuscripcion, Usuario usuario, LocalDate fechaInicio, LocalDate fechaFin, String estado, Susbcription planesSuscripcion) {
+    public Usuario_suscripcion(int idUsuarioSuscripcion, LocalDate fechaInicio, LocalDate fechaFin, String estado, Susbcription planesSuscripcion) {
         this.idUsuarioSuscripcion = idUsuarioSuscripcion;
-        this.usuario = usuario;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
@@ -83,13 +80,4 @@ public class Usuario_suscripcion {
     public void setPlanesSuscripcion(Susbcription planesSuscripcion) {
         PlanesSuscripcion = planesSuscripcion;
     }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 }
-
