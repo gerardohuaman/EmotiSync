@@ -9,4 +9,9 @@ public interface ISintomaService {
     Sintoma listId(int id);
     void delete(int id);
     void update(Sintoma s);
+    List<Sintoma> buscarPorNombre(String nombre);
+    List<Sintoma> buscarPorDescripcion(String desc);
+    long contarTotal();
+    boolean existePorNombre(String nombre);
+
 }
