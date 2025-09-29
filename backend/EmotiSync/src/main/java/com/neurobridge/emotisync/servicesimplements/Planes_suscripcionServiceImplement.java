@@ -23,6 +23,16 @@ public class Planes_suscripcionServiceImplement implements IPlanes_suscripcionSe
     }
 
     @Override
+    public void update(Susbcription usuario_suscripcion) {
+        sR.save(usuario_suscripcion);
+    }
+
+    @Override
+    public void delete(int id) {
+        sR.deleteById(id);
+    }
+
+    @Override
     public Susbcription listId(int id) {
         return sR.findById(id).orElse(null);
     }

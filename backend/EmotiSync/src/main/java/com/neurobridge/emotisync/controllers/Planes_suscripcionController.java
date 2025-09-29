@@ -1,14 +1,18 @@
 package com.neurobridge.emotisync.controllers;
 
+import com.neurobridge.emotisync.entities.Susbcription;
+import jdk.jshell.JShell;
+import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import com.neurobridge.emotisync.dtos.Planes_suscripcionDTO;
 import com.neurobridge.emotisync.servicesinterfaces.IPlanes_suscripcionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,5 +27,29 @@ public class Planes_suscripcionController {
             ModelMapper m = new ModelMapper();
             return m.map(x,Planes_suscripcionDTO.class);
         }).collect(Collectors.toList());
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> eliminar(@PathVariable("id") Integer id){
+        Susbcription s = pS.listId(id);
+        if(s == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontro el plan de suscripcion con el ID: " + id);
+        }
+        pS.delete(id);
+        return ResponseEntity.ok().body("Plan de suscripcion con ID: " + id + " eliminado correctamente.");
+    }
+
+    @PutMapping
+    public ResponseEntity<String> modificar(@RequestBody Planes_suscripcionDTO dto){
+        ModelMapper m = new ModelMapper();
+        Susbcription s = m.map(dto, Susbcription.class);
+        Susbcription exists = pS.listId(s.getIdPlanesSuscripcion());
+        if(exists == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se puede modificar. No existe un plan de suscripcion con el ID: " + s.getIdPlanesSuscripcion());
+        }
+        pS.update(s);
+        return ResponseEntity.ok("Plan de suscripcion con ID: " + s.getIdPlanesSuscripcion() + " actualizado correctamente.");
     }
 }
