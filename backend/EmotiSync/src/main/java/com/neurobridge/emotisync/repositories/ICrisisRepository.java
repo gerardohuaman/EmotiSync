@@ -11,16 +11,20 @@ import java.util.List;
 
 @Repository
 public interface ICrisisRepository extends JpaRepository<Crisis, Integer> {
-    //aqui va @Query()
-    //public...
+    //queries
+    @Query("select c from Crisis c where c.ritmo = :ritmo")
+    public List<Crisis> buscarPorRitmo(@Param("ritmo") float ritmo);
 
-    @Query("select c from Crisis c where c.usuario.idUsuario = :usuarioId")
-    public List<Crisis> buscarPorUsuario(@Param("usuarioId") int usuarioId);
+    @Query("select c from Crisis c where c.usuario.idUsuario = :usuarioId\n" +
+            "and c.fecha between :desde and :hasta order by  c.fecha desc")
+    public List<Crisis> buscarPorUsuarioYRangoFechas(@Param("usuarioId") Integer usuarioId,
+                                                     @Param("desde") LocalDate desde,
+                                                     @Param("hasta") LocalDate hasta);
 
-    @Query("select c from Crisis c where c.usuario.idUsuario = :usuarioId and c.fecha between :desde and :hasta order by  c.fecha desc")
-    public List<Crisis> buscarPorUsuarioYRangoFechas(@Param("usuarioId") Integer usuarioId, @Param("desde") LocalDate desde, @Param("hasta") LocalDate hasta);
+    @Query(value="select c.id_usuario, count(u.id_usuario)\n" +
+            "from crisis c inner join usuario u on c.id_usuario=u.id_usuario\n" +
+            "group by c.id_usuario", nativeQuery = true)
+    public List<String[]> cantidadCrisisDelUsuario();
 
-//    @Query(value="select c.usuarioId, count(u.usuarioId) from crisis c inner join usuarios u on c.usuarioId=u.usuarioId goup by u.usuarioId", nativeQuery = true)
-//    public List<String[]> cantidadCrisisDelUsuario();
-
+    //@Query(value="select ")
 }

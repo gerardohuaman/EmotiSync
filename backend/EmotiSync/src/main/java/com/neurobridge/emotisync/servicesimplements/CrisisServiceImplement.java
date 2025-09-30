@@ -41,18 +41,19 @@ public class CrisisServiceImplement implements ICrisisService {
         return crisisRepository.findById(id).orElse(null);
     }
 
+    //queries
     @Override
-    public List<Crisis> buscarPorUsuario(int usuarioId) {
-        return crisisRepository.buscarPorUsuario(usuarioId);
+    public List<Crisis> buscarPorRitmo(float ritmo) {
+        return crisisRepository.buscarPorRitmo(ritmo);
     }
 
     @Override
-    public List<Crisis> buscarPorUsuarioYRangoFechas(Integer usuarioId, LocalDate desde, LocalDate hasta) {
+    public List<Crisis> buscarPorUsuarioYRangoFechas(Integer usuarioId,LocalDate desde,LocalDate hasta) {
         return crisisRepository.buscarPorUsuarioYRangoFechas(usuarioId, desde, hasta);
     }
 
-//    @Override
-//    public List<String[]> cantidadCrisisDelUsuario() {
-//        return crisisRepository.cantidadCrisisDelUsuario();
-//    }
+    @Override
+    public List<String[]> cantidadCrisisDelUsuario() {
+        return crisisRepository.cantidadCrisisDelUsuario();
+    }
 }

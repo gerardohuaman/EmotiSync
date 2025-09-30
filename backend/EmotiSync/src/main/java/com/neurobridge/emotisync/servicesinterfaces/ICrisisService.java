@@ -18,8 +18,10 @@ public interface ICrisisService {
     public Crisis listId(int id);
 
     //queries
-    public List<Crisis> buscarPorUsuario(int usuarioId);
-    public List<Crisis> buscarPorUsuarioYRangoFechas(Integer usuarioId,LocalDate desde, LocalDate hasta);
-    //public List<String[]> cantidadCrisisDelUsuario();
+    public List<Crisis> buscarPorRitmo(float ritmo);
+    public List<Crisis> buscarPorUsuarioYRangoFechas(Integer usuarioId,
+                                                     LocalDate desde,
+                                                     LocalDate hasta);
 
+    public List<String[]> cantidadCrisisDelUsuario();
 }

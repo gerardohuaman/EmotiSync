@@ -1,10 +1,13 @@
 package com.neurobridge.emotisync.dtos;
 
+import com.neurobridge.emotisync.entities.Usuario;
+
 import java.time.LocalDate;
 
 public class CrisisDTO {
     private int idCrisis;
-    private int idUsuario;
+    //private int idUsuario;
+    private Usuario usuario;
     private LocalDate fecha;
     private float tiempoRespuesta;
     private float ritmo;
@@ -12,20 +15,20 @@ public class CrisisDTO {
     private float f0_promedio;
     private String formantesDetectados;
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public int getIdCrisis() {
         return idCrisis;
     }
 
     public void setIdCrisis(int idCrisis) {
         this.idCrisis = idCrisis;
-    }
-
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
     }
 
     public LocalDate getFecha() {

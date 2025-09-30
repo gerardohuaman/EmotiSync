@@ -13,7 +13,6 @@ public class EmocionesServiceImplement implements IEmocionesService {
     @Autowired
     private IEmocionesRepository emocionesRepository;
 
-
     @Override
     public void insert(Emociones emociones) {
         emocionesRepository.save(emociones);
@@ -35,21 +34,24 @@ public class EmocionesServiceImplement implements IEmocionesService {
     }
 
     //extra pal delete
-
     @Override
     public Emociones listId(int id) {
         return emocionesRepository.findById(id).orElse(null);
     }
 
     //queries
-
     @Override
     public List<Emociones> buscarEmocionesIntensidad5() {
         return emocionesRepository.buscarEmocionesIntensidad5();
     }
 
     @Override
-    public List<Emociones> buscarEmocionesIntensidad(String nombre, float numero) {
-        return emocionesRepository.buscarEmocionesIntensidad(nombre, numero);
+    public List<String[]> buscarPromedioEmocionesIntensidad() {
+        return emocionesRepository.buscarPromedioEmocionesIntensidad();
     }
+
+//    @Override
+//    public List<Emociones> buscarEmocionesIntensidad(String nombre, float numero) {
+//        return emocionesRepository.buscarEmocionesIntensidad(nombre, numero);
+//    }
 }

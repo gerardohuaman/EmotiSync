@@ -13,6 +13,14 @@ public interface IEmocionesRepository extends JpaRepository<Emociones, Integer> 
     @Query("select e from Emociones e where e.intensidad=5")
     public List<Emociones> buscarEmocionesIntensidad5();
 
-    @Query("select e from Emociones e where e.tipoEmocion= :nombreEmocion and e.intensidad=:numero")
-    public List<Emociones> buscarEmocionesIntensidad(@Param("nombreEmocion") String nombre, @Param("numero") float numero);
+//    @Query("select e from Emociones e where e.tipoEmocion= :nombreEmocion and e.intensidad=:numero")
+//    public List<Emociones> buscarEmocionesIntensidad(@Param("nombreEmocion") String nombre, @Param("numero") float numero);
+
+    @Query(value = "select c.id_usuario,\n" +
+            "avg(e.intensidad) as promedio_intensidad\n" +
+            "from crisis c\n" +
+            "join emociones e on c.id_crisis = e.id_crisis\n" +
+            "group by c.id_usuario\n" +
+            "having avg(e.intensidad) >= 5", nativeQuery = true)
+    public List<String[]> buscarPromedioEmocionesIntensidad();
 }

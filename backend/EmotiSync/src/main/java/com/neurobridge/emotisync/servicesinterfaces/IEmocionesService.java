@@ -17,6 +17,7 @@ public interface IEmocionesService {
 
     //queries
     public List<Emociones> buscarEmocionesIntensidad5();
-    public List<Emociones> buscarEmocionesIntensidad(String nombre, float numero);
+    //public List<Emociones> buscarEmocionesIntensidad(String nombre, float numero);
 
+    public List<String[]> buscarPromedioEmocionesIntensidad();
 }
