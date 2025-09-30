@@ -1,5 +1,21 @@
 package com.neurobridge.emotisync.securities;
 
+import io.swagger.v3.oas.models.OpenAPI;
+
+import io.swagger.v3.oas.models.info.Info;
+
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+
+import io.swagger.v3.oas.models.security.SecurityScheme;
+
+import io.swagger.v3.oas.models.Components;
+
+import org.springframework.context.annotation.Bean;
+
+import org.springframework.context.annotation.Configuration;
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -56,6 +72,39 @@ public class WebSecurityConfig {
     }
 
     @Bean
+
+    public OpenAPI customOpenAPI() {
+
+        return new OpenAPI()
+
+                .info(new Info()
+
+                        .title("Mi API con JWT")
+
+                        .version("1.0")
+
+                        .description("Documentación de la API con seguridad JWT"))
+
+                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+
+                .components(new Components()
+
+                        .addSecuritySchemes("Bearer Authentication",
+
+                                new SecurityScheme()
+
+                                        .name("Authorization")
+
+                                        .type(SecurityScheme.Type.HTTP)
+
+                                        .scheme("bearer")
+
+                                        .bearerFormat("JWT")
+
+                                        .in(SecurityScheme.In.HEADER)));
+
+    }
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         //Desde Spring Boot 3.1+
         httpSecurity
@@ -63,13 +112,13 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/login").permitAll()
                         //Para usar swagger
-//                        .requestMatchers("/swagger-ui/**").permitAll()
-//                        .requestMatchers("/swagger-ui.html").permitAll()
-//                        .requestMatchers("/swagger-ui/index.html").permitAll()
-//                        .requestMatchers("/v3/api-docs/**").permitAll()
-//                        .requestMatchers("/swagger-resources/**").permitAll()
-//                        .requestMatchers("/webjars/**").permitAll()
-//                        .requestMatchers("/favicon.ico").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/swagger-ui/index.html").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-resources/**").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
+                        .requestMatchers("/favicon.ico").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())

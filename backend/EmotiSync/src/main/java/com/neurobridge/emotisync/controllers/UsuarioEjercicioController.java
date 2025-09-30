@@ -77,7 +77,7 @@ public class UsuarioEjercicioController {
 
     @GetMapping("ejercicioscompletados")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<?> totalPacientesPorEspecialista(){
+    public ResponseEntity<?> ejerciciosRealizadosPorUsuario(){
         List<String[]> total = service.ejerciciosRealizadosPorUsuario();
         List<EjercicioCompletadoDTO> dtoList = new ArrayList<>();
 
