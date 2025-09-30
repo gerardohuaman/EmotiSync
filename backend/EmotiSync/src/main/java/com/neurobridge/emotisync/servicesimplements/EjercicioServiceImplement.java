@@ -13,6 +13,7 @@ import java.util.List;
 
 @Service
 public class EjercicioServiceImplement implements IEjercicioService {
+
     @Autowired
     private IEjercicioRepository ejercicioRepository;
 
@@ -39,6 +40,11 @@ public class EjercicioServiceImplement implements IEjercicioService {
     @Override
     public void delete(int id) {
         ejercicioRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Ejercicio> buscarEjercicioPorNOmbre(String nombre) {
+        return ejercicioRepository.buscarEjercicioPorNombre(nombre);
     }
 
 }
