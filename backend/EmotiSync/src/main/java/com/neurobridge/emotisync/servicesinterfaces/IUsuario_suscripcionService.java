@@ -13,7 +13,7 @@ public interface IUsuario_suscripcionService {
     public void update(Usuario_suscripcion usuario_suscripcion);
     public void delete(int id);
     public Usuario_suscripcion listId(int id);
-    public List<Object[]> buscarActivos();
-    public List<Object[]> buscarPorEmail(int id_usuario);
-    public List<Object[]> buscarPorIdPlanesSuscripcion();
+    public List<String[]> buscarActivos();
+    public List<String[]> buscarPorEmail(int id_usuario);
+    public List<String[]> buscarPorIdPlanesSuscripcion();
 }

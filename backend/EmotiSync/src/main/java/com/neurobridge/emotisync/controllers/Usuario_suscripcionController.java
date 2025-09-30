@@ -12,17 +12,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarioSuscripcion")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class Usuario_suscripcionController {
     @Autowired
     private IUsuario_suscripcionService uS;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Usuario_suscripcionDTO> listar(){
         return uS.list().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -31,35 +32,53 @@ public class Usuario_suscripcionController {
     }
 
     @GetMapping("/usuarioActivo")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<SuscripcionesActivasInfoUsuarioDTO> buscarActivos(){
-        return uS.buscarActivos().stream().map(x->{
-            ModelMapper m = new ModelMapper();
-            return m.map(x, SuscripcionesActivasInfoUsuarioDTO.class);
-        }).collect(Collectors.toList());
+        List<String[]> listString = uS.buscarActivos();
+        List<SuscripcionesActivasInfoUsuarioDTO> dtoList = new ArrayList<>();
+
+        for (String[] columna : listString) {
+            SuscripcionesActivasInfoUsuarioDTO dto = new SuscripcionesActivasInfoUsuarioDTO();
+            dto.setIdUsuarioSuscripcion(Integer.parseInt(columna[0]));
+            dto.setIdUsuario(Integer.parseInt(columna[1]));
+            dto.setEmail(columna[2]);
+            dto.setIdPlanesSuscripcion(Integer.parseInt(columna[3]));
+            dto.setNombrePlan(columna[4]);
+            dto.setPrecio(Float.parseFloat(columna[5]));
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<?> buscarPorEmail(@PathVariable("id") Integer id){
-        Usuario usuario = (Usuario) uS.buscarPorEmail(id);
-        if (usuario == null){
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("No existe un registro con el ID: " + id);
+    public List<HistorialSuscripcionesPorUsuarioDTO> buscarPorEmail(@PathVariable("id") Integer id){
+        List<String[]> list = uS.buscarPorEmail(id);
+        List<HistorialSuscripcionesPorUsuarioDTO> dtoList = new ArrayList<>();
+
+        for (String[] columna : list) {
+            HistorialSuscripcionesPorUsuarioDTO dto = new HistorialSuscripcionesPorUsuarioDTO();
+            dto.setNombrePlan(columna[0]);
+            dto.setPrecio(Float.parseFloat(columna[1]));
+            dto.setEstado(columna[2]);
+            dtoList.add(dto);
         }
-        ModelMapper m = new ModelMapper();
-        HistorialSuscripcionesPorUsuarioDTO dto = m.map(usuario, HistorialSuscripcionesPorUsuarioDTO.class);
-        return ResponseEntity.ok(dto);
+        return dtoList;
     }
-    
+
+
+
     @GetMapping("/planRendimiento")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<RendimientoPlanesDTO> buscarPlanRendimiento(){
-        return uS.buscarPorIdPlanesSuscripcion().stream().map(x->{
-            ModelMapper m = new ModelMapper();
-            return m.map(x, RendimientoPlanesDTO.class);
-        }).collect(Collectors.toList());
+        List<String[]> list = uS.buscarPorIdPlanesSuscripcion();
+        List<RendimientoPlanesDTO> dtoList = new ArrayList<>();
+
+        for (String[] columna : list){
+            RendimientoPlanesDTO dto = new RendimientoPlanesDTO();
+            dto.setIdPlanesSuscripcion(Integer.parseInt(columna[0]));
+            dto.setNombrePlan(columna[1]);
+            dto.setPrecio(Float.parseFloat(columna[2]));
+            dtoList.add(dto);
+        }
+        return  dtoList;
     }
 
     @DeleteMapping("/{id}")
