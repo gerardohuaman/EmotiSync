@@ -1,10 +1,13 @@
 package com.neurobridge.emotisync.dtos;
 
+import com.neurobridge.emotisync.entities.Usuario;
+
 public class AlertasDTOList {
     private int idAlerta;
     private String  tipo_alerta;
     private String  mensaje;
     private int  nivel_alerta;
+
 
     public int getIdAlerta() {
         return idAlerta;
