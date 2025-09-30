@@ -1,6 +1,7 @@
 package com.neurobridge.emotisync.controllers;
 
 import com.neurobridge.emotisync.dtos.EjercicioDTO;
+import com.neurobridge.emotisync.dtos.PacienteListDTO;
 import com.neurobridge.emotisync.entities.Ejercicio;
 import com.neurobridge.emotisync.servicesinterfaces.IEjercicioService;
 import com.neurobridge.emotisync.servicesinterfaces.IEjercicioService;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/ejercicios")
 public class EjercicioController {
     @Autowired
@@ -74,5 +76,22 @@ public class EjercicioController {
         return ResponseEntity.ok("Registro con ID " + s.getIdEjercicio() + " modificado correctamente.");
     }
 
+
+    @GetMapping("/{nombre}")
+    public ResponseEntity<?> ejerciciosPorNombre(@PathVariable String nombre) {
+        List<Ejercicio> ejercicios = eS.buscarEjercicioPorNOmbre(nombre);
+
+        if (ejercicios.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existen ejercicios con el nombre: " + nombre);
+        }
+
+        List<EjercicioDTO> listaDTO = ejercicios.stream().map(x -> {
+            ModelMapper m = new ModelMapper();
+            return m.map(x, EjercicioDTO.class);
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(listaDTO);
+    }
 }
 

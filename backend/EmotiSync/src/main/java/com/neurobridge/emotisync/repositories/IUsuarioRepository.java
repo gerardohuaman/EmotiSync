@@ -11,11 +11,9 @@ import java.util.List;
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-    @Query("select u from Usuario u where u.familiar.idUsuario = :familiarId")
-    public Usuario buscarFamiliarPorPaciente(@Param("familiarId") int familiarId );
 
-    @Query("select p from Usuario p where p.especialista.idUsuario = :especialistaId")
-    public List<Usuario> buscarPacientesPorMedico(@Param("especialistaId") int especialistaId );
+    @Query("select p from Usuario p where p.especialista.email = :email")
+    public List<Usuario> buscarPacientesPorMedico(@Param("email") String email );
 
     @Query("select p from Usuario p where p.rol = 'paciente'")
     public List<Usuario> buscarPacientes();

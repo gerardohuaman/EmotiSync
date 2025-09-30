@@ -13,6 +13,7 @@ import java.util.List;
 
 @Service
 public class EjercicioServiceImplement implements IEjercicioService {
+
     @Autowired
     private IEjercicioRepository ejercicioRepository;
 
@@ -41,18 +42,9 @@ public class EjercicioServiceImplement implements IEjercicioService {
         ejercicioRepository.deleteById(id);
     }
 
-    @Service
-    public static class AlertaServiceImplement implements IAlertaService {
-
-        @Autowired
-        private IAlertaRepository repository;
-
-        @Override
-        public List<Alertas> list() {
-            return repository.findAll();
-        }
-
-        @Override
-        public void insert(Alertas alerta) { repository.save(alerta);    }
+    @Override
+    public List<Ejercicio> buscarEjercicioPorNOmbre(String nombre) {
+        return ejercicioRepository.buscarEjercicioPorNombre(nombre);
     }
+
 }

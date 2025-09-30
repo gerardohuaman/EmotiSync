@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/usuarios")
 public class UsuarioController {
     @Autowired
     private IUsuarioService uS;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<UsuarioListDTO>listarUsuarios(){
         return uS.getUsuarios().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -33,7 +33,6 @@ public class UsuarioController {
     }
 
     @GetMapping("/pacientes")
-    @PreAuthorize("hasRole('ADMIN')")
     public List<PacienteListDTO>listarPaciente(){
         return uS.buscarPacientesService().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -42,29 +41,13 @@ public class UsuarioController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public void insertar(@RequestBody UsuarioInsertDTO u){
         ModelMapper m = new ModelMapper();
         Usuario usuario=m.map(u, Usuario.class);
         uS.insert(usuario);
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-        Usuario usuario = uS.listId(id);
-        if (usuario == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("No existe un registro con el ID: " + id);
-        }
-        ModelMapper m = new ModelMapper();
-        UsuarioListDTO dto = m.map(usuario, UsuarioListDTO.class);
-        return ResponseEntity.ok(dto);
-    }
-
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Usuario s = uS.listId(id);
         if (s == null) {
@@ -76,7 +59,6 @@ public class UsuarioController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> modificar(@RequestBody UsuarioInsertDTO dto) {
         ModelMapper m = new ModelMapper();
         Usuario s = m.map(dto, Usuario.class);
@@ -89,30 +71,13 @@ public class UsuarioController {
         return ResponseEntity.ok("Registro con ID " + s.getIdUsuario() + " modificado correctamente.");
     }
 
-    @GetMapping("/familiar")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<?> buscarFamiliarPorPaciente(@RequestParam int familiarDe) {
-        Usuario usuario = uS.buscarFamiliarPorPacienteService(familiarDe);
-
-        if (usuario == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existe un familiar para el paciente con Id: " + familiarDe);
-        }
-        ModelMapper m = new ModelMapper();
-        UsuarioListDTO usuarioListDTO = m.map(usuario, UsuarioListDTO.class);
-
-        return ResponseEntity.ok(usuarioListDTO);
-    }
-
-
-    @GetMapping("/pacientesDe")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<?> buscarPacientePorMedico(@RequestParam int especialistaId) {
-        List<Usuario> usuarios = uS.buscarPacientesPorMedico(especialistaId);
+    @GetMapping("/pacientesPorMedico")
+    public ResponseEntity<?> buscarPacientePorMedico(@RequestParam String email) {
+        List<Usuario> usuarios = uS.buscarPacientesPorMedico(email);
 
         if (usuarios.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existen pacientes del especialista con id: " + especialistaId);
+                    .body("No existen pacientes del especialista con email: " + email);
         }
 
         List<PacienteListDTO> listaDTO = usuarios.stream().map(x -> {
@@ -123,8 +88,7 @@ public class UsuarioController {
         return ResponseEntity.ok(listaDTO);
     }
 
-    @GetMapping("totalPacientesPorEspecialista")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/totalPacientesPorEspecialista")
     public ResponseEntity<?> totalPacientesPorEspecialista(){
         List<String[]> total = uS.cantidadDePacientesPorEspecialista();
         List<TotalPacienteDTO> dtoList = new ArrayList<>();

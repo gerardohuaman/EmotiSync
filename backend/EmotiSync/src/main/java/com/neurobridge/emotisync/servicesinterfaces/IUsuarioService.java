@@ -12,8 +12,7 @@ public interface IUsuarioService {
     public Usuario listId(int id);
     public void update(Usuario usuario);
     public void delete(int id);
-    public Usuario buscarFamiliarPorPacienteService(int id);
-    public List<Usuario> buscarPacientesPorMedico(int especialistaId);
+    public List<Usuario> buscarPacientesPorMedico(String email);
     public List<String[]> cantidadDePacientesPorEspecialista();
 
 }
