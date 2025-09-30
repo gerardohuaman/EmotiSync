@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.neurobridge.emotisync.dtos.SintomaDTO;
 import com.neurobridge.emotisync.entities.Sintoma;
@@ -20,6 +21,8 @@ public class SintomaController {
     private ISintomaService sService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     public List<SintomaDTO> listar() {
         return sService.list().stream().map(s -> {
             ModelMapper m = new ModelMapper();
@@ -28,6 +31,8 @@ public class SintomaController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Sintoma s = sService.listId(id);
         if (s == null) {
@@ -40,6 +45,8 @@ public class SintomaController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     public ResponseEntity<String> insertar(@RequestBody SintomaDTO dto) {
         ModelMapper m = new ModelMapper();
         Sintoma s = m.map(dto, Sintoma.class);
@@ -49,6 +56,8 @@ public class SintomaController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     public ResponseEntity<String> modificar(@RequestBody SintomaDTO dto) {
         Sintoma existente = sService.listId(dto.getId());
         if (existente == null) {
@@ -62,6 +71,8 @@ public class SintomaController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Sintoma s = sService.listId(id);
         if (s == null) {
@@ -71,4 +82,39 @@ public class SintomaController {
         sService.delete(id);
         return ResponseEntity.ok("Síntoma eliminado correctamente");
     }
+
+    // ---- Búsqueda ----
+    @GetMapping("/buscar-nombre/{nombre}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
+    public List<SintomaDTO> buscarPorNombre(@PathVariable String nombre) {
+        return sService.buscarPorNombre(nombre).stream()
+                .map(s -> new ModelMapper().map(s, SintomaDTO.class))
+                .toList();
+    }
+
+    @GetMapping("/buscar-descripcion/{desc}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
+    public List<SintomaDTO> buscarPorDescripcion(@PathVariable String desc) {
+        return sService.buscarPorDescripcion(desc).stream()
+                .map(s -> new ModelMapper().map(s, SintomaDTO.class))
+                .toList();
+    }
+
+    // ---- Decisión ----
+    @GetMapping("/count")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
+    public long contarTotal() {
+        return sService.contarTotal();
+    }
+
+    @GetMapping("/existe/{nombre}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
+    public boolean existePorNombre(@PathVariable String nombre) {
+        return sService.existePorNombre(nombre);
+    }
+
 }

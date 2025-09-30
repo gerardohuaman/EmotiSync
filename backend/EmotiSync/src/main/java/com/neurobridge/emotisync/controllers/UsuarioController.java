@@ -42,6 +42,7 @@ public class UsuarioController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void insertar(@RequestBody UsuarioInsertDTO u){
         ModelMapper m = new ModelMapper();
         Usuario usuario=m.map(u, Usuario.class);
@@ -49,6 +50,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Usuario usuario = uS.listId(id);
         if (usuario == null) {
@@ -62,6 +64,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Usuario s = uS.listId(id);
         if (s == null) {
@@ -73,6 +76,7 @@ public class UsuarioController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> modificar(@RequestBody UsuarioInsertDTO dto) {
         ModelMapper m = new ModelMapper();
         Usuario s = m.map(dto, Usuario.class);
