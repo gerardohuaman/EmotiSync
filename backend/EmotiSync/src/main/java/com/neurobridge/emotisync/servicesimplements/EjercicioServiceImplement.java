@@ -41,18 +41,4 @@ public class EjercicioServiceImplement implements IEjercicioService {
         ejercicioRepository.deleteById(id);
     }
 
-    @Service
-    public static class AlertaServiceImplement implements IAlertaService {
-
-        @Autowired
-        private IAlertaRepository repository;
-
-        @Override
-        public List<Alertas> list() {
-            return repository.findAll();
-        }
-
-        @Override
-        public void insert(Alertas alerta) { repository.save(alerta);    }
-    }
 }

@@ -6,6 +6,7 @@ import com.neurobridge.emotisync.entities.Alertas;
 import com.neurobridge.emotisync.repositories.IAlertaRepository;
 import com.neurobridge.emotisync.servicesinterfaces.IAlertaService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -41,5 +42,10 @@ public class AlertaServiceImplement implements IAlertaService {
     public List<Alertas> searchAlertasUser(int idUsuario) {return repository.buscarAlertasPorUsuario(idUsuario);}
 
     @Override
-    public List<Integer> searchUserCrisisFrecuentes(int idUsuario) {return repository.usuariosConCrisisFrecuentes();}
+    public List<Integer> usuariosConRespuestaLenta() {
+        return repository.usuariosConRespuestaLenta();
+    }
 }
+
+
+

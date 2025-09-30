@@ -12,17 +12,18 @@ import java.util.List;
 @Repository
 public interface IAlertaRepository extends JpaRepository<Alertas, Integer>{
     //Se obtiene todas las alertas activas de un usuario específico ordenadas por nivel de alerta
-    @Query("SELECT a FROM Alertas a " +
+    @Query(value = "SELECT a FROM Alertas a " +
             "WHERE a.usuario.idUsuario = :idUsuario " +
-            "ORDER BY a.nivel_alerta DESC, a.idAlerta DESC")
+            "ORDER BY a.nivel_alerta DESC, a.idAlerta DESC",
+            nativeQuery = false)
     List<Alertas> buscarAlertasPorUsuario(@Param("idUsuario") int idUsuario);
 
-    //Identifica qué usuarios han tenido crisis recurrentes en el último mes
     @Query("SELECT c.idUsuario " +
             "FROM Crisis c " +
-            "WHERE c.fecha >= CURRENT_DATE - 30 " +
+            "WHERE c.tiempoRespuesta > 5 " +
             "GROUP BY c.idUsuario " +
-            "HAVING COUNT(c.idCrisis) > 3")
-    List<Integer> usuariosConCrisisFrecuentes();
+            "HAVING COUNT(c.idCrisis) > 2")
+    List<Integer> usuariosConRespuestaLenta();
+
 
 }
