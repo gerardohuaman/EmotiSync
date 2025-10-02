@@ -23,7 +23,6 @@ public class AlertasController {
     @Autowired
     private IAlertaService service;
 
-
     @GetMapping
     public List<AlertasDTOList> listar(){
         return service.list().stream().map(x->{
