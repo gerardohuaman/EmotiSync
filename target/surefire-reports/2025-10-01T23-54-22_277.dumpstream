@@ -1,0 +1,5 @@
+# Created at 2025-10-01T23:54:22.654
+Boot Manifest-JAR contains absolute paths in classpath 'D:\Programacion\Arqui_web\EmotiSync\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
