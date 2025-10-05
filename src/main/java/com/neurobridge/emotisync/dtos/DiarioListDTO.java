@@ -1,17 +1,14 @@
 package com.neurobridge.emotisync.dtos;
 
-import com.neurobridge.emotisync.entities.Emociones;
-import com.neurobridge.emotisync.entities.Usuario;
-
 import java.time.LocalDate;
 
-public class DiarioDTO {
+public class DiarioListDTO {
     private int idDiario;
     private String titulo;
     private String contenido;
     private LocalDate fecha;
-    private UsuarioListDTO usuario;
-    private EmocionesDTOList emociones;
+    private int usuarioId;
+    private int emocionesId;
 
     public int getIdDiario() {
         return idDiario;
@@ -45,19 +42,19 @@ public class DiarioDTO {
         this.fecha = fecha;
     }
 
-    public UsuarioListDTO getUsuario() {
-        return usuario;
+    public int getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuario(UsuarioListDTO usuario) {
-        this.usuario = usuario;
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
-    public EmocionesDTOList getEmociones() {
-        return emociones;
+    public int getEmocionesId() {
+        return emocionesId;
     }
 
-    public void setEmociones(EmocionesDTOList emociones) {
-        this.emociones = emociones;
+    public void setEmocionesId(int emocionesId) {
+        this.emocionesId = emocionesId;
     }
 }

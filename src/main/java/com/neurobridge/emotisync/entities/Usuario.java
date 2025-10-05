@@ -55,15 +55,20 @@ public class Usuario {
     @JsonIgnore
     private List<Usuario> pacientes;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "familiarId")
     private Usuario familiar;
 
+    @OneToMany(mappedBy = "familiar", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Usuario> dependientes;
+
+    @Column(nullable = false)
     private Boolean enabled;
 
     public Usuario() {}
 
-    public Usuario(int idUsuario, String nombre, String apellido, String email, String password, String telefono, LocalDate fechaNacimiento, String institucion, Integer nroColegiatura, String rol, String especialidad, String username, Usuario especialista, List<Usuario> pacientes, Usuario familiar, Boolean enabled) {
+    public Usuario(int idUsuario, String nombre, String apellido, String email, String password, String telefono, LocalDate fechaNacimiento, String institucion, Integer nroColegiatura, String rol, String especialidad, String username, Usuario especialista, List<Usuario> pacientes, Usuario familiar, List<Usuario> dependientes, Boolean enabled) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -79,7 +84,16 @@ public class Usuario {
         this.especialista = especialista;
         this.pacientes = pacientes;
         this.familiar = familiar;
+        this.dependientes = dependientes;
         this.enabled = enabled;
+    }
+
+    public List<Usuario> getDependientes() {
+        return dependientes;
+    }
+
+    public void setDependientes(List<Usuario> dependientes) {
+        this.dependientes = dependientes;
     }
 
     public int getIdUsuario() {

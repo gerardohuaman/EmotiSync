@@ -1,9 +1,6 @@
 package com.neurobridge.emotisync.controllers;
 
-import com.neurobridge.emotisync.dtos.PacienteListDTO;
-import com.neurobridge.emotisync.dtos.TotalPacienteDTO;
-import com.neurobridge.emotisync.dtos.UsuarioInsertDTO;
-import com.neurobridge.emotisync.dtos.UsuarioListDTO;
+import com.neurobridge.emotisync.dtos.*;
 import com.neurobridge.emotisync.entities.Usuario;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuarioService;
 import org.modelmapper.ModelMapper;
@@ -18,8 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/usuarios")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class UsuarioController {
     @Autowired
     private IUsuarioService uS;
@@ -37,6 +34,22 @@ public class UsuarioController {
         return uS.buscarPacientesService().stream().map(x->{
             ModelMapper m = new ModelMapper();
             return m.map(x, PacienteListDTO.class);
+        }).collect(Collectors.toList());
+    }
+
+    @GetMapping("/especialistas")
+    public List<EspecialistaDTO>listarEspecialista(){
+        return uS.buscarEspecialista().stream().map(x->{
+            ModelMapper m = new ModelMapper();
+            return m.map(x, EspecialistaDTO.class);
+        }).collect(Collectors.toList());
+    }
+
+    @GetMapping("/familiares")
+    public List<FamiliarDTO>listarFamiliares(){
+        return uS.buscarFamiliares().stream().map(x->{
+            ModelMapper m = new ModelMapper();
+            return m.map(x, FamiliarDTO.class);
         }).collect(Collectors.toList());
     }
 
