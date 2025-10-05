@@ -54,5 +54,15 @@ public class UsuarioServiceImplement implements IUsuarioService {
         return uS.cantidadDePacientesPorEspecialista();
     }
 
+    @Override
+    public List<Usuario> buscarEspecialista() {
+        return uS.buscarEspecialista();
+    }
+
+    @Override
+    public List<Usuario> buscarFamiliares() {
+        return uS.buscarFamiliares();
+    }
+
 
 }

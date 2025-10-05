@@ -1,9 +1,7 @@
 package com.neurobridge.emotisync.controllers;
 
 import com.neurobridge.emotisync.dtos.EjercicioDTO;
-import com.neurobridge.emotisync.dtos.PacienteListDTO;
 import com.neurobridge.emotisync.entities.Ejercicio;
-import com.neurobridge.emotisync.servicesinterfaces.IEjercicioService;
 import com.neurobridge.emotisync.servicesinterfaces.IEjercicioService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,19 +35,6 @@ public class EjercicioController {
         ModelMapper m = new ModelMapper();
         Ejercicio ejercicio=m.map(u, Ejercicio.class);
         eS.insert(ejercicio);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-        Ejercicio ejercicio = eS.listId(id);
-        if (ejercicio == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("No existe un registro con el ID: " + id);
-        }
-        ModelMapper m = new ModelMapper();
-        EjercicioDTO dto = m.map(ejercicio, EjercicioDTO.class);
-        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")

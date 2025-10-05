@@ -12,11 +12,11 @@ public class UsuarioEjercicio {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idUsuario", nullable = false)
-    private Usuario idUsuario;
+    private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idEjercicio")
-    private Ejercicio idEjercicio;
+    @JoinColumn(name = "idEjercicio", nullable = false)
+    private Ejercicio ejercicio;
 
     @Column(name = "fechaRealizacion",  nullable = true)
     private LocalDate fechaRealizacion;
@@ -27,10 +27,10 @@ public class UsuarioEjercicio {
     public UsuarioEjercicio() {
     }
 
-    public UsuarioEjercicio(int idUsuarioEjercicio, Usuario idUsuario, Ejercicio idEjercicio, LocalDate fechaRealizacion, String resultado) {
+    public UsuarioEjercicio(int idUsuarioEjercicio, Usuario usuario, Ejercicio ejercicio, LocalDate fechaRealizacion, String resultado) {
         this.idUsuarioEjercicio = idUsuarioEjercicio;
-        this.idUsuario = idUsuario;
-        this.idEjercicio = idEjercicio;
+        this.usuario = usuario;
+        this.ejercicio = ejercicio;
         this.fechaRealizacion = fechaRealizacion;
         this.resultado = resultado;
     }
@@ -43,20 +43,20 @@ public class UsuarioEjercicio {
         this.idUsuarioEjercicio = idUsuarioEjercicio;
     }
 
-    public Usuario getIdUsuario() {
-        return idUsuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public Ejercicio getIdEjercicio() {
-        return idEjercicio;
+    public Ejercicio getEjercicio() {
+        return ejercicio;
     }
 
-    public void setIdEjercicio(Ejercicio idEjercicio) {
-        this.idEjercicio = idEjercicio;
+    public void setEjercicio(Ejercicio ejercicio) {
+        this.ejercicio = ejercicio;
     }
 
     public LocalDate getFechaRealizacion() {
