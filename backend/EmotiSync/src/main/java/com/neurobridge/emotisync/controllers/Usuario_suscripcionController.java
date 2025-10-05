@@ -31,7 +31,14 @@ public class Usuario_suscripcionController {
         }).collect(Collectors.toList());
     }
 
-    @GetMapping("/usuarioActivo")
+    @PostMapping
+    public void insertar(@RequestBody Usuario_suscripcion u) {
+        ModelMapper m = new ModelMapper();
+        Usuario_suscripcionDTO dto = m.map(u, Usuario_suscripcionDTO.class);
+        uS.insert(u);
+    }
+
+    @GetMapping("/usuarioActivoQuery")
     public List<SuscripcionesActivasInfoUsuarioDTO> buscarActivos(){
         List<String[]> listString = uS.buscarActivos();
         List<SuscripcionesActivasInfoUsuarioDTO> dtoList = new ArrayList<>();
@@ -49,7 +56,7 @@ public class Usuario_suscripcionController {
         return dtoList;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/historialSuscripcionesQuery/{id}")
     public List<HistorialSuscripcionesPorUsuarioDTO> buscarPorEmail(@PathVariable("id") Integer id){
         List<String[]> list = uS.buscarPorEmail(id);
         List<HistorialSuscripcionesPorUsuarioDTO> dtoList = new ArrayList<>();
@@ -66,7 +73,7 @@ public class Usuario_suscripcionController {
 
 
 
-    @GetMapping("/planRendimiento")
+    @GetMapping("/planRendimientoQuery")
     public List<RendimientoPlanesDTO> buscarPlanRendimiento(){
         List<String[]> list = uS.buscarPorIdPlanesSuscripcion();
         List<RendimientoPlanesDTO> dtoList = new ArrayList<>();
@@ -76,6 +83,9 @@ public class Usuario_suscripcionController {
             dto.setIdPlanesSuscripcion(Integer.parseInt(columna[0]));
             dto.setNombrePlan(columna[1]);
             dto.setPrecio(Float.parseFloat(columna[2]));
+            dto.setSuscriptoresActivos(Integer.parseInt(columna[3]));
+            dto.setTotalHistorial(Integer.parseInt(columna[4]));
+            dto.setPrecioTotalEstimado(Float.parseFloat(columna[5]));
             dtoList.add(dto);
         }
         return  dtoList;
@@ -93,7 +103,7 @@ public class Usuario_suscripcionController {
     }
 
     @PutMapping
-    public ResponseEntity<String> modificar(@RequestBody EjercicioDTO dto) {
+    public ResponseEntity<String> modificar(@RequestBody Usuario_suscripcion dto) {
         ModelMapper m = new ModelMapper();
         Usuario_suscripcion userSus = m.map(dto, Usuario_suscripcion.class);
         Usuario_suscripcion existente = uS.listId(userSus.getIdUsuarioSuscripcion());

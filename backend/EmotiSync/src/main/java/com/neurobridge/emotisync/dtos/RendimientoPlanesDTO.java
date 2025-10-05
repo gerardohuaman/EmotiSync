@@ -4,6 +4,9 @@ public class RendimientoPlanesDTO {
     private int idPlanesSuscripcion;
     private String nombrePlan;
     private float precio;
+    private int suscriptoresActivos;
+    private int totalHistorial;
+    private float precioTotalEstimado;
 
     public int getIdPlanesSuscripcion() {
         return idPlanesSuscripcion;
@@ -27,5 +30,29 @@ public class RendimientoPlanesDTO {
 
     public void setPrecio(float precio) {
         this.precio = precio;
+    }
+
+    public int getSuscriptoresActivos() {
+        return suscriptoresActivos;
+    }
+
+    public void setSuscriptoresActivos(int suscriptoresActivos) {
+        this.suscriptoresActivos = suscriptoresActivos;
+    }
+
+    public int getTotalHistorial() {
+        return totalHistorial;
+    }
+
+    public void setTotalHistorial(int totalHistorial) {
+        this.totalHistorial = totalHistorial;
+    }
+
+    public float getPrecioTotalEstimado() {
+        return precioTotalEstimado;
+    }
+
+    public void setPrecioTotalEstimado(float precioTotalEstimado) {
+        this.precioTotalEstimado = precioTotalEstimado;
     }
 }

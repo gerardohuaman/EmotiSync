@@ -54,9 +54,9 @@ public interface IUsuario_suscripcionRepository extends JpaRepository<Usuario_su
               p.precio,
               COUNT(us.id_usuario_suscripcion) FILTER (WHERE us.estado = 'Activo') AS suscriptores_activos,
               COUNT(us.id_usuario_suscripcion) AS total_historial,
-              (COUNT(us.id_usuario_suscripcion) FILTER (WHERE us.estado = 'Activo') * p.precio) AS ingreso_estimado_activos
+              (COUNT(us.id_usuario_suscripcion) FILTER (WHERE us.estado = 'Activo') * COALESCE(p.precio,0)) AS ingreso_estimado_activos
             FROM planes_suscripcion p
-            LEFT JOIN usuario_suscripcion us ON us.id_usuario_suscripcion = p.id_planes_suscripcion
+            LEFT JOIN usuario_suscripcion us ON us.id_planes_suscripcion = p.id_planes_suscripcion
             GROUP BY p.id_planes_suscripcion, p.nombre_plan, p.precio
             ORDER BY suscriptores_activos DESC; """, nativeQuery = true)
     public List<String[]> buscarPorIdPlanesSuscripcion();

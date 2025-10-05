@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 //Terrible
 @Entity
 @Table(name = "Planes_suscripcion")
-public class Susbcription {
+public class Planes_suscripcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPlanesSuscripcion;
@@ -19,11 +19,11 @@ public class Susbcription {
     @Column(name = "descripcion", nullable = false, length = 255)
     private String descripcion;
 
-    public Susbcription() {
+    public Planes_suscripcion() {
 
     }
 
-    public Susbcription(int idPlanesSuscripcion, String nombre_plan, double precio, String descripcion) {
+    public Planes_suscripcion(int idPlanesSuscripcion, String nombre_plan, double precio, String descripcion) {
         this.idPlanesSuscripcion = idPlanesSuscripcion;
         this.nombre_plan = nombre_plan;
         this.precio = precio;

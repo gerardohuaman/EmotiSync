@@ -23,7 +23,7 @@ public class Usuario_suscripcion {
 
     @ManyToOne
     @JoinColumn(name = "idPlanes_Suscripcion")
-    private Susbcription PlanesSuscripcion;
+    private Planes_suscripcion PlanesSuscripcion;
 
     @ManyToOne
     @JoinColumn(name = "idUsuario")
@@ -33,7 +33,7 @@ public class Usuario_suscripcion {
 
     }
 
-    public Usuario_suscripcion(int idUsuarioSuscripcion, LocalDate fechaInicio, LocalDate fechaFin, String estado, Susbcription planesSuscripcion) {
+    public Usuario_suscripcion(int idUsuarioSuscripcion, LocalDate fechaInicio, LocalDate fechaFin, String estado, Planes_suscripcion planesSuscripcion) {
         this.idUsuarioSuscripcion = idUsuarioSuscripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -73,11 +73,11 @@ public class Usuario_suscripcion {
         this.estado = estado;
     }
 
-    public Susbcription getPlanesSuscripcion() {
+    public Planes_suscripcion getPlanesSuscripcion() {
         return PlanesSuscripcion;
     }
 
-    public void setPlanesSuscripcion(Susbcription planesSuscripcion) {
+    public void setPlanesSuscripcion(Planes_suscripcion planesSuscripcion) {
         PlanesSuscripcion = planesSuscripcion;
     }
 }

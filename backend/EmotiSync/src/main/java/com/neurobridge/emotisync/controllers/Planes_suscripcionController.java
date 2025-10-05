@@ -1,8 +1,6 @@
 package com.neurobridge.emotisync.controllers;
 
-import com.neurobridge.emotisync.entities.Susbcription;
-import jdk.jshell.JShell;
-import org.apache.coyote.Response;
+import com.neurobridge.emotisync.entities.Planes_suscripcion;
 import org.modelmapper.ModelMapper;
 import com.neurobridge.emotisync.dtos.Planes_suscripcionDTO;
 import com.neurobridge.emotisync.servicesinterfaces.IPlanes_suscripcionService;
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,9 +26,16 @@ public class Planes_suscripcionController {
         }).collect(Collectors.toList());
     }
 
+    @PostMapping
+    public void insertar(@RequestBody Planes_suscripcion planesDTO) {
+        ModelMapper m = new ModelMapper();
+        Planes_suscripcionDTO dto = m.map(planesDTO,Planes_suscripcionDTO.class);
+        pS.insert(planesDTO);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id){
-        Susbcription s = pS.listId(id);
+        Planes_suscripcion s = pS.listId(id);
         if(s == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No se encontro el plan de suscripcion con el ID: " + id);
@@ -43,8 +47,8 @@ public class Planes_suscripcionController {
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody Planes_suscripcionDTO dto){
         ModelMapper m = new ModelMapper();
-        Susbcription s = m.map(dto, Susbcription.class);
-        Susbcription exists = pS.listId(s.getIdPlanesSuscripcion());
+        Planes_suscripcion s = m.map(dto, Planes_suscripcion.class);
+        Planes_suscripcion exists = pS.listId(s.getIdPlanesSuscripcion());
         if(exists == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No se puede modificar. No existe un plan de suscripcion con el ID: " + s.getIdPlanesSuscripcion());
