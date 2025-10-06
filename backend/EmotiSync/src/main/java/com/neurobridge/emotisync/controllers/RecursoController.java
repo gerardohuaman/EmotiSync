@@ -1,5 +1,7 @@
 package com.neurobridge.emotisync.controllers;
 
+import com.neurobridge.emotisync.dtos.RecursoPromedioDTO;
+import com.neurobridge.emotisync.dtos.RecursoRelacionDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -104,4 +106,27 @@ public class RecursoController {
         rService.delete(id);
         return ResponseEntity.ok("Recurso eliminado correctamente");
     }
+
+    @GetMapping("/relacion")
+    public ResponseEntity<RecursoRelacionDTO> verificarRelacion(
+            @RequestParam int creadorId,
+            @RequestParam int destinatarioId) {
+
+        boolean existe = rService.existeRelacionEntreUsuarios(creadorId, destinatarioId);
+
+        RecursoRelacionDTO dto = new RecursoRelacionDTO();
+        dto.setCreadorId(creadorId);
+        dto.setDestinatarioId(destinatarioId);
+        dto.setExisteRelacion(existe);
+
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/promedio")
+    public ResponseEntity<List<RecursoPromedioDTO>> promedioRecursos() {
+        List<RecursoPromedioDTO> lista = rService.promedioRecursosPorCreador();
+        return ResponseEntity.ok(lista);
+    }
+
+
 }
