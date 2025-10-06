@@ -1,6 +1,6 @@
 package com.neurobridge.emotisync.controllers;
 
-import com.neurobridge.emotisync.dtos.DiarioDTO;
+import com.neurobridge.emotisync.dtos.DiarioListDTO;
 import com.neurobridge.emotisync.dtos.DiarioDTOInsert;
 import com.neurobridge.emotisync.entities.Diario;
 import com.neurobridge.emotisync.servicesinterfaces.IDiarioService;
@@ -16,16 +16,16 @@ import java.util.stream.Collectors;
 
 @RestController
 @PreAuthorize("hasAuthority('ADMIN')")
-@RequestMapping("/diario")
+@RequestMapping("/diarios")
 public class DiarioController {
     @Autowired
     private IDiarioService diarioService;
 
     @GetMapping
-    public List<DiarioDTO> listar(){
+    public List<DiarioListDTO> listar(){
         return diarioService.list().stream().map(x->{
             ModelMapper m = new ModelMapper();
-            return m.map(x,DiarioDTO.class);
+            return m.map(x, DiarioListDTO.class);
         }).collect(Collectors.toList());
     }
 

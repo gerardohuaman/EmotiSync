@@ -12,8 +12,8 @@ public class Crisis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCrisis;
 
-    @Column(name = "idUsuario", nullable = false, length = 50)
-    private int idUsuario;
+//    @Column(name = "idUsuario", nullable = false, length = 50)
+//    private int idUsuario;
 
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
@@ -33,18 +33,23 @@ public class Crisis {
     @Column(name = "formantes_detectados", nullable = false)
     private String formantesDetectados;
 
+    //a tabla usuario
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
+    private Usuario usuario;
+
     public Crisis() {
     }
 
-    public Crisis(int idCrisis, int idUsuario, LocalDate fecha, float tiempoRespuesta, float ritmo, float articulacion, float f0_promedio, String formantesDetectados) {
+    public Crisis(int idCrisis, LocalDate fecha, float tiempoRespuesta, float ritmo, float articulacion, float f0_promedio, String formantesDetectados, Usuario usuario) {
         this.idCrisis = idCrisis;
-        this.idUsuario = idUsuario;
         this.fecha = fecha;
         this.tiempoRespuesta = tiempoRespuesta;
         this.ritmo = ritmo;
         this.articulacion = articulacion;
         this.f0_promedio = f0_promedio;
         this.formantesDetectados = formantesDetectados;
+        this.usuario = usuario;
     }
 
     public int getIdCrisis() {
@@ -53,14 +58,6 @@ public class Crisis {
 
     public void setIdCrisis(int idCrisis) {
         this.idCrisis = idCrisis;
-    }
-
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
     }
 
     public LocalDate getFecha() {
@@ -110,4 +107,13 @@ public class Crisis {
     public void setFormantesDetectados(String formantesDetectados) {
         this.formantesDetectados = formantesDetectados;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }
+

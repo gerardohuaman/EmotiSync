@@ -14,5 +14,6 @@ public interface IUsuarioService {
     public void delete(int id);
     public List<Usuario> buscarPacientesPorMedico(String email);
     public List<String[]> cantidadDePacientesPorEspecialista();
-
+    public List<Usuario> buscarEspecialista();
+    public List<Usuario> buscarFamiliares();
 }
