@@ -1,17 +1,14 @@
 package com.neurobridge.emotisync.dtos;
 
-import com.neurobridge.emotisync.entities.Ejercicio;
-import com.neurobridge.emotisync.entities.Usuario;
-
 import java.time.LocalDate;
 
 public class UsuarioEjercicioDTO {
 
     private int idUsuarioEjercicio;
 
-    private UsuarioListDTO idUsuario;
+    private int usuarioIdUsuario;
 
-    private EjercicioDTO idEjercicio;
+    private int  ejercicioIdEjercicio;
 
     private LocalDate fechaRealizacion;
 
@@ -25,20 +22,20 @@ public class UsuarioEjercicioDTO {
         this.idUsuarioEjercicio = idUsuarioEjercicio;
     }
 
-    public UsuarioListDTO getIdUsuario() {
-        return idUsuario;
+    public int getUsuarioIdUsuario() {
+        return usuarioIdUsuario;
     }
 
-    public void setIdUsuario(UsuarioListDTO idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUsuarioIdUsuario(int usuarioIdUsuario) {
+        this.usuarioIdUsuario = usuarioIdUsuario;
     }
 
-    public EjercicioDTO getIdEjercicio() {
-        return idEjercicio;
+    public int getEjercicioIdEjercicio() {
+        return ejercicioIdEjercicio;
     }
 
-    public void setIdEjercicio(EjercicioDTO idEjercicio) {
-        this.idEjercicio = idEjercicio;
+    public void setEjercicioIdEjercicio(int ejercicioIdEjercicio) {
+        this.ejercicioIdEjercicio = ejercicioIdEjercicio;
     }
 
     public LocalDate getFechaRealizacion() {

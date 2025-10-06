@@ -3,6 +3,8 @@ package com.neurobridge.emotisync.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Ejercicio")
 public class Ejercicio {
@@ -19,14 +21,26 @@ public class Ejercicio {
     @Column(name = "tipoEjercicio", nullable = false, length = 50)
     private String tipoEjercicio;
 
+    @OneToMany(mappedBy = "ejercicio", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<UsuarioEjercicio> usuarioEjercicios;
+
     public Ejercicio() {
     }
 
-    public Ejercicio(int idEjercicio, String nombre, String descripcion, String tipoEjercicio) {
+    public Ejercicio(int idEjercicio, String nombre, String descripcion, String tipoEjercicio, List<UsuarioEjercicio> usuarioEjercicios) {
         this.idEjercicio = idEjercicio;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tipoEjercicio = tipoEjercicio;
+        this.usuarioEjercicios = usuarioEjercicios;
+    }
+
+    public List<UsuarioEjercicio> getUsuarioEjercicios() {
+        return usuarioEjercicios;
+    }
+
+    public void setUsuarioEjercicios(List<UsuarioEjercicio> usuarioEjercicios) {
+        this.usuarioEjercicios = usuarioEjercicios;
     }
 
     public int getIdEjercicio() {

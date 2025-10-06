@@ -44,20 +44,24 @@ public class UsuarioServiceImplement implements IUsuarioService {
         uS.deleteById(id);
     }
 
-
     @Override
-    public Usuario buscarFamiliarPorPacienteService(int id) {
-        return uS.buscarFamiliarPorPaciente(id);
-    }
-
-    @Override
-    public List<Usuario> buscarPacientesPorMedico(int especialistaId) {
-        return uS.buscarPacientesPorMedico(especialistaId);
+    public List<Usuario> buscarPacientesPorMedico(String email) {
+        return uS.buscarPacientesPorMedico(email);
     }
 
     @Override
     public List<String[]> cantidadDePacientesPorEspecialista() {
         return uS.cantidadDePacientesPorEspecialista();
+    }
+
+    @Override
+    public List<Usuario> buscarEspecialista() {
+        return uS.buscarEspecialista();
+    }
+
+    @Override
+    public List<Usuario> buscarFamiliares() {
+        return uS.buscarFamiliares();
     }
 
 

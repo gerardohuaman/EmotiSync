@@ -11,14 +11,17 @@ import java.util.List;
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-    @Query("select u from Usuario u where u.familiar.idUsuario = :familiarId")
-    public Usuario buscarFamiliarPorPaciente(@Param("familiarId") int familiarId );
+    @Query("select p.pacientes from Usuario p where p.email = :email")
+    public List<Usuario> buscarPacientesPorMedico(@Param("email") String email );
 
-    @Query("select p from Usuario p where p.especialista.idUsuario = :especialistaId")
-    public List<Usuario> buscarPacientesPorMedico(@Param("especialistaId") int especialistaId );
-
-    @Query("select p from Usuario p where p.rol = 'paciente'")
+    @Query("select p from Usuario p where upper(p.rol) = 'PACIENTE'")
     public List<Usuario> buscarPacientes();
+
+    @Query("select e from Usuario e where upper(e.rol) = 'ESPECIALISTA'")
+    public List<Usuario> buscarEspecialista();
+
+    @Query("select f from Usuario f where upper(f.rol) = 'FAMILIAR'")
+    public List<Usuario> buscarFamiliares();
 
     @Query(value = "SELECT \n" +
             "    e.id_usuario as especialista_id,\n" +
