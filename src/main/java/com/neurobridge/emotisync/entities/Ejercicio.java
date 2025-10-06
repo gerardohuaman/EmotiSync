@@ -21,7 +21,7 @@ public class Ejercicio {
     @Column(name = "tipoEjercicio", nullable = false, length = 50)
     private String tipoEjercicio;
 
-    @OneToMany(mappedBy = "idEjercicio", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "ejercicio", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<UsuarioEjercicio> usuarioEjercicios;
 
     public Ejercicio() {

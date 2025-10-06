@@ -1,13 +1,16 @@
 package com.neurobridge.emotisync.dtos;
 
-import com.neurobridge.emotisync.entities.Susbcription;
+import com.neurobridge.emotisync.entities.Planes_suscripcion;
+import com.neurobridge.emotisync.entities.Usuario;
+
 import java.time.LocalDate;
 public class Usuario_suscripcionDTO {
     private int idUsuarioSuscripcion;
+    private Usuario usuario;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private String estado;
-    private Susbcription PlanesSuscripcion;
+    private Planes_suscripcion PlanesSuscripcion;
 
     public int getIdUsuarioSuscripcion() {
         return idUsuarioSuscripcion;
@@ -16,6 +19,10 @@ public class Usuario_suscripcionDTO {
     public void setIdUsuarioSuscripcion(int idUsuarioSuscripcion) {
         this.idUsuarioSuscripcion = idUsuarioSuscripcion;
     }
+
+    public Usuario getUsuario() { return usuario; }
+
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
     public LocalDate getFechaInicio() {
         return fechaInicio;
@@ -41,11 +48,11 @@ public class Usuario_suscripcionDTO {
         this.estado = estado;
     }
 
-    public Susbcription getPlanesSuscripcion() {
+    public Planes_suscripcion getPlanesSuscripcion() {
         return PlanesSuscripcion;
     }
 
-    public void setPlanesSuscripcion(Susbcription planesSuscripcion) {
+    public void setPlanesSuscripcion(Planes_suscripcion planesSuscripcion) {
         PlanesSuscripcion = planesSuscripcion;
     }
 }

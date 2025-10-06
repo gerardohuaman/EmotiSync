@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface IUsuarioEejercicioRepository extends JpaRepository<UsuarioEjercicio, Integer> {
+public interface IUsuarioEjercicioRepository extends JpaRepository<UsuarioEjercicio, Integer> {
 
     @Query(value = "SELECT \n" +
             "    u.id_usuario as usuario_id,\n" +
