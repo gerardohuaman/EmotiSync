@@ -7,7 +7,9 @@ import java.time.LocalDate;
 public class CrisisDTO {
     private int idCrisis;
     //private int idUsuario;
-    private Usuario usuario;
+    //private Usuario usuario;
+    //private UsuarioListDTO usuarioListDTO;
+    private int idUsuario;
     private LocalDate fecha;
     private float tiempoRespuesta;
     private float ritmo;
@@ -15,12 +17,12 @@ public class CrisisDTO {
     private float f0_promedio;
     private String formantesDetectados;
 
-    public Usuario getUsuario() {
-        return usuario;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public int getIdCrisis() {

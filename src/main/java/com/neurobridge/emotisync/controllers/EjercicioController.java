@@ -39,19 +39,6 @@ public class EjercicioController {
         eS.insert(ejercicio);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-        Ejercicio ejercicio = eS.listId(id);
-        if (ejercicio == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("No existe un registro con el ID: " + id);
-        }
-        ModelMapper m = new ModelMapper();
-        EjercicioDTO dto = m.map(ejercicio, EjercicioDTO.class);
-        return ResponseEntity.ok(dto);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Ejercicio ejercicio = eS.listId(id);

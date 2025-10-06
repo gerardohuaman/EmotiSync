@@ -15,10 +15,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/recursos")
-
 public class RecursoController {
-
     @Autowired
     private IRecursoService rService;
 
@@ -34,23 +33,6 @@ public class RecursoController {
 
             return dto;
         }).collect(Collectors.toList());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-        Recurso r = rService.listId(id);
-        if (r == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existe un recurso con el ID: " + id);
-        }
-        ModelMapper m = new ModelMapper();
-        RecursoDTO dto = m.map(r, RecursoDTO.class);
-
-        // usar idUsuario en vez de id
-        dto.setCreadorId(r.getCreador().getIdUsuario());
-        dto.setDestinatarioId(r.getDestinatario().getIdUsuario());
-
-        return ResponseEntity.ok(dto);
     }
 
     @PostMapping

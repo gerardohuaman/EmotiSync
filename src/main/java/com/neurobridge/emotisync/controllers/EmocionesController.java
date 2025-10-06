@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/emociones")
 public class EmocionesController {
     @Autowired
@@ -25,7 +26,6 @@ public class EmocionesController {
 
     //read
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<EmocionesDTOList> listar() {
         return emocionesService.list().stream().map(x -> {
             ModelMapper m = new ModelMapper();
@@ -35,7 +35,6 @@ public class EmocionesController {
 
     //create
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> insertar(@RequestBody EmocionesDTOInsert emocionesDTOInsert) {
         ModelMapper m = new ModelMapper();
         Emociones e = m.map(emocionesDTOInsert, Emociones.class);
@@ -45,7 +44,6 @@ public class EmocionesController {
 
     //update
     @PutMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> modificar(@RequestBody EmocionesDTOInsert emocionesDTOInsert) {
         ModelMapper m = new ModelMapper();
         Emociones e = m.map(emocionesDTOInsert, Emociones.class);
@@ -60,7 +58,6 @@ public class EmocionesController {
 
     //delete
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Emociones e = emocionesService.listId(id);
         if (e == null) {
@@ -71,24 +68,8 @@ public class EmocionesController {
         return ResponseEntity.ok("Registro con ID: " + id + "eliminado correctamente.");
     }
 
-//    //extra pal delete
-//    @GetMapping("/{id}")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-//        Emociones e = emocionesService.listId(id);
-//        if (e == null) {
-//            return ResponseEntity
-//                    .status(HttpStatus.NOT_FOUND)
-//                    .body("No existe un registro con ID: " + id);
-//        }
-//        ModelMapper m = new ModelMapper();
-//        EmocionesDTOList dto = m.map(e, EmocionesDTOList.class);
-//        return ResponseEntity.ok(dto);
-//    }
-
     //queries
     @GetMapping("/busquedaemoint5")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> buscaremoint5() {
         List<Emociones> emociones = emocionesService.buscarEmocionesIntensidad5();
         if (emociones.isEmpty()) {
@@ -103,7 +84,7 @@ public class EmocionesController {
     }
 
     @GetMapping("/promemociointen")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> promemociointen() {
         //List<Emociones> emociones = emocionesService.buscarPromedioEmocionesIntensidad();
         List<AverageDTOEmocionesInt> listaDTO = new ArrayList<>();

@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/usuarioSuscripcion")
 public class Usuario_suscripcionController {
     @Autowired
     private IUsuario_suscripcionService uS;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Usuario_suscripcionDTO> listar(){
         return uS.list().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -35,7 +35,6 @@ public class Usuario_suscripcionController {
     }
 
     @GetMapping("/usuarioActivo")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<SuscripcionesActivasInfoUsuarioDTO> buscarActivos(){
         return uS.buscarActivos().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -44,7 +43,6 @@ public class Usuario_suscripcionController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> buscarPorEmail(@PathVariable("id") Integer id){
         Usuario usuario = (Usuario) uS.buscarPorEmail(id);
         if (usuario == null){
@@ -58,7 +56,6 @@ public class Usuario_suscripcionController {
     }
     
     @GetMapping("/planRendimiento")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<RendimientoPlanesDTO> buscarPlanRendimiento(){
         return uS.buscarPorIdPlanesSuscripcion().stream().map(x->{
             ModelMapper m = new ModelMapper();

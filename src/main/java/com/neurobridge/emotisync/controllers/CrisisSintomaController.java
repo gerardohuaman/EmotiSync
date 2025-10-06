@@ -37,25 +37,6 @@ public class CrisisSintomaController {
         }).collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-        CrisisSintoma cs = csService.listId(id);
-        if (cs == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existe relación crisis-síntoma con ID: " + id);
-        }
-
-        CrisisSintomaDTO dto = new CrisisSintomaDTO();
-        dto.setId(cs.getId());
-        dto.setCrisisId(cs.getCrisis().getIdCrisis());
-        dto.setSintomaId(cs.getSintoma().getId());
-        dto.setSever(cs.getSever());
-        dto.setObservacion(cs.getObservacion());
-        dto.setNotas(cs.getNotas());
-
-        return ResponseEntity.ok(dto);
-    }
-
     @PostMapping
     public ResponseEntity<String> insertar(@RequestBody CrisisSintomaDTO dto) {
         Crisis crisis = new Crisis();

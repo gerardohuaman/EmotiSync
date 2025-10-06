@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/crisis")
 public class CrisisController {
     @Autowired
@@ -25,7 +26,6 @@ public class CrisisController {
 
     //read
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<CrisisDTO> listar(){
         return crisisService.list().stream().map( x->{
             ModelMapper m = new ModelMapper();
@@ -35,7 +35,6 @@ public class CrisisController {
 
     //create
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public void insertar(@RequestBody CrisisDTO crisisDTO){
         ModelMapper m = new ModelMapper();
         Crisis cri = m.map(crisisDTO, Crisis.class);
@@ -44,7 +43,6 @@ public class CrisisController {
 
     //update
     @PutMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> actualizar(@RequestBody CrisisDTO crisisDTO){
         ModelMapper m = new ModelMapper();
         Crisis cri = m.map(crisisDTO, Crisis.class);
@@ -59,7 +57,6 @@ public class CrisisController {
 
     //delete
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id){
         Crisis cri = crisisService.listId(id);
         if (cri == null){
@@ -71,9 +68,7 @@ public class CrisisController {
     }
 
     //queries
-    //cambiar int id por float ritmo
     @GetMapping("/buscarporritmo")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> buscar(@RequestParam float ritmo ){
         List<Crisis> crisis= crisisService.buscarPorRitmo(ritmo);
         if(crisis.isEmpty()){
@@ -88,7 +83,6 @@ public class CrisisController {
     }
 
     @GetMapping("/buscarporusurangofechas")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> buscarPorUsuario(@RequestParam Integer id,
                                               @RequestParam LocalDate fechaInicio,
                                               @RequestParam LocalDate fechaFin){
@@ -106,7 +100,6 @@ public class CrisisController {
     }
 
     @GetMapping("/cantidadporusu")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> cantidadPorUsuario(){
         List<QuantityDTOCrisis> listaDTO = new ArrayList<>();
         List<String[]> fila = crisisService.cantidadCrisisDelUsuario();
