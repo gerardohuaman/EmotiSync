@@ -18,10 +18,10 @@ public interface IAlertaRepository extends JpaRepository<Alertas, Integer>{
             nativeQuery = false)
     List<Alertas> buscarAlertasPorUsuario(@Param("idUsuario") int idUsuario);
 
-    @Query("SELECT c.idUsuario " +
+    @Query("SELECT c.usuario.idUsuario " +
             "FROM Crisis c " +
             "WHERE c.tiempoRespuesta > 5 " +
-            "GROUP BY c.idUsuario " +
+            "GROUP BY c.usuario.idUsuario " +
             "HAVING COUNT(c.idCrisis) > 2")
     List<Integer> usuariosConRespuestaLenta();
 

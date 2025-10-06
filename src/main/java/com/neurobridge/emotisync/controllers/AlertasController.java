@@ -37,18 +37,6 @@ public class AlertasController {
         Alertas l=m.map(lic, Alertas.class);
         service.insert(l);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-        Alertas alerta = service.listId(id);
-        if (alerta == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("No existe un registro con el ID: " + id);
-        }
-        ModelMapper m = new ModelMapper();
-        AlertasDTOList dto = m.map(alerta, AlertasDTOList.class);
-        return ResponseEntity.ok(dto);
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
