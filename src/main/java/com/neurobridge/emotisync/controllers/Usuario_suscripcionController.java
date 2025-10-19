@@ -56,9 +56,9 @@ public class Usuario_suscripcionController {
         return dtoList;
     }
 
-    @GetMapping("/historialSuscripcionesQuery/{id}")
-    public List<HistorialSuscripcionesPorUsuarioDTO> buscarPorEmail(@PathVariable("id") Integer id){
-        List<String[]> list = uS.buscarPorEmail(id);
+    @GetMapping("/historialSuscripcionesQuery/{email}")
+    public List<HistorialSuscripcionesPorUsuarioDTO> buscarPorEmail(@PathVariable("email") String email){
+        List<String[]> list = uS.buscarPorEmail(email);
         List<HistorialSuscripcionesPorUsuarioDTO> dtoList = new ArrayList<>();
 
         for (String[] columna : list) {
@@ -91,6 +91,24 @@ public class Usuario_suscripcionController {
         return  dtoList;
     }
 
+    @GetMapping("/MenosSuscriptoresQuery")
+    public List<MenosSuscriptoresActivosDTO> buscarMenosSuscriptoresActivos(){
+        List<String[]> listS = uS.buscarPlanesMenosSuscriptoresActivos();
+        List<MenosSuscriptoresActivosDTO> dtoList = new ArrayList<>();
+
+        for (String[] columna : listS){
+            MenosSuscriptoresActivosDTO dto = new MenosSuscriptoresActivosDTO();
+            dto.setPlanId(Integer.parseInt(columna[0]));
+            dto.setNombrePlan(columna[1]);
+            dto.setPrecio(Float.parseFloat(columna[2]));
+            dto.setSuscriptoresActivos(Integer.parseInt(columna[3]));
+            dto.setTotalHistorial(Integer.parseInt(columna[4]));
+            dto.setPorcentajeActivo(Float.parseFloat(columna[5]));
+            dtoList.add(dto);
+        }
+        return dtoList;
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Usuario_suscripcion usuario_suscripcion = uS.listId(id);
@@ -103,7 +121,7 @@ public class Usuario_suscripcionController {
     }
 
     @PutMapping
-    public ResponseEntity<String> modificar(@RequestBody Usuario_suscripcion dto) {
+    public ResponseEntity<String> modificar(@RequestBody Usuario_suscripcionDTO dto) {
         ModelMapper m = new ModelMapper();
         Usuario_suscripcion userSus = m.map(dto, Usuario_suscripcion.class);
         Usuario_suscripcion existente = uS.listId(userSus.getIdUsuarioSuscripcion());

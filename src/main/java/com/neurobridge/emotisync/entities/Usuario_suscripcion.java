@@ -33,12 +33,13 @@ public class Usuario_suscripcion {
 
     }
 
-    public Usuario_suscripcion(int idUsuarioSuscripcion, LocalDate fechaInicio, LocalDate fechaFin, String estado, Planes_suscripcion planesSuscripcion) {
+    public Usuario_suscripcion(int idUsuarioSuscripcion, LocalDate fechaInicio, LocalDate fechaFin, String estado, Planes_suscripcion planesSuscripcion, Usuario idUsuario) {
         this.idUsuarioSuscripcion = idUsuarioSuscripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
         PlanesSuscripcion = planesSuscripcion;
+        this.idUsuario = idUsuario;
     }
 
     public int getIdUsuarioSuscripcion() {
@@ -79,5 +80,13 @@ public class Usuario_suscripcion {
 
     public void setPlanesSuscripcion(Planes_suscripcion planesSuscripcion) {
         PlanesSuscripcion = planesSuscripcion;
+    }
+
+    public Usuario getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

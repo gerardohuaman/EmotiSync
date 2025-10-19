@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/recursos")
-
 public class RecursoController {
 
     @Autowired
