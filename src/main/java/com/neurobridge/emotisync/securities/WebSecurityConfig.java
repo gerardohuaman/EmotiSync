@@ -112,7 +112,11 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/sintoma").permitAll()
+                        //.requestMatchers("/sintoma").permitAll()
+                        //.requestMatchers("/crisis/buscarporusurangofechas").permitAll()
+                        .requestMatchers("/emociones/promemociointen").permitAll()
+                        //.requestMatchers("/emociones/busquedaemoint5").permitAll()
+                        //.requestMatchers("/emociones").permitAll()
                         //Para usar swagger
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/swagger-ui.html").permitAll()

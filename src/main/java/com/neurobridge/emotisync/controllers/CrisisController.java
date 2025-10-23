@@ -1,6 +1,7 @@
 package com.neurobridge.emotisync.controllers;
 
 import com.neurobridge.emotisync.dtos.CrisisDTO;
+import com.neurobridge.emotisync.dtos.EmocionesDTOList;
 import com.neurobridge.emotisync.dtos.QuantityDTOCrisis;
 import com.neurobridge.emotisync.entities.Crisis;
 import com.neurobridge.emotisync.entities.Emociones;
@@ -67,6 +68,19 @@ public class CrisisController {
         return ResponseEntity.ok("Registro con ID " + id + " eliminado correctamente.");
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Crisis cris = crisisService.listId(id);
+        if (cris == null) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        CrisisDTO dto = m.map(cris, CrisisDTO.class);
+        return ResponseEntity.ok(dto);
+    }
+
     //queries
     @GetMapping("/buscarporritmo")
     public ResponseEntity<?> buscar(@RequestParam float ritmo ){
@@ -83,6 +97,7 @@ public class CrisisController {
     }
 
     @GetMapping("/buscarporusurangofechas")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> buscarPorUsuario(@RequestParam Integer id,
                                               @RequestParam LocalDate fechaInicio,
                                               @RequestParam LocalDate fechaFin){

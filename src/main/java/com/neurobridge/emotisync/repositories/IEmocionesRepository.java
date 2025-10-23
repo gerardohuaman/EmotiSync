@@ -23,4 +23,9 @@ public interface IEmocionesRepository extends JpaRepository<Emociones, Integer> 
             "group by c.id_usuario\n" +
             "having avg(e.intensidad) >= 5", nativeQuery = true)
     public List<String[]> buscarPromedioEmocionesIntensidad();
+
+    //holaaaa
+    @Query(value="select count(e) from emociones e", nativeQuery = true)
+    public List<String[]> hallarCantidadUsuarios();
+
 }
