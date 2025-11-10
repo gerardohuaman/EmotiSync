@@ -1,6 +1,9 @@
 package com.neurobridge.emotisync.dtos;
 
+import com.neurobridge.emotisync.entities.Rol;
+
 import java.time.LocalDate;
+import java.util.List;
 
 public class UsuarioListDTO {
     private int idUsuario;
@@ -11,7 +14,7 @@ public class UsuarioListDTO {
     private LocalDate fechaNacimiento;
     private String institucion;
     private Integer nroColegiatura;
-    private String rol;
+    private List<Rol> roles;
     private String especialidad;
     private int familiarId;
     private int especialistaId;
@@ -80,12 +83,12 @@ public class UsuarioListDTO {
         this.nroColegiatura = nroColegiatura;
     }
 
-    public String getRol() {
-        return rol;
+    public List<Rol> getRoles() {
+        return roles;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
     }
 
     public String getEspecialidad() {

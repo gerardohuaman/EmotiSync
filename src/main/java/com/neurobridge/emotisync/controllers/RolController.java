@@ -1,9 +1,9 @@
 package com.neurobridge.emotisync.controllers;
 
-import com.neurobridge.emotisync.dtos.DiarioListDTO;
-import com.neurobridge.emotisync.dtos.DiarioDTOInsert;
-import com.neurobridge.emotisync.entities.Diario;
-import com.neurobridge.emotisync.servicesinterfaces.IDiarioService;
+import com.neurobridge.emotisync.dtos.RolInsertDTO;
+import com.neurobridge.emotisync.dtos.RolListDTO;
+import com.neurobridge.emotisync.entities.Rol;
+import com.neurobridge.emotisync.servicesinterfaces.IRolService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,60 +16,60 @@ import java.util.stream.Collectors;
 
 @RestController
 @PreAuthorize("hasAuthority('ADMIN')")
-@RequestMapping("/diarios")
-public class DiarioController {
+@RequestMapping("/roles")
+public class RolController {
     @Autowired
-    private IDiarioService diarioService;
-
+    private IRolService rolService;
+    
     @GetMapping
-    public List<DiarioListDTO> listar(){
-        return diarioService.list().stream().map(x->{
+    public List<RolListDTO> findAll() {
+        return rolService.findAll().stream().map(x->{
             ModelMapper m = new ModelMapper();
-            return m.map(x, DiarioListDTO.class);
+            return m.map(x, RolListDTO.class);
         }).collect(Collectors.toList());
     }
 
     @PostMapping
-    public void insertar(@RequestBody DiarioDTOInsert u){
+    public void insertar(@RequestBody RolInsertDTO u){
         ModelMapper m = new ModelMapper();
-        Diario diario=m.map(u, Diario.class);
-        diarioService.insert(diario);
+        Rol rol=m.map(u, Rol.class);
+        rolService.insert(rol);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> listarPorId(@PathVariable("id") Integer id) {
-        Diario r = diarioService.listId(id);
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Rol r = rolService.findById(id);
         if (r == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe un registro con el ID: " + id);
         }
         ModelMapper m = new ModelMapper();
-        DiarioListDTO dto = m.map(r, DiarioListDTO.class);
+        RolListDTO dto = m.map(r, RolListDTO.class);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
-        Diario diario = diarioService.listId(id);
-        if (diario == null) {
+        Rol s = rolService.findById(id);
+        if (s == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe un registro con el ID: " + id);
         }
-        diarioService.delete(id);
+        rolService.deleteById(id);
         return ResponseEntity.ok("Registro con ID " + id + " eliminado correctamente.");
     }
 
     @PutMapping
-    public ResponseEntity<String> modificar(@RequestBody DiarioDTOInsert dto) {
+    public ResponseEntity<String> modificar(@RequestBody RolInsertDTO dto) {
         ModelMapper m = new ModelMapper();
-        Diario s = m.map(dto, Diario.class);
-        Diario existente = diarioService.listId(s.getIdDiario());
+        Rol r = m.map(dto, Rol.class);
+        Rol existente = rolService.findById(r.getIdRol());
         if (existente == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se puede modificar. No existe un registro con el ID: " + s.getIdDiario());
+                    .body("No se puede modificar. No existe un registro con el ID: " + r.getRol());
         }
-        diarioService.update(s);
-        return ResponseEntity.ok("Registro con ID " + s.getIdDiario() + " modificado correctamente.");
+        rolService.update(r);
+        return ResponseEntity.ok("Registro con ID " + r.getIdRol() + " modificado correctamente.");
     }
 
 }

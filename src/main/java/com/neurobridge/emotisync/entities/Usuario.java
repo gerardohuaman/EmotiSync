@@ -38,9 +38,6 @@ public class Usuario {
     @Column(name = "nroColegiatura", nullable = true)
     private Integer nroColegiatura;
 
-    @Column(name = "rol", nullable = false, length = 50)
-    private String rol;
-
     @Column(name = "especialidad", nullable = true, length = 30)
     private String especialidad;
 
@@ -66,9 +63,22 @@ public class Usuario {
     @Column(nullable = false)
     private Boolean enabled;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_rol"))
+    private List<Rol> roles;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Diario> diarios;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Crisis> crisis;
+
     public Usuario() {}
 
-    public Usuario(int idUsuario, String nombre, String apellido, String email, String password, String telefono, LocalDate fechaNacimiento, String institucion, Integer nroColegiatura, String rol, String especialidad, String username, Usuario especialista, List<Usuario> pacientes, Usuario familiar, List<Usuario> dependientes, Boolean enabled) {
+    public Usuario(int idUsuario, String nombre, String apellido, String email, String password, String telefono, LocalDate fechaNacimiento, String institucion, Integer nroColegiatura, String especialidad, String username, Usuario especialista, List<Usuario> pacientes, Usuario familiar, List<Usuario> dependientes, Boolean enabled, List<Rol> roles, List<Diario> diarios, List<Crisis> crisis) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -78,7 +88,6 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
         this.institucion = institucion;
         this.nroColegiatura = nroColegiatura;
-        this.rol = rol;
         this.especialidad = especialidad;
         this.username = username;
         this.especialista = especialista;
@@ -86,14 +95,9 @@ public class Usuario {
         this.familiar = familiar;
         this.dependientes = dependientes;
         this.enabled = enabled;
-    }
-
-    public List<Usuario> getDependientes() {
-        return dependientes;
-    }
-
-    public void setDependientes(List<Usuario> dependientes) {
-        this.dependientes = dependientes;
+        this.roles = roles;
+        this.diarios = diarios;
+        this.crisis = crisis;
     }
 
     public int getIdUsuario() {
@@ -168,14 +172,6 @@ public class Usuario {
         this.nroColegiatura = nroColegiatura;
     }
 
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
-
     public String getEspecialidad() {
         return especialidad;
     }
@@ -216,11 +212,43 @@ public class Usuario {
         this.familiar = familiar;
     }
 
+    public List<Usuario> getDependientes() {
+        return dependientes;
+    }
+
+    public void setDependientes(List<Usuario> dependientes) {
+        this.dependientes = dependientes;
+    }
+
     public Boolean getEnabled() {
         return enabled;
     }
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public List<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
+    }
+
+    public List<Diario> getDiarios() {
+        return diarios;
+    }
+
+    public void setDiarios(List<Diario> diarios) {
+        this.diarios = diarios;
+    }
+
+    public List<Crisis> getCrisis() {
+        return crisis;
+    }
+
+    public void setCrisis(List<Crisis> crisis) {
+        this.crisis = crisis;
     }
 }

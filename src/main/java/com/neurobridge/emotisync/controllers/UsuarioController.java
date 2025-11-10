@@ -1,7 +1,9 @@
 package com.neurobridge.emotisync.controllers;
 
 import com.neurobridge.emotisync.dtos.*;
+import com.neurobridge.emotisync.entities.Rol;
 import com.neurobridge.emotisync.entities.Usuario;
+import com.neurobridge.emotisync.servicesinterfaces.IRolService;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuarioService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ import java.util.stream.Collectors;
 public class UsuarioController {
     @Autowired
     private IUsuarioService uS;
+
+    @Autowired
+    private IRolService rS;
 
     @GetMapping
     public List<UsuarioListDTO>listarUsuarios(){
@@ -55,9 +60,35 @@ public class UsuarioController {
 
     @PostMapping
     public void insertar(@RequestBody UsuarioInsertDTO u){
+
         ModelMapper m = new ModelMapper();
-        Usuario usuario=m.map(u, Usuario.class);
+        Usuario usuario = m.map(u, Usuario.class);
+
+        // Buscar y asignar los roles
+        if (u.getRoles() != null && !u.getRoles().isEmpty()) {
+            List<Rol> rolesAsignados = new ArrayList<>();
+            for (Rol rol : u.getRoles()) {
+                Rol rolEncontrado = rS.findById(rol.getIdRol());
+                if (rolEncontrado != null) {
+                    rolesAsignados.add(rolEncontrado);
+                }
+            }
+            usuario.setRoles(rolesAsignados);
+        }
+
         uS.insert(usuario);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Usuario s = uS.listId(id);
+        if (s == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        UsuarioListDTO dto = m.map(s, UsuarioListDTO.class);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
@@ -118,4 +149,3 @@ public class UsuarioController {
         return ResponseEntity.ok(dtoList);
     }
 }
-

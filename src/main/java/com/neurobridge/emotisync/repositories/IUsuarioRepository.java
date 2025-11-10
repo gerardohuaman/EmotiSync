@@ -2,9 +2,11 @@ package com.neurobridge.emotisync.repositories;
 
 import com.neurobridge.emotisync.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,13 +16,13 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("select p.pacientes from Usuario p where p.email = :email")
     public List<Usuario> buscarPacientesPorMedico(@Param("email") String email );
 
-    @Query("select p from Usuario p where upper(p.rol) = 'PACIENTE'")
+    @Query("select p from Usuario p where upper(p.roles) = 'PACIENTE'")
     public List<Usuario> buscarPacientes();
 
-    @Query("select e from Usuario e where upper(e.rol) = 'ESPECIALISTA'")
+    @Query("select e from Usuario e where upper(e.roles) = 'ESPECIALISTA'")
     public List<Usuario> buscarEspecialista();
 
-    @Query("select f from Usuario f where upper(f.rol) = 'FAMILIAR'")
+    @Query("select f from Usuario f where upper(f.roles) = 'FAMILIAR'")
     public List<Usuario> buscarFamiliares();
 
     @Query(value = "SELECT \n" +
@@ -35,6 +37,16 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
             " GROUP BY e.id_usuario, e.nombre, e.apellido, e.especialidad\n" +
             " ORDER BY cantidad_pacientes DESC", nativeQuery = true)
     public List<String[]> cantidadDePacientesPorEspecialista();
+
+    @Modifying
+    @Transactional
+    @Query("update Usuario u set u.especialista = null where u.especialista.idUsuario = :idEspecialista")
+    public int desvincularPacientesDeEspecialista(@Param("idEspecialista") Integer idEspecialista);
+
+    @Modifying
+    @Transactional
+    @Query("update Usuario u set u.familiar = null where u.familiar.idUsuario = :idFamiliar")
+    public int desvincularPacientesDeFamiliar(@Param("idFamiliar") Integer idFamiliar);
 
     public Usuario findOneByUsername(String username);
 
