@@ -16,26 +16,28 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("select p.pacientes from Usuario p where p.email = :email")
     public List<Usuario> buscarPacientesPorMedico(@Param("email") String email );
 
-    @Query("select p from Usuario p where upper(p.roles) = 'PACIENTE'")
+    @Query("SELECT u FROM Usuario u JOIN u.roles r WHERE UPPER(r.rol) = 'PACIENTE'")
     public List<Usuario> buscarPacientes();
 
-    @Query("select e from Usuario e where upper(e.roles) = 'ESPECIALISTA'")
+    @Query("SELECT u FROM Usuario u JOIN u.roles r WHERE UPPER(r.rol) = 'ESPECIALISTA'")
     public List<Usuario> buscarEspecialista();
 
-    @Query("select f from Usuario f where upper(f.roles) = 'FAMILIAR'")
+    @Query("SELECT u FROM Usuario u JOIN u.roles r WHERE UPPER(r.rol) = 'FAMILIAR'")
     public List<Usuario> buscarFamiliares();
 
     @Query(value = "SELECT \n" +
-            "    e.id_usuario as especialista_id,\n" +
-            "    e.nombre as especialista_nombre,\n" +
-            "    e.apellido as especialista_apellido,\n" +
-            "    e.especialidad,\n" +
-            "    COUNT(p.id_usuario) as cantidad_pacientes\n" +
-            " FROM usuario e\n" +
-            " LEFT JOIN usuario p ON p.especialista_id = e.id_usuario\n" +
-            " WHERE e.rol = 'especialista'\n" +
-            " GROUP BY e.id_usuario, e.nombre, e.apellido, e.especialidad\n" +
-            " ORDER BY cantidad_pacientes DESC", nativeQuery = true)
+            "        e.id_usuario as especialista_id,\n" +
+            "        e.nombre as especialista_nombre,\n" +
+            "        e.apellido as especialista_apellido,\n" +
+            "        e.especialidad,\n" +
+            "        COUNT(DISTINCT p.id_usuario) as cantidad_pacientes\n" +
+            "    FROM usuario e\n" +
+            "    INNER JOIN usuario_roles er ON e.id_usuario = er.id_usuario\n" +
+            "    INNER JOIN roles r ON er.id_rol = r.id_rol\n" +
+            "    LEFT JOIN usuario p ON p.especialista_id = e.id_usuario\n" +
+            "    WHERE r.rol = 'ESPECIALISTA'\n" +
+            "    GROUP BY e.id_usuario, e.nombre, e.apellido, e.especialidad\n" +
+            "    ORDER BY cantidad_pacientes DESC", nativeQuery = true)
     public List<String[]> cantidadDePacientesPorEspecialista();
 
     @Modifying
