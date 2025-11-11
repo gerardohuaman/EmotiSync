@@ -132,4 +132,16 @@ public class Usuario_suscripcionController {
         uS.update(userSus);
         return ResponseEntity.ok("Registro con ID " + userSus.getIdUsuarioSuscripcion() + " modificado correctamente.");
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Usuario_suscripcion s = uS.listId(id);
+        if (s == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        Usuario_suscripcionDTO dto = m.map(s, Usuario_suscripcionDTO.class);
+        return ResponseEntity.ok(dto);
+    }
 }
