@@ -1,11 +1,8 @@
 package com.neurobridge.emotisync.controllers;
 
 import com.neurobridge.emotisync.dtos.EjercicioCompletadoDTO;
-import com.neurobridge.emotisync.dtos.PacienteListDTO;
-import com.neurobridge.emotisync.dtos.TotalPacienteDTO;
 import com.neurobridge.emotisync.dtos.UsuarioEjercicioDTO;
-import com.neurobridge.emotisync.entities.Ejercicio;
-import com.neurobridge.emotisync.entities.Usuario;
+import com.neurobridge.emotisync.dtos.UsuarioEjercicioInsertDTO;
 import com.neurobridge.emotisync.entities.UsuarioEjercicio;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuarioEjercicioService;
 import org.modelmapper.ModelMapper;
@@ -35,10 +32,22 @@ public class UsuarioEjercicioController {
     }
 
     @PostMapping
-    public void insertar(@RequestBody UsuarioEjercicioDTO u){
+    public void insertar(@RequestBody UsuarioEjercicioInsertDTO u){
         ModelMapper m = new ModelMapper();
         UsuarioEjercicio usuarioEjercicio=m.map(u, UsuarioEjercicio.class);
         service.insert(usuarioEjercicio);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        UsuarioEjercicio usuarioEjercicio = service.listId(id);
+        if (usuarioEjercicio == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        UsuarioEjercicioDTO dto = m.map(usuarioEjercicio, UsuarioEjercicioDTO.class);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
@@ -53,16 +62,16 @@ public class UsuarioEjercicioController {
     }
 
     @PutMapping
-    public ResponseEntity<String> modificar(@RequestBody UsuarioEjercicioDTO dto) {
+    public ResponseEntity<String> modificar(@RequestBody UsuarioEjercicioInsertDTO dto) {
         ModelMapper m = new ModelMapper();
         UsuarioEjercicio s = m.map(dto, UsuarioEjercicio.class);
         UsuarioEjercicio existente = service.listId(s.getIdUsuarioEjercicio());
         if (existente == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se puede modificar. No existe un registro con el ID: " + s.getIdEjercicio());
+                    .body("No se puede modificar. No existe un registro con el ID: " + s.getIdUsuarioEjercicio());
         }
         service.update(s);
-        return ResponseEntity.ok("Registro con ID " + s.getIdEjercicio() + " modificado correctamente.");
+        return ResponseEntity.ok("Registro con ID " + s.getIdUsuarioEjercicio() + " modificado correctamente.");
     }
 
     @GetMapping("/ejercicioscompletados")

@@ -41,6 +41,10 @@ public class UsuarioServiceImplement implements IUsuarioService {
 
     @Override
     public void delete(int id) {
+        Usuario usuario = uS.findById(id).orElse(null);
+
+        uS.desvincularPacientesDeEspecialista(id);
+        uS.desvincularPacientesDeFamiliar(id);
         uS.deleteById(id);
     }
 
@@ -52,6 +56,16 @@ public class UsuarioServiceImplement implements IUsuarioService {
     @Override
     public List<String[]> cantidadDePacientesPorEspecialista() {
         return uS.cantidadDePacientesPorEspecialista();
+    }
+
+    @Override
+    public List<Usuario> buscarEspecialista() {
+        return uS.buscarEspecialista();
+    }
+
+    @Override
+    public List<Usuario> buscarFamiliares() {
+        return uS.buscarFamiliares();
     }
 
 

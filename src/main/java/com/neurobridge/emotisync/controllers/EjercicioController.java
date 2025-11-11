@@ -1,9 +1,7 @@
 package com.neurobridge.emotisync.controllers;
 
 import com.neurobridge.emotisync.dtos.EjercicioDTO;
-import com.neurobridge.emotisync.dtos.PacienteListDTO;
 import com.neurobridge.emotisync.entities.Ejercicio;
-import com.neurobridge.emotisync.servicesinterfaces.IEjercicioService;
 import com.neurobridge.emotisync.servicesinterfaces.IEjercicioService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,19 +37,6 @@ public class EjercicioController {
         eS.insert(ejercicio);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-        Ejercicio ejercicio = eS.listId(id);
-        if (ejercicio == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("No existe un registro con el ID: " + id);
-        }
-        ModelMapper m = new ModelMapper();
-        EjercicioDTO dto = m.map(ejercicio, EjercicioDTO.class);
-        return ResponseEntity.ok(dto);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Ejercicio ejercicio = eS.listId(id);
@@ -61,6 +46,18 @@ public class EjercicioController {
         }
         eS.delete(id);
         return ResponseEntity.ok("Registro con ID " + id + " eliminado correctamente.");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Ejercicio e = eS.listId(id);
+        if (e == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        EjercicioDTO dto = m.map(e, EjercicioDTO.class);
+        return ResponseEntity.ok(dto);
     }
 
     @PutMapping

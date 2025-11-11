@@ -1,5 +1,7 @@
 package com.neurobridge.emotisync.controllers;
 
+import com.neurobridge.emotisync.dtos.RecursoPromedioDTO;
+import com.neurobridge.emotisync.dtos.RecursoRelacionDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/recursos")
 public class RecursoController {
-
     @Autowired
     private IRecursoService rService;
 
@@ -33,23 +35,6 @@ public class RecursoController {
 
             return dto;
         }).collect(Collectors.toList());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-        Recurso r = rService.listId(id);
-        if (r == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existe un recurso con el ID: " + id);
-        }
-        ModelMapper m = new ModelMapper();
-        RecursoDTO dto = m.map(r, RecursoDTO.class);
-
-        // usar idUsuario en vez de id
-        dto.setCreadorId(r.getCreador().getIdUsuario());
-        dto.setDestinatarioId(r.getDestinatario().getIdUsuario());
-
-        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
@@ -103,4 +88,27 @@ public class RecursoController {
         rService.delete(id);
         return ResponseEntity.ok("Recurso eliminado correctamente");
     }
+
+    @GetMapping("/relacion")
+    public ResponseEntity<RecursoRelacionDTO> verificarRelacion(
+            @RequestParam int creadorId,
+            @RequestParam int destinatarioId) {
+
+        boolean existe = rService.existeRelacionEntreUsuarios(creadorId, destinatarioId);
+
+        RecursoRelacionDTO dto = new RecursoRelacionDTO();
+        dto.setCreadorId(creadorId);
+        dto.setDestinatarioId(destinatarioId);
+        dto.setExisteRelacion(existe);
+
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/promedio")
+    public ResponseEntity<List<RecursoPromedioDTO>> promedioRecursos() {
+        List<RecursoPromedioDTO> lista = rService.promedioRecursosPorCreador();
+        return ResponseEntity.ok(lista);
+    }
+
+
 }
