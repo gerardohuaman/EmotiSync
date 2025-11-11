@@ -1,5 +1,6 @@
 package com.neurobridge.emotisync.dtos;
 
+import com.neurobridge.emotisync.entities.Rol;
 import com.neurobridge.emotisync.entities.Usuario;
 
 import java.time.LocalDate;
@@ -15,10 +16,36 @@ public class UsuarioInsertDTO {
     private LocalDate fechaNacimiento;
     private String institucion;
     private Integer nroColegiatura;
-    private String rol;
     private String especialidad;
     private Usuario familiar;
     private Usuario especialista;
+    private List<Rol> roles;
+    private String username;
+    private Boolean enabled;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
+    }
 
     public String getPassword() {
         return password;
@@ -90,14 +117,6 @@ public class UsuarioInsertDTO {
 
     public void setNroColegiatura(Integer nroColegiatura) {
         this.nroColegiatura = nroColegiatura;
-    }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
     }
 
     public String getEspecialidad() {
