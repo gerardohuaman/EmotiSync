@@ -15,9 +15,18 @@ public class UsuarioListDTO {
     private String institucion;
     private Integer nroColegiatura;
     private List<Rol> roles;
+    private String username;
     private String especialidad;
     private int familiarId;
     private int especialistaId;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public int getIdUsuario() {
         return idUsuario;

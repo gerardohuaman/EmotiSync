@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarios")
-@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("hasAuthority('ADMIN')")
 public class UsuarioController {
     @Autowired
     private IUsuarioService uS;
@@ -104,16 +104,81 @@ public class UsuarioController {
 
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody UsuarioInsertDTO dto) {
-        ModelMapper m = new ModelMapper();
-        Usuario s = m.map(dto, Usuario.class);
-        Usuario existente = uS.listId(s.getIdUsuario());
+        Usuario existente = uS.listId(dto.getIdUsuario());
         if (existente == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se puede modificar. No existe un registro con el ID: " + s.getIdUsuario());
+                    .body("No se puede modificar. No existe un registro con el ID: " + dto.getIdUsuario());
         }
-        uS.update(s);
-        return ResponseEntity.ok("Registro con ID " + s.getIdUsuario() + " modificado correctamente.");
+
+        if (dto.getNombre() != null && !dto.getNombre().isEmpty()) {
+            existente.setNombre(dto.getNombre());
+        }
+
+        if (dto.getApellido() != null && !dto.getApellido().isEmpty()) {
+            existente.setApellido(dto.getApellido());
+        }
+
+        if (dto.getEmail() != null && !dto.getEmail().isEmpty()) {
+            existente.setEmail(dto.getEmail());
+        }
+
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            existente.setPassword(dto.getPassword());
+        }
+
+        if (dto.getTelefono() != null && !dto.getTelefono().isEmpty()) {
+            existente.setTelefono(dto.getTelefono());
+        }
+
+        if (dto.getFechaNacimiento() != null) {
+            existente.setFechaNacimiento(dto.getFechaNacimiento());
+        }
+
+        if (dto.getInstitucion() != null) {
+            existente.setInstitucion(dto.getInstitucion());
+        }
+
+        if (dto.getNroColegiatura() != null) {
+            existente.setNroColegiatura(dto.getNroColegiatura());
+        }
+
+        if (dto.getEspecialidad() != null) {
+            existente.setEspecialidad(dto.getEspecialidad());
+        }
+
+        if (dto.getUsername() != null && !dto.getUsername().isEmpty()) {
+            existente.setUsername(dto.getUsername());
+        }
+
+        if (dto.getEnabled() != null) {
+            existente.setEnabled(dto.getEnabled());
+        }
+
+        if (dto.getEspecialista() != null && dto.getEspecialista().getIdUsuario() != 0) {
+            Usuario esp = uS.listId(dto.getEspecialista().getIdUsuario());
+            existente.setEspecialista(esp);
+        }
+
+        if (dto.getFamiliar() != null && dto.getFamiliar().getIdUsuario() != 0) {
+            Usuario fam = uS.listId(dto.getFamiliar().getIdUsuario());
+            existente.setFamiliar(fam);
+        }
+
+        if (dto.getRoles() != null && !dto.getRoles().isEmpty()) {
+            List<Rol> rolesAsignados = new ArrayList<>();
+            for (Rol rol : dto.getRoles()) {
+                Rol rolEncontrado = rS.findById(rol.getIdRol());
+                if (rolEncontrado != null) {
+                    rolesAsignados.add(rolEncontrado);
+                }
+            }
+            existente.setRoles(rolesAsignados);
+        }
+
+        uS.update(existente);
+        return ResponseEntity.ok("Registro con ID " + dto.getIdUsuario() + " modificado correctamente.");
     }
+
 
     @GetMapping("/pacientesPorMedico")
     public ResponseEntity<?> buscarPacientePorMedico(@RequestParam String email) {

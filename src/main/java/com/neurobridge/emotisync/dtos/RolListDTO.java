@@ -2,16 +2,16 @@ package com.neurobridge.emotisync.dtos;
 
 public class RolListDTO {
 
-    private int id;
+    private int idRol;
 
     private String rol;
 
-    public int getId() {
-        return id;
+    public int getIdRol() {
+        return idRol;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdRol(int idRol) {
+        this.idRol = idRol;
     }
 
     public String getRol() {
