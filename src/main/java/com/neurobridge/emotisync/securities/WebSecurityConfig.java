@@ -112,7 +112,8 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/login").permitAll()
-                        //.requestMatchers("/sintoma").permitAll()
+                        .requestMatchers("/roles/**").permitAll()
+                        .requestMatchers("/crisis/**").permitAll()
                         //.requestMatchers("/crisis/buscarporusurangofechas").permitAll()
                         .requestMatchers("/emociones/promemociointen").permitAll()
                         //.requestMatchers("/emociones/busquedaemoint5").permitAll()
