@@ -2,6 +2,7 @@ package com.neurobridge.emotisync.controllers;
 
 import com.neurobridge.emotisync.dtos.*;
 import com.neurobridge.emotisync.entities.Ejercicio;
+import com.neurobridge.emotisync.entities.Planes_suscripcion;
 import com.neurobridge.emotisync.entities.Usuario;
 import com.neurobridge.emotisync.entities.Usuario_suscripcion;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuario_suscripcionService;
@@ -113,5 +114,17 @@ public class Usuario_suscripcionController {
         }
         uS.update(userSus);
         return ResponseEntity.ok("Registro con ID " + userSus.getIdUsuarioSuscripcion() + " modificado correctamente.");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Usuario_suscripcion u = uS.listId(id);
+        if (u == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        Usuario_suscripcionDTO dto = m.map(u, Usuario_suscripcionDTO.class);
+        return ResponseEntity.ok(dto);
     }
 }

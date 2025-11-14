@@ -113,6 +113,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/sintoma").permitAll()
+                        .requestMatchers("/planesSuscripcion/**").permitAll()
                         //borrar\
                         .requestMatchers("/usuarios/**").permitAll()
                         .requestMatchers("/roles/**").permitAll()
