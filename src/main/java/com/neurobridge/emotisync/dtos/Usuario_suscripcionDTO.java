@@ -10,7 +10,7 @@ public class Usuario_suscripcionDTO {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private String estado;
-    private Planes_suscripcion PlanesSuscripcion;
+    private Planes_suscripcion planesSuscripcion;
 
     public int getIdUsuarioSuscripcion() {
         return idUsuarioSuscripcion;
@@ -19,10 +19,6 @@ public class Usuario_suscripcionDTO {
     public void setIdUsuarioSuscripcion(int idUsuarioSuscripcion) {
         this.idUsuarioSuscripcion = idUsuarioSuscripcion;
     }
-
-    public Usuario getUsuario() { return usuario; }
-
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
     public LocalDate getFechaInicio() {
         return fechaInicio;
@@ -48,11 +44,19 @@ public class Usuario_suscripcionDTO {
         this.estado = estado;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public Planes_suscripcion getPlanesSuscripcion() {
-        return PlanesSuscripcion;
+        return planesSuscripcion;
     }
 
     public void setPlanesSuscripcion(Planes_suscripcion planesSuscripcion) {
-        PlanesSuscripcion = planesSuscripcion;
+        this.planesSuscripcion = planesSuscripcion;
     }
 }
