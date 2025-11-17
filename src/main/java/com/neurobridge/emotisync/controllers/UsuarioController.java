@@ -65,6 +65,16 @@ public class UsuarioController {
         ModelMapper m = new ModelMapper();
         Usuario usuario = m.map(u, Usuario.class);
 
+        if (u.getRoles() != null && !u.getRoles().isEmpty()) {
+            List<Rol> rolesAsignados = new ArrayList<>();
+            for (Rol rolDto : u.getRoles()) {
+                Rol rolEncontrado = rS.findById(rolDto.getIdRol());
+                    if (rolEncontrado != null) {
+                        rolesAsignados.add(rolEncontrado);
+                }
+            }
+            usuario.setRoles(rolesAsignados);
+        }
         uS.insert(usuario);
     }
 
