@@ -18,9 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/recursos")
-
 public class RecursoController {
-
     @Autowired
     private IRecursoService rService;
 
@@ -35,6 +33,7 @@ public class RecursoController {
             return dto;
         }).collect(Collectors.toList());
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {

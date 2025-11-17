@@ -1,5 +1,9 @@
 package com.neurobridge.emotisync.servicesimplements;
 
+import com.neurobridge.emotisync.dtos.AlertasBusquedaDTO;
+import com.neurobridge.emotisync.dtos.UsuarioAlertaCountDTO;
+import com.neurobridge.emotisync.dtos.UsuarioAlertaDTO;
+import com.neurobridge.emotisync.dtos.UsuarioPromedioAlertasDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neurobridge.emotisync.entities.Alertas;
@@ -21,7 +25,7 @@ public class AlertaServiceImplement implements IAlertaService {
     }
 
     @Override
-    public void insert(Alertas alerta) { repository.save(alerta);    }
+    public void insert(Alertas alerta) { repository.save(alerta);  }
 
     @Override
     public Alertas listId(int id) {
@@ -39,12 +43,27 @@ public class AlertaServiceImplement implements IAlertaService {
     }
 
     @Override
-    public List<Alertas> searchAlertasUser(int idUsuario) {return repository.buscarAlertasPorUsuario(idUsuario);}
+    public List<UsuarioAlertaCountDTO> contarAlertasPorUsuario() {
+        return repository.contarAlertasPorUsuario();
+    }
 
     @Override
-    public List<Integer> usuariosConRespuestaLenta() {
-        return repository.usuariosConRespuestaLenta();
+    public List<AlertasBusquedaDTO> buscarAlertasPorNombreUsuario(String letra) {
+        return repository.buscarAlertasPorNombreUsuario(letra);
     }
+
+
+    @Override
+    public List<UsuarioPromedioAlertasDTO> usuariosConPromedioAlertasAltas(double nivelCritico) {
+        return repository.usuariosConPromedioAlertasAltas(nivelCritico);
+    }
+
+
+    @Override
+    public List<UsuarioAlertaDTO> obtenerUsuariosConAlertasCriticas(int nivelCritico) {
+        return repository.findUsuariosConAlertasCriticas(nivelCritico);
+    }
+
 }
 
 

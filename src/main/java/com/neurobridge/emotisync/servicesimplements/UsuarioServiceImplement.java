@@ -41,6 +41,10 @@ public class UsuarioServiceImplement implements IUsuarioService {
 
     @Override
     public void delete(int id) {
+        Usuario usuario = uS.findById(id).orElse(null);
+
+        uS.desvincularPacientesDeEspecialista(id);
+        uS.desvincularPacientesDeFamiliar(id);
         uS.deleteById(id);
     }
 

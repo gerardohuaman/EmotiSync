@@ -14,6 +14,7 @@ public interface IUsuario_suscripcionService {
     public void delete(int id);
     public Usuario_suscripcion listId(int id);
     public List<String[]> buscarActivos();
-    public List<String[]> buscarPorEmail(int id_usuario);
+    public List<String[]> buscarPorEmail(String email);
     public List<String[]> buscarPorIdPlanesSuscripcion();
+    public List<String[]> buscarPlanesMenosSuscriptoresActivos();
 }

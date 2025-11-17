@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/diarios")
 public class DiarioController {
     @Autowired
@@ -34,6 +34,18 @@ public class DiarioController {
         ModelMapper m = new ModelMapper();
         Diario diario=m.map(u, Diario.class);
         diarioService.insert(diario);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarPorId(@PathVariable("id") Integer id) {
+        Diario r = diarioService.listId(id);
+        if (r == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        DiarioListDTO dto = m.map(r, DiarioListDTO.class);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
