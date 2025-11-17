@@ -9,17 +9,17 @@ public class Alertas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idAlerta;
 
-    @Column(name = "tipo_alerta", length = 50)
+    @Column(name = "tipo_alerta", length = 50, nullable = false)
     private String  tipo_alerta;
 
-    @Column(name = "mensaje", length = 255)
+    @Column(name = "mensaje", length = 255, nullable = false)
     private String  mensaje;
 
-    @Column(name = "nivel_alerta")
+    @Column(name = "nivel_alerta", nullable = false)
     private int  nivel_alerta;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "id_usuario",  nullable = false)
     private Usuario usuario;
 
     public  Alertas(){
