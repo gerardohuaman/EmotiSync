@@ -21,7 +21,7 @@ public class SintomaController {
     private ISintomaService sService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+
 
     public List<SintomaDTO> listar() {
         return sService.list().stream().map(s -> {
@@ -31,7 +31,7 @@ public class SintomaController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+
 
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Sintoma s = sService.listId(id);
@@ -45,7 +45,7 @@ public class SintomaController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+
 
     public ResponseEntity<String> insertar(@RequestBody SintomaDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -56,7 +56,7 @@ public class SintomaController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+
 
     public ResponseEntity<String> modificar(@RequestBody SintomaDTO dto) {
         Sintoma existente = sService.listId(dto.getId());
@@ -71,7 +71,7 @@ public class SintomaController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+
 
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Sintoma s = sService.listId(id);
@@ -85,7 +85,7 @@ public class SintomaController {
 
     // ---- Búsqueda ----
     @GetMapping("/buscar-nombre/{nombre}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+
 
     public List<SintomaDTO> buscarPorNombre(@PathVariable String nombre) {
         return sService.buscarPorNombre(nombre).stream()
@@ -94,7 +94,7 @@ public class SintomaController {
     }
 
     @GetMapping("/buscar-descripcion/{desc}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+
 
     public List<SintomaDTO> buscarPorDescripcion(@PathVariable String desc) {
         return sService.buscarPorDescripcion(desc).stream()
@@ -104,14 +104,13 @@ public class SintomaController {
 
     // ---- Decisión ----
     @GetMapping("/count")
-    @PreAuthorize("hasAuthority('ADMIN')")
 
     public long contarTotal() {
         return sService.contarTotal();
     }
 
     @GetMapping("/existe/{nombre}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+
 
     public boolean existePorNombre(@PathVariable String nombre) {
         return sService.existePorNombre(nombre);

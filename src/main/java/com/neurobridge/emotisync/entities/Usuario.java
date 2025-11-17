@@ -49,14 +49,16 @@ public class Usuario {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "especialistaId")
+    @JsonIgnore  // <--- ¡AÑADE ESTA LÍNEA!
     private Usuario especialista;
 
     @OneToMany(mappedBy = "especialista", fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Usuario> pacientes;
+    private List<Usuario> pacientes; // <-- Esto ya lo tenías (¡bien!)
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "familiarId")
+    @JsonIgnore  // <--- ¡AÑADE ESTA LÍNEA!
     private Usuario familiar;
 
     @OneToMany(mappedBy = "familiar", fetch = FetchType.LAZY)
