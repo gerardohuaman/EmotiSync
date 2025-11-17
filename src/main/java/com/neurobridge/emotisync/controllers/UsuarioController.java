@@ -65,18 +65,6 @@ public class UsuarioController {
         ModelMapper m = new ModelMapper();
         Usuario usuario = m.map(u, Usuario.class);
 
-        // Buscar y asignar los roles
-        if (u.getRoles() != null && !u.getRoles().isEmpty()) {
-            List<Rol> rolesAsignados = new ArrayList<>();
-            for (Rol rol : u.getRoles()) {
-                Rol rolEncontrado = rS.findById(rol.getIdRol());
-                if (rolEncontrado != null) {
-                    rolesAsignados.add(rolEncontrado);
-                }
-            }
-            usuario.setRoles(rolesAsignados);
-        }
-
         uS.insert(usuario);
     }
 
@@ -87,6 +75,7 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe un registro con el ID: " + id);
         }
+
         ModelMapper m = new ModelMapper();
         UsuarioListDTO dto = m.map(s, UsuarioListDTO.class);
         return ResponseEntity.ok(dto);
@@ -111,6 +100,8 @@ public class UsuarioController {
                     .body("No se puede modificar. No existe un registro con el ID: " + dto.getIdUsuario());
         }
 
+        ModelMapper m = new ModelMapper();
+        Usuario usuarioActualizado = m.map(dto, Usuario.class);
         if (dto.getRoles() != null && !dto.getRoles().isEmpty()) {
             List<Rol> rolesAsignados = new ArrayList<>();
             for (Rol rol : dto.getRoles()) {
@@ -119,10 +110,9 @@ public class UsuarioController {
                     rolesAsignados.add(rolEncontrado);
                 }
             }
-            existente.setRoles(rolesAsignados);
+            usuarioActualizado.setRoles(rolesAsignados);
         }
-
-        uS.update(existente);
+        uS.update(usuarioActualizado);
         return ResponseEntity.ok("Registro con ID " + dto.getIdUsuario() + " modificado correctamente.");
     }
 
