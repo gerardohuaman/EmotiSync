@@ -35,15 +35,15 @@ public interface IUsuario_suscripcionRepository extends JpaRepository<Usuario_su
     //Historial de suscripciones de un usuario (por email o user_id)
     @Query(value = """
             SELECT
-                  p.nombre_plan,
-                  p.precio,
-                  us.estado
-                FROM usuario_suscripcion us
-                JOIN usuario u ON us.id_usuario = u.id_usuario
-                JOIN planes_suscripcion p ON us.id_planes_suscripcion = p.id_planes_suscripcion
-                WHERE u.id_usuario = :id_usuario
-                ORDER BY us.fecha_inicio DESC;""", nativeQuery = true)
-    public List<String[]> buscarPorEmail(@Param("id_usuario") int id_usuario);
+              p.nombre_plan,
+              p.precio,
+              us.estado
+            FROM usuario_suscripcion us
+            JOIN usuario u ON us.id_usuario = u.id_usuario
+            JOIN planes_suscripcion p ON us.id_planes_suscripcion = p.id_planes_suscripcion
+            WHERE u.email = :email
+            ORDER BY us.fecha_inicio DESC;""", nativeQuery = true)
+    public List<String[]> buscarPorEmail(@Param("email") String email);
 
     //3. primer query toma de decision
     //Rendimiento de planes (nº de suscriptores activos y estimación de ingreso)
@@ -60,4 +60,24 @@ public interface IUsuario_suscripcionRepository extends JpaRepository<Usuario_su
             GROUP BY p.id_planes_suscripcion, p.nombre_plan, p.precio
             ORDER BY suscriptores_activos DESC; """, nativeQuery = true)
     public List<String[]> buscarPorIdPlanesSuscripcion();
+
+    //4. cuarto query toma de decision
+    //Listar los planes con menos suscriptores activos
+    @Query(value = """
+            SELECT
+                p.id_planes_suscripcion AS plan_id,
+                p.nombre_plan            AS nombre_plan,
+                COALESCE(p.precio,0)     AS precio,
+                COALESCE(COUNT(us.id_usuario_suscripcion) FILTER (WHERE LOWER(us.estado) = 'activo'), 0) AS suscriptores_activos,
+                COALESCE(COUNT(us.id_usuario_suscripcion), 0) AS total_historial,
+                CASE
+                  WHEN COALESCE(COUNT(us.id_usuario_suscripcion),0) = 0 THEN 0
+                  ELSE ROUND((COUNT(us.id_usuario_suscripcion) FILTER (WHERE LOWER(us.estado) = 'activo')::numeric / COUNT(us.id_usuario_suscripcion)::numeric) * 100, 2)
+                END AS porcentaje_activos
+              FROM planes_suscripcion p
+              LEFT JOIN usuario_suscripcion us
+                ON us.id_planes_suscripcion = p.id_planes_suscripcion
+              GROUP BY p.id_planes_suscripcion, p.nombre_plan, p.precio
+              ORDER BY suscriptores_activos ASC, porcentaje_activos ASC;""", nativeQuery = true)
+    public List<String[]> buscarPlanesMenosSuscriptoresActivos();
 }
