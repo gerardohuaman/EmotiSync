@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/ejercicios")
 public class EjercicioController {
     @Autowired
@@ -74,7 +74,7 @@ public class EjercicioController {
     }
 
 
-    @GetMapping("/{nombre}")
+    @GetMapping("/busqueda/{nombre}")
     public ResponseEntity<?> ejerciciosPorNombre(@PathVariable String nombre) {
         List<Ejercicio> ejercicios = eS.buscarEjercicioPorNOmbre(nombre);
 

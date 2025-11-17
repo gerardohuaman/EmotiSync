@@ -17,8 +17,17 @@ public class UsuarioListDTO {
     private List<Rol> roles;
     private String username;
     private String especialidad;
-    private int familiarId;
-    private int especialistaId;
+    private FamiliarDTO familiar;
+    private EspecialistaDTO especialista;
+    private Boolean enabled;
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public String getUsername() {
         return username;
@@ -108,19 +117,19 @@ public class UsuarioListDTO {
         this.especialidad = especialidad;
     }
 
-    public int getFamiliarId() {
-        return familiarId;
+    public FamiliarDTO getFamiliar() {
+        return familiar;
     }
 
-    public void setFamiliarId(int familiarId) {
-        this.familiarId = familiarId;
+    public void setFamiliar(FamiliarDTO familiar) {
+        this.familiar = familiar;
     }
 
-    public int getEspecialistaId() {
-        return especialistaId;
+    public EspecialistaDTO getEspecialista() {
+        return especialista;
     }
 
-    public void setEspecialistaId(int especialistaId) {
-        this.especialistaId = especialistaId;
+    public void setEspecialista(EspecialistaDTO especialista) {
+        this.especialista = especialista;
     }
 }
