@@ -9,8 +9,8 @@ public class PacienteListDTO {
     private String email;
     private String telefono;
     private LocalDate fechaNacimiento;
-    private int especialistaId;
-    private int familiarId;
+    private EspecialistaDTO especialista;
+    private FamiliarDTO familiar;
 
     public int getIdUsuario() {
         return idUsuario;
@@ -60,19 +60,19 @@ public class PacienteListDTO {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public int getEspecialistaId() {
-        return especialistaId;
+    public EspecialistaDTO getEspecialista() {
+        return especialista;
     }
 
-    public void setEspecialistaId(int especialistaId) {
-        this.especialistaId = especialistaId;
+    public void setEspecialista(EspecialistaDTO especialista) {
+        this.especialista = especialista;
     }
 
-    public int getFamiliarId() {
-        return familiarId;
+    public FamiliarDTO getFamiliar() {
+        return familiar;
     }
 
-    public void setFamiliarId(int familiarId) {
-        this.familiarId = familiarId;
+    public void setFamiliar(FamiliarDTO familiar) {
+        this.familiar = familiar;
     }
 }

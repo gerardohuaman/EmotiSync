@@ -7,8 +7,8 @@ public class DiarioListDTO {
     private String titulo;
     private String contenido;
     private LocalDate fecha;
-    private int usuarioId;
-    private int emocionesId;
+    private UsuarioListDTO usuario;
+    private EmocionesDTOList emociones;
 
     public int getIdDiario() {
         return idDiario;
@@ -42,19 +42,19 @@ public class DiarioListDTO {
         this.fecha = fecha;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public EmocionesDTOList getEmociones() {
+        return emociones;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setEmociones(EmocionesDTOList emociones) {
+        this.emociones = emociones;
     }
 
-    public int getEmocionesId() {
-        return emocionesId;
+    public UsuarioListDTO getUsuario() {
+        return usuario;
     }
 
-    public void setEmocionesId(int emocionesId) {
-        this.emocionesId = emocionesId;
+    public void setUsuario(UsuarioListDTO usuario) {
+        this.usuario = usuario;
     }
 }
