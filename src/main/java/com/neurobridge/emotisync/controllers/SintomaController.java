@@ -1,5 +1,7 @@
 package com.neurobridge.emotisync.controllers;
 
+import com.neurobridge.emotisync.dtos.Planes_suscripcionDTO;
+import com.neurobridge.emotisync.entities.Planes_suscripcion;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/sintomas")
 public class SintomaController {
     @Autowired
@@ -87,4 +89,15 @@ public class SintomaController {
         return sService.existePorNombre(nombre);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Sintoma s = sService.listId(id);
+        if (s == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        SintomaDTO dto = m.map(s, SintomaDTO.class);
+        return ResponseEntity.ok(dto);
+    }
 }
