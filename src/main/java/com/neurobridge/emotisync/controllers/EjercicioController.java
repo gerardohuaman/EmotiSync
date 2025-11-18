@@ -22,7 +22,7 @@ public class EjercicioController {
     private IEjercicioService eS;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     public List<EjercicioDTO>listar(){
         return eS.getEjercicios().stream().map(x->{
             ModelMapper m = new ModelMapper();
