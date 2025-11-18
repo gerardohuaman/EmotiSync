@@ -1,8 +1,8 @@
 package com.neurobridge.emotisync.controllers;
 
-import com.neurobridge.emotisync.dtos.UsuarioListDTO;
+import com.neurobridge.emotisync.dtos.Usuario_suscripcionDTO;
 import com.neurobridge.emotisync.entities.Planes_suscripcion;
-import com.neurobridge.emotisync.entities.Usuario;
+import com.neurobridge.emotisync.entities.Usuario_suscripcion;
 import org.modelmapper.ModelMapper;
 import com.neurobridge.emotisync.dtos.Planes_suscripcionDTO;
 import com.neurobridge.emotisync.servicesinterfaces.IPlanes_suscripcionService;
@@ -61,13 +61,13 @@ public class Planes_suscripcionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-        Planes_suscripcion p = pS.listId(id);
-        if (p == null) {
+        Planes_suscripcion s = pS.listId(id);
+        if (s == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe un registro con el ID: " + id);
         }
         ModelMapper m = new ModelMapper();
-        Planes_suscripcionDTO dto = m.map(p, Planes_suscripcionDTO.class);
+        Planes_suscripcionDTO dto = m.map(s, Planes_suscripcionDTO.class);
         return ResponseEntity.ok(dto);
     }
 }

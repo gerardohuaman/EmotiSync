@@ -2,8 +2,17 @@ package com.neurobridge.emotisync.dtos;
 
 public class EmocionesDTOList {
     //mostrar
+    private int idEmociones;
     private String tipoEmocion;
     private int intensidad;
+
+    public int getIdEmociones() {
+        return idEmociones;
+    }
+
+    public void setIdEmociones(int idEmociones) {
+        this.idEmociones = idEmociones;
+    }
 
     public String getTipoEmocion() {
         return tipoEmocion;
