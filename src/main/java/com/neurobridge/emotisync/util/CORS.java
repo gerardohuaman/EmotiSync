@@ -47,7 +47,7 @@ public class CORS implements Filter {
 //			response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Only GET is allowed");
 //		} else {
 //			chain.doFilter(req, res);
-//		}
+//
 //
 //	}
     @Override
