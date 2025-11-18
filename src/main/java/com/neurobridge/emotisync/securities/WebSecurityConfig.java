@@ -115,6 +115,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/sintoma").permitAll()
                         //borrar\
                         .requestMatchers("/usuarios/**").permitAll()
+                        .requestMatchers("/ejercicios/**").permitAll()
+
                         .requestMatchers("/roles/**").permitAll()
                         .requestMatchers("/**").permitAll()
                         //Para usar swagger
