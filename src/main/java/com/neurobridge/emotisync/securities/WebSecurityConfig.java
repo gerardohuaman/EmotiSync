@@ -112,12 +112,12 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/sintoma").permitAll()
+                        .requestMatchers("/sintomas/**").permitAll()
                         .requestMatchers("/planesSuscripcion/**").permitAll()
                         //borrar\
                         .requestMatchers("/usuarios/**").permitAll()
                         .requestMatchers("/roles/**").permitAll()
-
+                        .requestMatchers("/crisis/**").permitAll()
                         .requestMatchers("/**").permitAll()
                         //Para usar swagger
                         .requestMatchers("/swagger-ui/**").permitAll()
@@ -136,5 +136,6 @@ public class WebSecurityConfig {
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
+
 }
 

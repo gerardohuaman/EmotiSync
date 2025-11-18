@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
+
 @RequestMapping("/crisis")
 public class CrisisController {
     @Autowired
@@ -114,5 +114,16 @@ public class CrisisController {
             listaDTO.add(dto);
         }
         return ResponseEntity.ok(listaDTO);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Crisis cri = crisisService.listId(id);
+        if (cri == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe crisis con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        CrisisDTO dto = m.map(cri, CrisisDTO.class);
+        return ResponseEntity.ok(dto);
     }
 }
