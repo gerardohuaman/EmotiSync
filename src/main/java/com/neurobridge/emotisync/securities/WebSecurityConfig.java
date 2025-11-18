@@ -117,7 +117,7 @@ public class WebSecurityConfig {
                         //borrar\
                         .requestMatchers("/usuarios/**").permitAll()
                         .requestMatchers("/roles/**").permitAll()
-
+                        .requestMatchers("/crisis/**").permitAll()
                         .requestMatchers("/**").permitAll()
                         //Para usar swagger
                         .requestMatchers("/swagger-ui/**").permitAll()
