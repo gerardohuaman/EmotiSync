@@ -9,8 +9,8 @@ public class RecursoDTO {
     private String enlace;
     private String tipo;
     private LocalDate fechaCr;
-    private Integer creadorId;
-    private Integer destinatarioId;
+    private UsuarioListDTO creador; // <-- LÍNEA NUEVA
+    private UsuarioListDTO destinatario; // <-- LÍNEA NUEVA
     private boolean esPublico;
 
     // Getters y Setters
@@ -32,11 +32,21 @@ public class RecursoDTO {
     public LocalDate getFechaCr() { return fechaCr; }
     public void setFechaCr(LocalDate fechaCr) { this.fechaCr = fechaCr; }
 
-    public Integer getCreadorId() { return creadorId; }
-    public void setCreadorId(Integer creadorId) { this.creadorId = creadorId; }
+    public UsuarioListDTO getCreador() {
+        return creador;
+    }
 
-    public Integer getDestinatarioId() { return destinatarioId; }
-    public void setDestinatarioId(Integer destinatarioId) { this.destinatarioId = destinatarioId; }
+    public void setCreador(UsuarioListDTO creador) {
+        this.creador = creador;
+    }
+
+    public UsuarioListDTO getDestinatario() {
+        return destinatario;
+    }
+
+    public void setDestinatario(UsuarioListDTO destinatario) {
+        this.destinatario = destinatario;
+    }
 
     public boolean isEsPublico() { return esPublico; }
     public void setEsPublico(boolean esPublico) { this.esPublico = esPublico; }
