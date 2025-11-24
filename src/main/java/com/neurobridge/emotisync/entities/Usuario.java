@@ -46,7 +46,7 @@ public class Usuario {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "especialistaId")
-    @JsonIgnore  // <--- ¡AÑADE ESTA LÍNEA!
+    @JsonIgnore
     private Usuario especialista;
 
     @OneToMany(mappedBy = "especialista", fetch = FetchType.LAZY)
