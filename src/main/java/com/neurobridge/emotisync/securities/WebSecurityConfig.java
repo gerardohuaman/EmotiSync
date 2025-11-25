@@ -114,6 +114,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/sintomas/**").permitAll()
                         .requestMatchers("/planesSuscripcion/**").permitAll()
+                        .requestMatchers("/usuarioejercicios/**").permitAll()
                         //borrar\
                         .requestMatchers("/usuarios/**").permitAll()
                         .requestMatchers("/ejercicios/**").permitAll()
