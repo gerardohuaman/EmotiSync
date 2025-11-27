@@ -36,6 +36,18 @@ public class DiarioController {
         diarioService.insert(diario);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarPorId(@PathVariable("id") Integer id) {
+        Diario r = diarioService.listId(id);
+        if (r == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        DiarioListDTO dto = m.map(r, DiarioListDTO.class);
+        return ResponseEntity.ok(dto);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Diario diario = diarioService.listId(id);

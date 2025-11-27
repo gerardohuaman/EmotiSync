@@ -26,14 +26,15 @@ public class Recurso {
     private LocalDate fechaCr;
 
     // FK -> usuarios (creador)
-    @ManyToOne
-    @JoinColumn(name = "creador_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "creadorId")
     private Usuario creador;
 
-    // FK -> usuarios (destinatario)
-    @ManyToOne
-    @JoinColumn(name = "destinatario_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "destinatarioId")
     private Usuario destinatario;
+
+
 
     @Column(name = "es_publico", nullable = false)
     private boolean esPublico;

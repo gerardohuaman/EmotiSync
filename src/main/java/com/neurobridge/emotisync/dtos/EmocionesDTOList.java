@@ -1,9 +1,30 @@
 package com.neurobridge.emotisync.dtos;
 
+import com.neurobridge.emotisync.entities.Crisis;
+
 public class EmocionesDTOList {
     //mostrar
+    private int idEmociones;
     private String tipoEmocion;
     private int intensidad;
+    //agregando para frontend
+    private Crisis crisis;
+
+    public Crisis getCrisis() {
+        return crisis;
+    }
+
+    public void setCrisis(Crisis crisis) {
+        this.crisis = crisis;
+    }
+
+    public int getIdEmociones() {
+        return idEmociones;
+    }
+
+    public void setIdEmociones(int idEmociones) {
+        this.idEmociones = idEmociones;
+    }
 
     public String getTipoEmocion() {
         return tipoEmocion;

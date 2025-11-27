@@ -1,7 +1,6 @@
 package com.neurobridge.emotisync.servicesinterfaces;
 
 import com.neurobridge.emotisync.entities.Usuario;
-import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public interface IUsuarioService {
     public void update(Usuario usuario);
     public void delete(int id);
     public List<Usuario> buscarPacientesPorMedico(String email);
-    public List<String[]> cantidadDePacientesPorEspecialista();
+    public List<String[]> cantidadDePacientesPorEspecialidad();
     public List<Usuario> buscarEspecialista();
     public List<Usuario> buscarFamiliares();
 }

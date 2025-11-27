@@ -10,7 +10,7 @@ public class Planes_suscripcion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPlanesSuscripcion;
 
-    @Column(name = "nombre_plan", nullable = false, length = 50)
+    @Column(name = "nombre_plan", nullable = false, length = 30)
     private String nombre_plan;
 
     @Column(name = "precio", nullable = false)

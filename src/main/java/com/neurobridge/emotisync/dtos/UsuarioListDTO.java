@@ -1,6 +1,9 @@
 package com.neurobridge.emotisync.dtos;
 
+import com.neurobridge.emotisync.entities.Rol;
+
 import java.time.LocalDate;
+import java.util.List;
 
 public class UsuarioListDTO {
     private int idUsuario;
@@ -11,10 +14,28 @@ public class UsuarioListDTO {
     private LocalDate fechaNacimiento;
     private String institucion;
     private Integer nroColegiatura;
-    private String rol;
+    private List<Rol> roles;
+    private String username;
     private String especialidad;
-    private int familiarId;
-    private int especialistaId;
+    private FamiliarDTO familiar;
+    private EspecialistaDTO especialista;
+    private Boolean enabled;
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public int getIdUsuario() {
         return idUsuario;
@@ -80,12 +101,12 @@ public class UsuarioListDTO {
         this.nroColegiatura = nroColegiatura;
     }
 
-    public String getRol() {
-        return rol;
+    public List<Rol> getRoles() {
+        return roles;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
     }
 
     public String getEspecialidad() {
@@ -96,19 +117,19 @@ public class UsuarioListDTO {
         this.especialidad = especialidad;
     }
 
-    public int getFamiliarId() {
-        return familiarId;
+    public FamiliarDTO getFamiliar() {
+        return familiar;
     }
 
-    public void setFamiliarId(int familiarId) {
-        this.familiarId = familiarId;
+    public void setFamiliar(FamiliarDTO familiar) {
+        this.familiar = familiar;
     }
 
-    public int getEspecialistaId() {
-        return especialistaId;
+    public EspecialistaDTO getEspecialista() {
+        return especialista;
     }
 
-    public void setEspecialistaId(int especialistaId) {
-        this.especialistaId = especialistaId;
+    public void setEspecialista(EspecialistaDTO especialista) {
+        this.especialista = especialista;
     }
 }

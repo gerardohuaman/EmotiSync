@@ -22,7 +22,7 @@ public class EjercicioController {
     private IEjercicioService eS;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     public List<EjercicioDTO>listar(){
         return eS.getEjercicios().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -48,6 +48,18 @@ public class EjercicioController {
         return ResponseEntity.ok("Registro con ID " + id + " eliminado correctamente.");
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Ejercicio e = eS.listId(id);
+        if (e == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        EjercicioDTO dto = m.map(e, EjercicioDTO.class);
+        return ResponseEntity.ok(dto);
+    }
+
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody EjercicioDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -62,7 +74,7 @@ public class EjercicioController {
     }
 
 
-    @GetMapping("/{nombre}")
+    @GetMapping("/busqueda/{nombre}")
     public ResponseEntity<?> ejerciciosPorNombre(@PathVariable String nombre) {
         List<Ejercicio> ejercicios = eS.buscarEjercicioPorNOmbre(nombre);
 

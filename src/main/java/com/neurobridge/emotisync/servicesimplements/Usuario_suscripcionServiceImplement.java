@@ -45,13 +45,19 @@ public class Usuario_suscripcionServiceImplement implements IUsuario_suscripcion
     }
 
     @Override
-    public List<String[]> buscarPorEmail(int id_usuario) {
-        return repository.buscarPorEmail(id_usuario);
+    public List<String[]> buscarPorEmail(String email) {
+        return repository.buscarPorEmail(email);
     }
+
 
     @Override
     public List<String[]> buscarPorIdPlanesSuscripcion() {
         return repository.buscarPorIdPlanesSuscripcion();
+    }
+
+    @Override
+    public List<String[]> buscarPlanesMenosSuscriptoresActivos() {
+        return repository.buscarPlanesMenosSuscriptoresActivos();
     }
 
 }

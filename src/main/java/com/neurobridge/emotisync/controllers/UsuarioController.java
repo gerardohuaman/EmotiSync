@@ -1,13 +1,14 @@
 package com.neurobridge.emotisync.controllers;
 
 import com.neurobridge.emotisync.dtos.*;
+import com.neurobridge.emotisync.entities.Rol;
 import com.neurobridge.emotisync.entities.Usuario;
+import com.neurobridge.emotisync.servicesinterfaces.IRolService;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuarioService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,8 +22,12 @@ public class UsuarioController {
     @Autowired
     private IUsuarioService uS;
 
+    @Autowired
+    private IRolService rS;
+
     @GetMapping
     public List<UsuarioListDTO>listarUsuarios(){
+
         return uS.getUsuarios().stream().map(x->{
             ModelMapper m = new ModelMapper();
             return m.map(x, UsuarioListDTO.class);
@@ -55,9 +60,34 @@ public class UsuarioController {
 
     @PostMapping
     public void insertar(@RequestBody UsuarioInsertDTO u){
+
         ModelMapper m = new ModelMapper();
-        Usuario usuario=m.map(u, Usuario.class);
+        Usuario usuario = m.map(u, Usuario.class);
+
+        if (u.getRoles() != null && !u.getRoles().isEmpty()) {
+            List<Rol> rolesAsignados = new ArrayList<>();
+            for (Rol rolDto : u.getRoles()) {
+                Rol rolEncontrado = rS.findById(rolDto.getIdRol());
+                    if (rolEncontrado != null) {
+                        rolesAsignados.add(rolEncontrado);
+                }
+            }
+            usuario.setRoles(rolesAsignados);
+        }
         uS.insert(usuario);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Usuario s = uS.listId(id);
+        if (s == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+
+        ModelMapper m = new ModelMapper();
+        UsuarioListDTO dto = m.map(s, UsuarioListDTO.class);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
@@ -73,16 +103,28 @@ public class UsuarioController {
 
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody UsuarioInsertDTO dto) {
-        ModelMapper m = new ModelMapper();
-        Usuario s = m.map(dto, Usuario.class);
-        Usuario existente = uS.listId(s.getIdUsuario());
+        Usuario existente = uS.listId(dto.getIdUsuario());
         if (existente == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se puede modificar. No existe un registro con el ID: " + s.getIdUsuario());
+                    .body("No se puede modificar. No existe un registro con el ID: " + dto.getIdUsuario());
         }
-        uS.update(s);
-        return ResponseEntity.ok("Registro con ID " + s.getIdUsuario() + " modificado correctamente.");
+
+        ModelMapper m = new ModelMapper();
+        Usuario usuarioActualizado = m.map(dto, Usuario.class);
+        if (dto.getRoles() != null && !dto.getRoles().isEmpty()) {
+            List<Rol> rolesAsignados = new ArrayList<>();
+            for (Rol rol : dto.getRoles()) {
+                Rol rolEncontrado = rS.findById(rol.getIdRol());
+                if (rolEncontrado != null) {
+                    rolesAsignados.add(rolEncontrado);
+                }
+            }
+            usuarioActualizado.setRoles(rolesAsignados);
+        }
+        uS.update(usuarioActualizado);
+        return ResponseEntity.ok("Registro con ID " + dto.getIdUsuario() + " modificado correctamente.");
     }
+
 
     @GetMapping("/pacientesPorMedico")
     public ResponseEntity<?> buscarPacientePorMedico(@RequestParam String email) {
@@ -101,21 +143,17 @@ public class UsuarioController {
         return ResponseEntity.ok(listaDTO);
     }
 
-    @GetMapping("/totalPacientesPorEspecialista")
-    public ResponseEntity<?> totalPacientesPorEspecialista(){
-        List<String[]> total = uS.cantidadDePacientesPorEspecialista();
+    @GetMapping("/totalPacientesPorEspecialidad")
+    public ResponseEntity<?> totalPacientesPorEspecialidad(){
+        List<String[]> total = uS.cantidadDePacientesPorEspecialidad();
         List<TotalPacienteDTO> dtoList = new ArrayList<>();
 
         for (String[] columna : total) {
             TotalPacienteDTO dto = new TotalPacienteDTO();
-            dto.setId(Integer.parseInt(columna[0]));
-            dto.setNombre(columna[1]);
-            dto.setApellido(columna[2]);
-            dto.setEspecialidad(columna[3]);
-            dto.setCantidadPacientes(Integer.parseInt(columna[4]));
+            dto.setEspecialidad(columna[0]);
+            dto.setCantidadPacientes(Integer.parseInt(columna[1]));
             dtoList.add(dto);
         }
         return ResponseEntity.ok(dtoList);
     }
 }
-
