@@ -4,6 +4,7 @@ com\neurobridge\emotisync\dtos\JwtResponseDTO.class
 com\neurobridge\emotisync\dtos\UsuarioListDTO.class
 com\neurobridge\emotisync\dtos\UsuarioEjercicioInsertDTO.class
 com\neurobridge\emotisync\dtos\CrisisSintomaDTO.class
+com\neurobridge\emotisync\entities\Rol.class
 com\neurobridge\emotisync\servicesimplements\AlertaServiceImplement.class
 com\neurobridge\emotisync\repositories\ISintomaRepository.class
 com\neurobridge\emotisync\dtos\Usuario_suscripcionDTO.class
@@ -11,10 +12,12 @@ com\neurobridge\emotisync\entities\Usuario_suscripcion.class
 com\neurobridge\emotisync\entities\Usuario.class
 com\neurobridge\emotisync\servicesinterfaces\IRecursoService.class
 com\neurobridge\emotisync\dtos\EmocionesDTOInsert.class
+com\neurobridge\emotisync\controllers\RolController.class
 com\neurobridge\emotisync\dtos\Planes_suscripcionDTO.class
 com\neurobridge\emotisync\controllers\Usuario_suscripcionController.class
 com\neurobridge\emotisync\servicesimplements\JwtUserDetailsService.class
 com\neurobridge\emotisync\repositories\IUsuarioRepository.class
+com\neurobridge\emotisync\servicesimplements\RolServiceImplement.class
 com\neurobridge\emotisync\entities\Planes_suscripcion.class
 com\neurobridge\emotisync\servicesimplements\EjercicioServiceImplement.class
 com\neurobridge\emotisync\servicesinterfaces\IAlertaService.class
@@ -31,6 +34,8 @@ com\neurobridge\emotisync\controllers\SintomaController.class
 com\neurobridge\emotisync\dtos\EspecialistaDTO.class
 com\neurobridge\emotisync\dtos\SintomaDTO.class
 com\neurobridge\emotisync\dtos\UsuarioPromedioAlertasDTO.class
+com\neurobridge\emotisync\util\CORS.class
+com\neurobridge\emotisync\repositories\IRolRepository.class
 com\neurobridge\emotisync\dtos\QuantityDTOCrisis.class
 com\neurobridge\emotisync\servicesimplements\EmocionesServiceImplement.class
 com\neurobridge\emotisync\repositories\IRecursoRepository.class
@@ -38,6 +43,7 @@ com\neurobridge\emotisync\servicesinterfaces\ICrisisSintomaService.class
 com\neurobridge\emotisync\controllers\EjercicioController.class
 com\neurobridge\emotisync\controllers\UsuarioController.class
 com\neurobridge\emotisync\dtos\DiarioListDTO.class
+com\neurobridge\emotisync\dtos\RolListDTO.class
 com\neurobridge\emotisync\dtos\TotalPacienteDTO.class
 com\neurobridge\emotisync\servicesinterfaces\IPlanes_suscripcionService.class
 com\neurobridge\emotisync\securities\WebSecurityConfig.class
@@ -67,6 +73,7 @@ com\neurobridge\emotisync\servicesimplements\SintomaServiceImplement.class
 com\neurobridge\emotisync\servicesinterfaces\IUsuario_suscripcionService.class
 com\neurobridge\emotisync\entities\Alertas.class
 com\neurobridge\emotisync\servicesinterfaces\IUsuarioEjercicioService.class
+com\neurobridge\emotisync\servicesinterfaces\IRolService.class
 com\neurobridge\emotisync\controllers\UsuarioEjercicioController.class
 com\neurobridge\emotisync\dtos\JwtRequestDTO.class
 com\neurobridge\emotisync\dtos\RecursoDTO.class
@@ -84,6 +91,7 @@ com\neurobridge\emotisync\servicesinterfaces\IDiarioService.class
 com\neurobridge\emotisync\servicesimplements\CrisisSintomaServiceImplement.class
 com\neurobridge\emotisync\dtos\AlertasBusquedaDTO.class
 com\neurobridge\emotisync\servicesinterfaces\ISintomaService.class
+com\neurobridge\emotisync\dtos\RolInsertDTO.class
 com\neurobridge\emotisync\dtos\AlertasDTOInsert.class
 com\neurobridge\emotisync\servicesimplements\CrisisServiceImplement.class
 com\neurobridge\emotisync\dtos\UsuarioInsertDTO.class
@@ -97,6 +105,7 @@ com\neurobridge\emotisync\repositories\IDiarioRepository.class
 com\neurobridge\emotisync\entities\Emociones.class
 com\neurobridge\emotisync\entities\Crisis.class
 com\neurobridge\emotisync\controllers\CrisisSintomaController.class
+com\neurobridge\emotisync\dtos\MenosSuscriptoresActivosDTO.class
 com\neurobridge\emotisync\securities\JwtAuthenticationEntryPoint.class
 com\neurobridge\emotisync\dtos\EmocionesDTOList.class
 com\neurobridge\emotisync\dtos\UsuarioEjercicioDTO.class
