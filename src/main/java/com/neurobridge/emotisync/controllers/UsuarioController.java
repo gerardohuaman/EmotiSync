@@ -9,7 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -144,18 +143,15 @@ public class UsuarioController {
         return ResponseEntity.ok(listaDTO);
     }
 
-    @GetMapping("/totalPacientesPorEspecialista")
-    public ResponseEntity<?> totalPacientesPorEspecialista(){
-        List<String[]> total = uS.cantidadDePacientesPorEspecialista();
+    @GetMapping("/totalPacientesPorEspecialidad")
+    public ResponseEntity<?> totalPacientesPorEspecialidad(){
+        List<String[]> total = uS.cantidadDePacientesPorEspecialidad();
         List<TotalPacienteDTO> dtoList = new ArrayList<>();
 
         for (String[] columna : total) {
             TotalPacienteDTO dto = new TotalPacienteDTO();
-            dto.setId(Integer.parseInt(columna[0]));
-            dto.setNombre(columna[1]);
-            dto.setApellido(columna[2]);
-            dto.setEspecialidad(columna[3]);
-            dto.setCantidadPacientes(Integer.parseInt(columna[4]));
+            dto.setEspecialidad(columna[0]);
+            dto.setCantidadPacientes(Integer.parseInt(columna[1]));
             dtoList.add(dto);
         }
         return ResponseEntity.ok(dtoList);
