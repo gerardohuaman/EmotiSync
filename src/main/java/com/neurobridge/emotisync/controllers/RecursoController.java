@@ -24,12 +24,12 @@ public class RecursoController {
 
     @GetMapping
     public List<RecursoDTO> listar() {
-        // --- CÓDIGO ARREGLADO ---
-        // Deja que ModelMapper maneje el mapeo anidado
         return rService.list().stream().map(r -> {
             ModelMapper m = new ModelMapper();
             RecursoDTO dto = m.map(r, RecursoDTO.class);
-            // Ya no necesitas las líneas setCreadorId()
+            dto.setCreadorId(r.getCreador().getIdUsuario());
+            dto.setDestinatarioId(r.getDestinatario().getIdUsuario());
+            dto.setNombreCreador(r.getCreador().getUsername());
             return dto;
         }).collect(Collectors.toList());
     }
@@ -54,6 +54,19 @@ public class RecursoController {
 
         ModelMapper m = new ModelMapper();
         Recurso r = m.map(dto, Recurso.class);
+        r.setId(null);
+
+        if(dto.getCreadorId() != null){
+            Usuario u = new Usuario();
+            u.setIdUsuario(dto.getCreadorId());
+            r.setCreador(u);
+        }
+
+        if(dto.getDestinatarioId() != null){
+            Usuario u = new Usuario();
+            u.setIdUsuario(dto.getDestinatarioId());
+            r.setDestinatario(u);
+        }
         rService.insert(r);
         return ResponseEntity.status(HttpStatus.CREATED).body("Recurso creado correctamente");
     }
