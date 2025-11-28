@@ -14,17 +14,17 @@ public class Diario {
     @Column(nullable = false)
     private String titulo;
 
-    @Column
+    @Column(name = "contenido", nullable = false, length = 255)
     private String contenido;
 
-    @Column
+    @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "idEmociones")
     private Emociones emociones;
 

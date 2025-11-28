@@ -27,7 +27,13 @@ public class Usuario_suscripcionController {
     public List<Usuario_suscripcionDTO> listar(){
         return uS.list().stream().map(x->{
             ModelMapper m = new ModelMapper();
-            return m.map(x, Usuario_suscripcionDTO.class);
+            Usuario_suscripcionDTO dto  = m.map(x,Usuario_suscripcionDTO.class);
+
+            if(x.getIdUsuario() != null){
+                UsuarioListDTO usuarioDTO = m.map(x,UsuarioListDTO.class);
+                dto.setUsuario(usuarioDTO);
+            }
+            return dto;
         }).collect(Collectors.toList());
     }
 
