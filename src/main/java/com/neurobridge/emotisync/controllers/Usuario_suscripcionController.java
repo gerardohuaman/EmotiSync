@@ -29,8 +29,8 @@ public class Usuario_suscripcionController {
             ModelMapper m = new ModelMapper();
             Usuario_suscripcionDTO dto  = m.map(x,Usuario_suscripcionDTO.class);
 
-            if(x.getIdUsuario() != null){
-                UsuarioListDTO usuarioDTO = m.map(x,UsuarioListDTO.class);
+            if(x.getUsuario() != null){
+                UsuarioListDTO usuarioDTO = m.map(x.getUsuario(),UsuarioListDTO.class);
                 dto.setUsuario(usuarioDTO);
             }
             return dto;
