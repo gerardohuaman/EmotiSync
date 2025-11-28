@@ -26,19 +26,16 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
     public List<Usuario> buscarFamiliares();
 
     @Query(value = "SELECT \n" +
-            "        e.id_usuario as especialista_id,\n" +
-            "        e.nombre as especialista_nombre,\n" +
-            "        e.apellido as especialista_apellido,\n" +
-            "        e.especialidad,\n" +
-            "        COUNT(DISTINCT p.id_usuario) as cantidad_pacientes\n" +
-            "    FROM usuario e\n" +
-            "    INNER JOIN usuario_roles er ON e.id_usuario = er.id_usuario\n" +
-            "    INNER JOIN roles r ON er.id_rol = r.id_rol\n" +
-            "    LEFT JOIN usuario p ON p.especialista_id = e.id_usuario\n" +
-            "    WHERE r.rol = 'ESPECIALISTA'\n" +
-            "    GROUP BY e.id_usuario, e.nombre, e.apellido, e.especialidad\n" +
-            "    ORDER BY cantidad_pacientes DESC", nativeQuery = true)
-    public List<String[]> cantidadDePacientesPorEspecialista();
+            "    e.especialidad as especialidad,\n" +
+            "    COUNT(DISTINCT p.id_usuario) as cantidad_pacientes\n" +
+            "FROM usuario e\n" +
+            "INNER JOIN usuario_roles er ON e.id_usuario = er.id_usuario\n" +
+            "INNER JOIN roles r ON er.id_rol = r.id_rol\n" +
+            "LEFT JOIN usuario p ON p.especialista_id = e.id_usuario\n" +
+            "WHERE r.rol = 'ESPECIALISTA'\n" +
+            "GROUP BY e.especialidad\n" +
+            "ORDER BY cantidad_pacientes DESC", nativeQuery = true)
+    public List<String[]> cantidadDePacientesPorEspecialidad();
 
     @Modifying
     @Transactional

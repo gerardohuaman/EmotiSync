@@ -6,9 +6,9 @@ public class UsuarioEjercicioDTO {
 
     private int idUsuarioEjercicio;
 
-    private int usuarioIdUsuario;
+    private UsuarioListDTO usuario;
 
-    private int  ejercicioIdEjercicio;
+    private EjercicioDTO  ejercicio;
 
     private LocalDate fechaRealizacion;
 
@@ -22,20 +22,21 @@ public class UsuarioEjercicioDTO {
         this.idUsuarioEjercicio = idUsuarioEjercicio;
     }
 
-    public int getUsuarioIdUsuario() {
-        return usuarioIdUsuario;
+
+    public UsuarioListDTO getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioIdUsuario(int usuarioIdUsuario) {
-        this.usuarioIdUsuario = usuarioIdUsuario;
+    public void setUsuario(UsuarioListDTO usuario) {
+        this.usuario = usuario;
     }
 
-    public int getEjercicioIdEjercicio() {
-        return ejercicioIdEjercicio;
+    public EjercicioDTO getEjercicio() {
+        return ejercicio;
     }
 
-    public void setEjercicioIdEjercicio(int ejercicioIdEjercicio) {
-        this.ejercicioIdEjercicio = ejercicioIdEjercicio;
+    public void setEjercicio(EjercicioDTO ejercicio) {
+        this.ejercicio = ejercicio;
     }
 
     public LocalDate getFechaRealizacion() {

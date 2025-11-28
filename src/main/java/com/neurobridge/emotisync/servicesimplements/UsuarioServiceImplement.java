@@ -60,8 +60,8 @@ public class UsuarioServiceImplement implements IUsuarioService {
     }
 
     @Override
-    public List<String[]> cantidadDePacientesPorEspecialista() {
-        return uS.cantidadDePacientesPorEspecialista();
+    public List<String[]> cantidadDePacientesPorEspecialidad() {
+        return uS.cantidadDePacientesPorEspecialidad();
     }
 
     @Override
