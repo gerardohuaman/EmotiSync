@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/ejercicios")
 public class EjercicioController {
     @Autowired
@@ -22,7 +22,7 @@ public class EjercicioController {
     private IEjercicioService eS;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public List<EjercicioDTO>listar(){
         return eS.getEjercicios().stream().map(x->{
             ModelMapper m = new ModelMapper();

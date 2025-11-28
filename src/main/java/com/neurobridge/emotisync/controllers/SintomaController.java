@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("isAuthenticated()")
 @RequestMapping("/sintomas")
 public class SintomaController {
     @Autowired

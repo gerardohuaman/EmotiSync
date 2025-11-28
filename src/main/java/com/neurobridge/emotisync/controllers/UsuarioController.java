@@ -5,11 +5,13 @@ import com.neurobridge.emotisync.entities.Rol;
 import com.neurobridge.emotisync.entities.Usuario;
 import com.neurobridge.emotisync.servicesinterfaces.IRolService;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuarioService;
+import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,7 +20,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarios")
-@PreAuthorize("hasAuthority('ADMIN')")
 public class UsuarioController {
     @Autowired
     private IUsuarioService uS;
@@ -26,7 +27,11 @@ public class UsuarioController {
     @Autowired
     private IRolService rS;
 
+    @Autowired
+    private PasswordEncoder pE;
+
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public List<UsuarioListDTO>listarUsuarios(){
         return uS.getUsuarios().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -64,7 +69,8 @@ public class UsuarioController {
         ModelMapper m = new ModelMapper();
         Usuario usuario = m.map(u, Usuario.class);
 
-        // Buscar y asignar los roles
+        usuario.setPassword(pE.encode(u.getPassword()));
+
         if (u.getRoles() != null && !u.getRoles().isEmpty()) {
             List<Rol> rolesAsignados = new ArrayList<>();
             for (Rol rol : u.getRoles()) {
@@ -80,6 +86,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Usuario s = uS.listId(id);
         if (s == null) {
@@ -92,6 +99,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Usuario s = uS.listId(id);
         if (s == null) {
@@ -103,6 +111,7 @@ public class UsuarioController {
     }
 
     @PutMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> modificar(@RequestBody UsuarioInsertDTO dto) {
         Usuario existente = uS.listId(dto.getIdUsuario());
         if (existente == null) {
@@ -181,6 +190,7 @@ public class UsuarioController {
 
 
     @GetMapping("/pacientesPorMedico")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> buscarPacientePorMedico(@RequestParam String email) {
         List<Usuario> usuarios = uS.buscarPacientesPorMedico(email);
 
@@ -198,6 +208,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/totalPacientesPorEspecialista")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> totalPacientesPorEspecialista(){
         List<String[]> total = uS.cantidadDePacientesPorEspecialista();
         List<TotalPacienteDTO> dtoList = new ArrayList<>();
@@ -212,5 +223,31 @@ public class UsuarioController {
             dtoList.add(dto);
         }
         return ResponseEntity.ok(dtoList);
+    }
+
+    @PostMapping("/solicitar-rol")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> solicitarCambioRol(@RequestParam SolicitudCambioRolDTO solicitud) {
+        Usuario u = uS.listId(solicitud.getIdUsuario());
+        if(u == null) return ResponseEntity.badRequest().body("Usuario no encontrado");
+
+        if("ESPECIALISTA". equals(solicitud.nuevoRol)) {
+            if(solicitud.datoExtra == null || solicitud.datoExtra.isEmpty()) {
+                return ResponseEntity.badRequest().body("El nro de Colegiatura es obligatoria para especialistas");
+
+            }
+            try {
+                u.setNroColegiatura(Integer.parseInt(solicitud.datoExtra));
+            } catch (NumberFormatException e) {
+                return ResponseEntity.badRequest().body("El nro de Colegiatura debe ser numerico");
+            }
+            u.setRolSolicitado("ESPECIALISTA");
+        }
+        else if ("FAMILIAR".equals(solicitud.nuevoRol)) {
+            u.setRolSolicitado("FAMILIAR");
+        }
+
+        uS.update(u);
+        return ResponseEntity.ok("Solicitud enviada correctamente. Pendiente de aprobacion.");
     }
 }

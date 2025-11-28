@@ -12,6 +12,7 @@ public class RecursoDTO {
     private Integer creadorId;
     private Integer destinatarioId;
     private boolean esPublico;
+    private String nombreCreador;
 
     // Getters y Setters
     public Integer getId() { return id; }
@@ -40,4 +41,12 @@ public class RecursoDTO {
 
     public boolean isEsPublico() { return esPublico; }
     public void setEsPublico(boolean esPublico) { this.esPublico = esPublico; }
+
+    public String getNombreCreador() {
+        return nombreCreador;
+    }
+
+    public void setNombreCreador(String nombreCreador) {
+        this.nombreCreador = nombreCreador;
+    }
 }

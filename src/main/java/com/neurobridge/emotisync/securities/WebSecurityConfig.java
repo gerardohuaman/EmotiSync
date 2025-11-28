@@ -112,11 +112,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/sintoma").permitAll()
-                        //borrar\
-                        .requestMatchers("/usuarios/**").permitAll()
-                        .requestMatchers("/roles/**").permitAll()
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/usuarios").permitAll()
                         //Para usar swagger
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/swagger-ui.html").permitAll()

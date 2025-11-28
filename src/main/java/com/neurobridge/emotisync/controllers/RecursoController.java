@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/recursos")
 public class RecursoController {
     @Autowired
@@ -28,10 +28,9 @@ public class RecursoController {
         return rService.list().stream().map(r -> {
             ModelMapper m = new ModelMapper();
             RecursoDTO dto = m.map(r, RecursoDTO.class);
-
-            // usar idUsuario en vez de id
             dto.setCreadorId(r.getCreador().getIdUsuario());
             dto.setDestinatarioId(r.getDestinatario().getIdUsuario());
+            dto.setNombreCreador(r.getCreador().getUsername());
 
             return dto;
         }).collect(Collectors.toList());
@@ -41,6 +40,8 @@ public class RecursoController {
     public ResponseEntity<String> insertar(@RequestBody RecursoDTO dto) {
         ModelMapper m = new ModelMapper();
         Recurso r = m.map(dto, Recurso.class);
+
+        r.setId(null);
 
         // setear relaciones con Usuario usando idUsuario
         Usuario creador = new Usuario();

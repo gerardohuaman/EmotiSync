@@ -7,7 +7,15 @@ public class AlertasDTOList {
     private String  tipo_alerta;
     private String  mensaje;
     private int  nivel_alerta;
+    private UsuarioListDTO usuario;
 
+    public UsuarioListDTO getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioListDTO usuario) {
+        this.usuario = usuario;
+    }
 
     public int getIdAlerta() {
         return idAlerta;

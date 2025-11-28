@@ -44,6 +44,9 @@ public class Usuario {
     @Column(length = 30, unique = true)
     private String username;
 
+    @Column(name = "rol_solicitado", length = 20)
+    private String rolSolicitado;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "especialistaId")
     private Usuario especialista;
@@ -78,7 +81,7 @@ public class Usuario {
 
     public Usuario() {}
 
-    public Usuario(int idUsuario, String nombre, String apellido, String email, String password, String telefono, LocalDate fechaNacimiento, String institucion, Integer nroColegiatura, String especialidad, String username, Usuario especialista, List<Usuario> pacientes, Usuario familiar, List<Usuario> dependientes, Boolean enabled, List<Rol> roles, List<Diario> diarios, List<Crisis> crisis) {
+    public Usuario(int idUsuario, String nombre, String apellido, String email, String password, String telefono, LocalDate fechaNacimiento, String institucion, Integer nroColegiatura, String especialidad, String username, String rolSolicitado, Usuario especialista, List<Usuario> pacientes, Usuario familiar, List<Usuario> dependientes, Boolean enabled, List<Rol> roles, List<Diario> diarios, List<Crisis> crisis) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -90,6 +93,7 @@ public class Usuario {
         this.nroColegiatura = nroColegiatura;
         this.especialidad = especialidad;
         this.username = username;
+        this.rolSolicitado = rolSolicitado;
         this.especialista = especialista;
         this.pacientes = pacientes;
         this.familiar = familiar;
@@ -250,5 +254,13 @@ public class Usuario {
 
     public void setCrisis(List<Crisis> crisis) {
         this.crisis = crisis;
+    }
+
+    public String getRolSolicitado() {
+        return rolSolicitado;
+    }
+
+    public void setRolSolicitado(String rolSolicitado) {
+        this.rolSolicitado = rolSolicitado;
     }
 }
