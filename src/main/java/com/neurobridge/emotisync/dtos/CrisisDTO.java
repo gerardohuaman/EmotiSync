@@ -9,7 +9,7 @@ public class CrisisDTO {
     //private int idUsuario;
     //private Usuario usuario;
     //private UsuarioListDTO usuarioListDTO;
-    private UsuarioListDTO usuario;
+    private Usuario idUsuario;
     private LocalDate fecha;
     private float tiempoRespuesta;
     private float ritmo;
@@ -17,12 +17,12 @@ public class CrisisDTO {
     private float f0_promedio;
     private String formantesDetectados;
 
-    public UsuarioListDTO getUsuario() {
-        return usuario;
+    public Usuario getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(UsuarioListDTO usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public int getIdCrisis() {

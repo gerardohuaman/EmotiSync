@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("isAuthenticated()")
 @RequestMapping("/sintomas")
 public class SintomaController {
     @Autowired
@@ -85,6 +84,35 @@ public class SintomaController {
     @GetMapping("/existe/{nombre}")
     public boolean existePorNombre(@PathVariable String nombre) {
         return sService.existePorNombre(nombre);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listId(@PathVariable("id") Integer id) {
+        Sintoma s = sService.listId(id);
+        if (s == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un síntoma con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        SintomaDTO dto = m.map(s, SintomaDTO.class);
+        return ResponseEntity.ok(dto);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<String> modificar(@PathVariable Integer id, @RequestBody SintomaDTO dto) {
+        Sintoma existente = sService.listId(id);
+
+        if (existente == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se puede modificar: no existe el ID " + id);
+        }
+
+        ModelMapper m = new ModelMapper();
+        Sintoma s = m.map(dto, Sintoma.class);
+        s.setId(id); // asegura que se actualice el correcto
+
+        sService.update(s);
+
+        return ResponseEntity.ok("Síntoma modificado correctamente");
     }
 
 }

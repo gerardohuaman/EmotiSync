@@ -33,6 +33,7 @@ public class UsuarioController {
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public List<UsuarioListDTO>listarUsuarios(){
+
         return uS.getUsuarios().stream().map(x->{
             ModelMapper m = new ModelMapper();
             return m.map(x, UsuarioListDTO.class);
@@ -68,20 +69,17 @@ public class UsuarioController {
 
         ModelMapper m = new ModelMapper();
         Usuario usuario = m.map(u, Usuario.class);
-
         usuario.setPassword(pE.encode(u.getPassword()));
-
         if (u.getRoles() != null && !u.getRoles().isEmpty()) {
             List<Rol> rolesAsignados = new ArrayList<>();
-            for (Rol rol : u.getRoles()) {
-                Rol rolEncontrado = rS.findById(rol.getIdRol());
-                if (rolEncontrado != null) {
-                    rolesAsignados.add(rolEncontrado);
+            for (Rol rolDto : u.getRoles()) {
+                Rol rolEncontrado = rS.findById(rolDto.getIdRol());
+                    if (rolEncontrado != null) {
+                        rolesAsignados.add(rolEncontrado);
                 }
             }
             usuario.setRoles(rolesAsignados);
         }
-
         uS.insert(usuario);
     }
 
@@ -93,6 +91,7 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe un registro con el ID: " + id);
         }
+
         ModelMapper m = new ModelMapper();
         UsuarioListDTO dto = m.map(s, UsuarioListDTO.class);
         return ResponseEntity.ok(dto);
@@ -119,60 +118,8 @@ public class UsuarioController {
                     .body("No se puede modificar. No existe un registro con el ID: " + dto.getIdUsuario());
         }
 
-        if (dto.getNombre() != null && !dto.getNombre().isEmpty()) {
-            existente.setNombre(dto.getNombre());
-        }
-
-        if (dto.getApellido() != null && !dto.getApellido().isEmpty()) {
-            existente.setApellido(dto.getApellido());
-        }
-
-        if (dto.getEmail() != null && !dto.getEmail().isEmpty()) {
-            existente.setEmail(dto.getEmail());
-        }
-
-        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
-            existente.setPassword(dto.getPassword());
-        }
-
-        if (dto.getTelefono() != null && !dto.getTelefono().isEmpty()) {
-            existente.setTelefono(dto.getTelefono());
-        }
-
-        if (dto.getFechaNacimiento() != null) {
-            existente.setFechaNacimiento(dto.getFechaNacimiento());
-        }
-
-        if (dto.getInstitucion() != null) {
-            existente.setInstitucion(dto.getInstitucion());
-        }
-
-        if (dto.getNroColegiatura() != null) {
-            existente.setNroColegiatura(dto.getNroColegiatura());
-        }
-
-        if (dto.getEspecialidad() != null) {
-            existente.setEspecialidad(dto.getEspecialidad());
-        }
-
-        if (dto.getUsername() != null && !dto.getUsername().isEmpty()) {
-            existente.setUsername(dto.getUsername());
-        }
-
-        if (dto.getEnabled() != null) {
-            existente.setEnabled(dto.getEnabled());
-        }
-
-        if (dto.getEspecialista() != null && dto.getEspecialista().getIdUsuario() != 0) {
-            Usuario esp = uS.listId(dto.getEspecialista().getIdUsuario());
-            existente.setEspecialista(esp);
-        }
-
-        if (dto.getFamiliar() != null && dto.getFamiliar().getIdUsuario() != 0) {
-            Usuario fam = uS.listId(dto.getFamiliar().getIdUsuario());
-            existente.setFamiliar(fam);
-        }
-
+        ModelMapper m = new ModelMapper();
+        Usuario usuarioActualizado = m.map(dto, Usuario.class);
         if (dto.getRoles() != null && !dto.getRoles().isEmpty()) {
             List<Rol> rolesAsignados = new ArrayList<>();
             for (Rol rol : dto.getRoles()) {
@@ -181,10 +128,9 @@ public class UsuarioController {
                     rolesAsignados.add(rolEncontrado);
                 }
             }
-            existente.setRoles(rolesAsignados);
+            usuarioActualizado.setRoles(rolesAsignados);
         }
-
-        uS.update(existente);
+        uS.update(usuarioActualizado);
         return ResponseEntity.ok("Registro con ID " + dto.getIdUsuario() + " modificado correctamente.");
     }
 

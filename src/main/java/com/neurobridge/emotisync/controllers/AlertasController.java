@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/alertas")
-@PreAuthorize("isAuthenticated()")
+//@PreAuthorize("hasAuthority('ADMIN')")
 public class AlertasController {
     @Autowired
     private IAlertaService service;
