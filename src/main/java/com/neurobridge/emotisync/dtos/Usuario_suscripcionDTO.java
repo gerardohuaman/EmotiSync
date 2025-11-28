@@ -6,7 +6,7 @@ import com.neurobridge.emotisync.entities.Usuario;
 import java.time.LocalDate;
 public class Usuario_suscripcionDTO {
     private int idUsuarioSuscripcion;
-    private Usuario usuario;
+    private UsuarioListDTO usuario;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private String estado;
@@ -44,11 +44,11 @@ public class Usuario_suscripcionDTO {
         this.estado = estado;
     }
 
-    public Usuario getUsuario() {
+    public UsuarioListDTO getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(UsuarioListDTO usuario) {
         this.usuario = usuario;
     }
 
