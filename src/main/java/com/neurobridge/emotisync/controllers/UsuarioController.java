@@ -156,14 +156,11 @@ public class UsuarioController {
     @GetMapping("/totalPacientesPorEspecialista")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> totalPacientesPorEspecialista(){
-        List<String[]> total = uS.cantidadDePacientesPorEspecialista();
+        List<String[]> total = uS.cantidadDePacientesPorEspecialidad();
         List<TotalPacienteDTO> dtoList = new ArrayList<>();
 
         for (String[] columna : total) {
             TotalPacienteDTO dto = new TotalPacienteDTO();
-            dto.setId(Integer.parseInt(columna[0]));
-            dto.setNombre(columna[1]);
-            dto.setApellido(columna[2]);
             dto.setEspecialidad(columna[3]);
             dto.setCantidadPacientes(Integer.parseInt(columna[4]));
             dtoList.add(dto);
