@@ -69,7 +69,6 @@ public class UsuarioController {
 
         ModelMapper m = new ModelMapper();
         Usuario usuario = m.map(u, Usuario.class);
-        usuario.setPassword(pE.encode(u.getPassword()));
         if (u.getRoles() != null && !u.getRoles().isEmpty()) {
             List<Rol> rolesAsignados = new ArrayList<>();
             for (Rol rolDto : u.getRoles()) {
