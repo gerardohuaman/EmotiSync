@@ -17,9 +17,6 @@ public class UsuarioServiceImplement implements IUsuarioService {
     @Autowired
     private PasswordEncoder pE;
 
-    @Autowired
-    private JwtUserDetailsService userDetailsService;
-
     @Override
     public List<Usuario> getUsuarios() {
         return uS.findAll();
