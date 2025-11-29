@@ -28,22 +28,23 @@ public class CrisisSintomaController {
         return csService.list().stream().map(cs -> {
             CrisisSintomaDTO dto = new CrisisSintomaDTO();
             dto.setId(cs.getId());
-            dto.setCrisisId(cs.getCrisis().getIdCrisis());   // usar getIdCrisis()
-            dto.setSintomaId(cs.getSintoma().getId());       // usar getId()
             dto.setSever(cs.getSever());
             dto.setObservacion(cs.getObservacion());
             dto.setNotas(cs.getNotas());
+            dto.setCrisis(cs.getCrisis());
+            dto.setSintoma(cs.getSintoma());
             return dto;
         }).collect(Collectors.toList());
     }
 
     @PostMapping
     public ResponseEntity<String> insertar(@RequestBody CrisisSintomaDTO dto) {
+
         Crisis crisis = new Crisis();
-        crisis.setIdCrisis(dto.getCrisisId());   // aquí corregido
+        crisis.setIdCrisis(dto.getCrisis().getIdCrisis());
 
         Sintoma sintoma = new Sintoma();
-        sintoma.setId(dto.getSintomaId());       // aquí está bien
+        sintoma.setId(dto.getSintoma().getId());
 
         CrisisSintoma cs = new CrisisSintoma();
         cs.setCrisis(crisis);
@@ -57,6 +58,24 @@ public class CrisisSintomaController {
                 .body("Relación Crisis-Síntoma creada correctamente");
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        CrisisSintoma cs = csService.listId(id);
+        if (cs == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe el registro con el ID: " + id);
+        }
+        CrisisSintomaDTO dto = new CrisisSintomaDTO();
+        dto.setId(cs.getId());
+        dto.setSever(cs.getSever());
+        dto.setObservacion(cs.getObservacion());
+        dto.setNotas(cs.getNotas());
+        dto.setCrisis(cs.getCrisis());
+        dto.setSintoma(cs.getSintoma());
+
+        return ResponseEntity.ok(dto);
+    }
+
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody CrisisSintomaDTO dto) {
         CrisisSintoma existente = csService.listId(dto.getId());
@@ -65,14 +84,17 @@ public class CrisisSintomaController {
                     .body("No se puede modificar: no existe el ID " + dto.getId());
         }
 
-        Crisis crisis = new Crisis();
-        crisis.setIdCrisis(dto.getCrisisId());
+        if(dto.getCrisis() != null) {
+            Crisis c = new Crisis();
+            c.setIdCrisis(dto.getCrisis().getIdCrisis());
+            existente.setCrisis(c);
+        }
+        if(dto.getSintoma() != null) {
+            Sintoma s = new Sintoma();
+            s.setId(dto.getSintoma().getId());
+            existente.setSintoma(s);
+        }
 
-        Sintoma sintoma = new Sintoma();
-        sintoma.setId(dto.getSintomaId());
-
-        existente.setCrisis(crisis);
-        existente.setSintoma(sintoma);
         existente.setSever(dto.getSever());
         existente.setObservacion(dto.getObservacion());
         existente.setNotas(dto.getNotas());
@@ -83,12 +105,12 @@ public class CrisisSintomaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
+
         CrisisSintoma cs = csService.listId(id);
         if (cs == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró una relación crisis-síntoma con ID: " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No encontrado");
         }
         csService.delete(id);
-        return ResponseEntity.ok("Relación Crisis-Síntoma eliminada correctamente");
+        return ResponseEntity.ok("Eliminado correctamente");
     }
 }
