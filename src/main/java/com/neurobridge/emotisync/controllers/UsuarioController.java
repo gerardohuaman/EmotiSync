@@ -160,8 +160,8 @@ public class UsuarioController {
 
         for (String[] columna : total) {
             TotalPacienteDTO dto = new TotalPacienteDTO();
-            dto.setEspecialidad(columna[3]);
-            dto.setCantidadPacientes(Integer.parseInt(columna[4]));
+            dto.setEspecialidad(columna[0]);
+            dto.setCantidadPacientes(Integer.parseInt(columna[1]));
             dtoList.add(dto);
         }
         return ResponseEntity.ok(dtoList);
