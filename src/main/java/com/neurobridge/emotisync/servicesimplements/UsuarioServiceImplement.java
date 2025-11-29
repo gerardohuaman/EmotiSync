@@ -4,6 +4,7 @@ import com.neurobridge.emotisync.entities.Usuario;
 import com.neurobridge.emotisync.repositories.IUsuarioRepository;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class UsuarioServiceImplement implements IUsuarioService {
     @Autowired
     private PasswordEncoder pE;
 
+    @Autowired
+    private JwtUserDetailsService userDetailsService;
+
     @Override
     public List<Usuario> getUsuarios() {
         return uS.findAll();
@@ -30,8 +34,6 @@ public class UsuarioServiceImplement implements IUsuarioService {
 
     @Override
     public void insert(Usuario usuario) {
-        String passwordEncriptada = pE.encode(usuario.getPassword());
-        usuario.setPassword(passwordEncriptada);
         uS.save(usuario);
     }
 
