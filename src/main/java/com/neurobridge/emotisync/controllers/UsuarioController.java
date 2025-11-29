@@ -69,7 +69,6 @@ public class UsuarioController {
 
         ModelMapper m = new ModelMapper();
         Usuario usuario = m.map(u, Usuario.class);
-        usuario.setPassword(pE.encode(u.getPassword()));
         if (u.getRoles() != null && !u.getRoles().isEmpty()) {
             List<Rol> rolesAsignados = new ArrayList<>();
             for (Rol rolDto : u.getRoles()) {
@@ -168,29 +167,4 @@ public class UsuarioController {
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/solicitar-rol")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<String> solicitarCambioRol(@RequestParam SolicitudCambioRolDTO solicitud) {
-        Usuario u = uS.listId(solicitud.getIdUsuario());
-        if(u == null) return ResponseEntity.badRequest().body("Usuario no encontrado");
-
-        if("ESPECIALISTA". equals(solicitud.nuevoRol)) {
-            if(solicitud.datoExtra == null || solicitud.datoExtra.isEmpty()) {
-                return ResponseEntity.badRequest().body("El nro de Colegiatura es obligatoria para especialistas");
-
-            }
-            try {
-                u.setNroColegiatura(Integer.parseInt(solicitud.datoExtra));
-            } catch (NumberFormatException e) {
-                return ResponseEntity.badRequest().body("El nro de Colegiatura debe ser numerico");
-            }
-            u.setRolSolicitado("ESPECIALISTA");
-        }
-        else if ("FAMILIAR".equals(solicitud.nuevoRol)) {
-            u.setRolSolicitado("FAMILIAR");
-        }
-
-        uS.update(u);
-        return ResponseEntity.ok("Solicitud enviada correctamente. Pendiente de aprobacion.");
-    }
 }
