@@ -160,36 +160,11 @@ public class UsuarioController {
 
         for (String[] columna : total) {
             TotalPacienteDTO dto = new TotalPacienteDTO();
-            dto.setEspecialidad(columna[3]);
-            dto.setCantidadPacientes(Integer.parseInt(columna[4]));
+            dto.setEspecialidad(columna[0]);
+            dto.setCantidadPacientes(Integer.parseInt(columna[1]));
             dtoList.add(dto);
         }
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/solicitar-rol")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<String> solicitarCambioRol(@RequestParam SolicitudCambioRolDTO solicitud) {
-        Usuario u = uS.listId(solicitud.getIdUsuario());
-        if(u == null) return ResponseEntity.badRequest().body("Usuario no encontrado");
-
-        if("ESPECIALISTA". equals(solicitud.nuevoRol)) {
-            if(solicitud.datoExtra == null || solicitud.datoExtra.isEmpty()) {
-                return ResponseEntity.badRequest().body("El nro de Colegiatura es obligatoria para especialistas");
-
-            }
-            try {
-                u.setNroColegiatura(Integer.parseInt(solicitud.datoExtra));
-            } catch (NumberFormatException e) {
-                return ResponseEntity.badRequest().body("El nro de Colegiatura debe ser numerico");
-            }
-            u.setRolSolicitado("ESPECIALISTA");
-        }
-        else if ("FAMILIAR".equals(solicitud.nuevoRol)) {
-            u.setRolSolicitado("FAMILIAR");
-        }
-
-        uS.update(u);
-        return ResponseEntity.ok("Solicitud enviada correctamente. Pendiente de aprobacion.");
-    }
 }
