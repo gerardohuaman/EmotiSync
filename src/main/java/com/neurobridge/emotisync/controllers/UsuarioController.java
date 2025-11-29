@@ -64,7 +64,7 @@ public class UsuarioController {
         }).collect(Collectors.toList());
     }
 
-    @PostMapping
+    @PostMapping("/registrar")
     public void insertar(@RequestBody UsuarioInsertDTO u){
 
         ModelMapper m = new ModelMapper();
