@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface IRecursoRepository extends JpaRepository<Recurso, Integer> {
 
+    List<Recurso> findByCreador_Username(String username);
+
     @Query("SELECT CASE WHEN COUNT(r) > 0 THEN TRUE ELSE FALSE END " +
             "FROM Recurso r " +
             "WHERE r.creador.idUsuario = :creadorId AND r.destinatario.idUsuario = :destinatarioId")

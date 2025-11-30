@@ -11,6 +11,8 @@ import java.util.List;
 
 @Repository
 public interface ICrisisRepository extends JpaRepository<Crisis, Integer> {
+    List<Crisis> findByUsuario_Username(String username);
+
     //queries
     @Query("select c from Crisis c where c.ritmo = :ritmo")
     public List<Crisis> buscarPorRitmo(@Param("ritmo") float ritmo);

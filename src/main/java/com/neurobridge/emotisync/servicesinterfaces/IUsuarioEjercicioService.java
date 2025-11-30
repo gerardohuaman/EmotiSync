@@ -12,4 +12,6 @@ public interface IUsuarioEjercicioService {
     public void update(UsuarioEjercicio usuarioEjercicio);
     public void delete(int id);
     public List<String[]> ejerciciosRealizadosPorUsuario();
+
+    public List<UsuarioEjercicio> listarPorUsuario(String username);
 }

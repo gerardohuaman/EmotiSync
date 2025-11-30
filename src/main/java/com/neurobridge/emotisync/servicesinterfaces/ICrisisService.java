@@ -16,6 +16,7 @@ public interface ICrisisService {
 
     //extra
     public Crisis listId(int id);
+    public List<Crisis> listarPorUsuario(String username);
 
     //queries
     public List<Crisis> buscarPorRitmo(float ritmo);

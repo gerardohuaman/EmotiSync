@@ -17,4 +17,5 @@ public interface IUsuario_suscripcionService {
     public List<String[]> buscarPorEmail(String email);
     public List<String[]> buscarPorIdPlanesSuscripcion();
     public List<String[]> buscarPlanesMenosSuscriptoresActivos();
+    List<Usuario_suscripcion> listarPorUsuario(String username);
 }

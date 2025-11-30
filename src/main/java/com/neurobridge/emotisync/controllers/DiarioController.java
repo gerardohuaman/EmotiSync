@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/diarios")
+@PreAuthorize("isAuthenticated()")
 public class DiarioController {
     @Autowired
     private IDiarioService diarioService;
@@ -92,7 +92,7 @@ public class DiarioController {
         s.setEmociones(e);
         s.setUsuario(user);
         diarioService.update(s);
-        return ResponseEntity.ok("Registro con ID " + s.getIdDiario() + " modificado correctamente.");
+        return ResponseEntity.ok("Modificado correctamente.");
     }
 
 }

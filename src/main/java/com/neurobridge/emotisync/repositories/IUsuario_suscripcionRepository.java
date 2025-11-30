@@ -10,6 +10,8 @@ import java.util.List;
 
 @Repository
 public interface IUsuario_suscripcionRepository extends JpaRepository<Usuario_suscripcion, Integer> {
+    List<Usuario_suscripcion> findByUsuario_Username(String username);
+
     @Query("Select u from Usuario_suscripcion u where u.estado like %:nEstado%")
     public List<Usuario_suscripcion> buscar(@Param("nEstado") String nEstado);
 

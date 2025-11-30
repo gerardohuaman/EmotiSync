@@ -10,4 +10,5 @@ public interface IDiarioService {
     Diario listId(int id);
     void delete(int id);
     void update(Diario diario);
+    List<Diario> listarPorUsuario(String username);
 }

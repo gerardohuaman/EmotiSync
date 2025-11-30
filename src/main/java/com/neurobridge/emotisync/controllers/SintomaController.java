@@ -20,6 +20,7 @@ public class SintomaController {
     private ISintomaService sService;
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public List<SintomaDTO> listar() {
         return sService.list().stream().map(s -> {
             ModelMapper m = new ModelMapper();
@@ -28,6 +29,7 @@ public class SintomaController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
     public ResponseEntity<String> insertar(@RequestBody SintomaDTO dto) {
         ModelMapper m = new ModelMapper();
         Sintoma s = m.map(dto, Sintoma.class);
@@ -37,6 +39,7 @@ public class SintomaController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
     public ResponseEntity<String> modificar(@RequestBody SintomaDTO dto) {
         Sintoma existente = sService.listId(dto.getId());
         if (existente == null) {
@@ -50,6 +53,7 @@ public class SintomaController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Sintoma s = sService.listId(id);
         if (s == null) {
@@ -62,6 +66,7 @@ public class SintomaController {
 
     // ---- Búsqueda ----
     @GetMapping("/buscar-nombre/{nombre}")
+    @PreAuthorize("isAuthenticated()")
     public List<SintomaDTO> buscarPorNombre(@PathVariable String nombre) {
         return sService.buscarPorNombre(nombre).stream()
                 .map(s -> new ModelMapper().map(s, SintomaDTO.class))
@@ -69,6 +74,7 @@ public class SintomaController {
     }
 
     @GetMapping("/buscar-descripcion/{desc}")
+    @PreAuthorize("isAuthenticated()")
     public List<SintomaDTO> buscarPorDescripcion(@PathVariable String desc) {
         return sService.buscarPorDescripcion(desc).stream()
                 .map(s -> new ModelMapper().map(s, SintomaDTO.class))
