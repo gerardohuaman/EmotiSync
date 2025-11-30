@@ -1,7 +1,6 @@
 package com.neurobridge.emotisync.controllers;
 
 import com.neurobridge.emotisync.dtos.*;
-import com.neurobridge.emotisync.entities.Ejercicio;
 import com.neurobridge.emotisync.entities.Usuario;
 import com.neurobridge.emotisync.entities.Usuario_suscripcion;
 import com.neurobridge.emotisync.repositories.IUsuarioRepository;
@@ -41,7 +40,7 @@ public class Usuario_suscripcionController {
         if (isAdmin) {
             lista = uS.list();
         } else {
-            lista = uS.listarPorUsuario(username); // Paciente ve solo SU suscripción
+            lista = uS.listarPorUsuario(username);
         }
 
         return lista.stream().map(x -> {
@@ -58,22 +57,37 @@ public class Usuario_suscripcionController {
     @PostMapping
     public ResponseEntity<String> insertar(@RequestBody Usuario_suscripcion u) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
 
-        // 1. Buscar quién se está suscribiendo
-        Usuario usuarioLogueado = usuarioRepository.findOneByUsername(auth.getName());
-        if (usuarioLogueado == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        // Verificar si es ADMIN
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
 
-        // 2. FORZAR ASIGNACIÓN: El usuario del token es el dueño de la suscripción
-        u.setUsuario(usuarioLogueado);
+        if (isAdmin) {
+            // CASO 1: Es ADMIN
+            // Respetamos el usuario que viene del formulario (u.getUsuario())
+            // Solo verificamos que no sea nulo
+            if (u.getUsuario() == null || u.getUsuario().getIdUsuario() == 0) {
+                return ResponseEntity.badRequest().body("Debe seleccionar un usuario");
+            }
+        } else {
+            // CASO 2: Es PACIENTE/NORMAL
+            // Forzamos que la suscripción sea para él mismo
+            Usuario usuarioLogueado = usuarioRepository.findOneByUsername(username);
+            if (usuarioLogueado == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            u.setUsuario(usuarioLogueado);
+        }
 
-        // 3. Lógica de Negocio (Opcional pero recomendada)
-        // Por defecto, una nueva suscripción arranca hoy y está activa
+        // Lógica de fechas por defecto
         if (u.getFechaInicio() == null) u.setFechaInicio(LocalDate.now());
-        // u.setEstado("Activo");
 
         uS.insert(u);
         return ResponseEntity.ok("Suscripción realizada con éxito");
     }
+
+    // ... (MANTÉN EL RESTO DE MÉTODOS IGUAL: buscarActivos, buscarPorEmail, etc.) ...
+    // Solo asegúrate de copiar el resto del archivo si lo tenías,
+    // pero la corrección clave está en el método insertar() de arriba.
 
     @GetMapping("/usuarioActivoQuery")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -109,8 +123,6 @@ public class Usuario_suscripcionController {
         }
         return dtoList;
     }
-
-
 
     @GetMapping("/planRendimientoQuery")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -174,8 +186,13 @@ public class Usuario_suscripcionController {
                     .body("No existe el registro ID: " + userSus.getIdUsuarioSuscripcion());
         }
 
-        // Mantener el usuario original para evitar que el admin lo reasigne por error
-        userSus.setUsuario(existente.getUsuario());
+        // Si soy Admin, permito cambiar el usuario. Si no, mantengo el original.
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"));
+
+        if (!isAdmin) {
+            userSus.setUsuario(existente.getUsuario());
+        }
 
         uS.update(userSus);
         return ResponseEntity.ok("Registro modificado correctamente.");
@@ -186,7 +203,6 @@ public class Usuario_suscripcionController {
         Usuario_suscripcion s = uS.listId(id);
         if (s == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe");
 
-        // Validación: Solo el dueño o admin pueden ver el detalle
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAdmin = auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"));
 
