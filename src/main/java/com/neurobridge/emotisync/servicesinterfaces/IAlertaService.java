@@ -20,4 +20,5 @@ public interface IAlertaService {
     List<AlertasBusquedaDTO> buscarAlertasPorNombreUsuario(String letra);
     List<UsuarioPromedioAlertasDTO> usuariosConPromedioAlertasAltas(double nivelCritico);
     List<UsuarioAlertaDTO> obtenerUsuariosConAlertasCriticas(int nivelCritico);
+    public List<Alertas> listarPorUsuario(String username);
 }

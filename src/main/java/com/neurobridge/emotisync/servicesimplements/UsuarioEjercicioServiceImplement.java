@@ -42,4 +42,9 @@ public class UsuarioEjercicioServiceImplement implements IUsuarioEjercicioServic
     public List<String[]> ejerciciosRealizadosPorUsuario() {
         return repository.ejerciciosPorUsuario();
     }
+
+    @Override
+    public List<UsuarioEjercicio> listarPorUsuario(String username) {
+        return repository.findByUsuario_Username(username);
+    }
 }

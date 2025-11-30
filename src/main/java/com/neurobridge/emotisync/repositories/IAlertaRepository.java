@@ -15,6 +15,8 @@ import java.util.List;
 
 @Repository
 public interface IAlertaRepository extends JpaRepository<Alertas, Integer>{
+    List<Alertas> findByUsuario_Username(String username);
+
     @Query("SELECT new com.neurobridge.emotisync.dtos.UsuarioAlertaCountDTO(u.idUsuario, u.nombre, COUNT(a)) " +
             "FROM Alertas a JOIN a.usuario u " +
             "GROUP BY u.idUsuario, u.nombre")

@@ -60,5 +60,10 @@ public class RecursoServiceImplement implements IRecursoService {
         return lista;
     }
 
+    @Override
+    public List<Recurso> listarPorCreador(String username) {
+        return rRepo.findByCreador_Username(username);
+    }
+
 
 }
