@@ -5,11 +5,13 @@ import com.neurobridge.emotisync.entities.Rol;
 import com.neurobridge.emotisync.entities.Usuario;
 import com.neurobridge.emotisync.servicesinterfaces.IRolService;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuarioService;
+import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,7 +20,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarios")
-@PreAuthorize("hasAuthority('ADMIN')")
 public class UsuarioController {
     @Autowired
     private IUsuarioService uS;
@@ -26,8 +27,13 @@ public class UsuarioController {
     @Autowired
     private IRolService rS;
 
+    @Autowired
+    private PasswordEncoder pE;
+
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public List<UsuarioListDTO>listarUsuarios(){
+
         return uS.getUsuarios().stream().map(x->{
             ModelMapper m = new ModelMapper();
             return m.map(x, UsuarioListDTO.class);
@@ -58,40 +64,40 @@ public class UsuarioController {
         }).collect(Collectors.toList());
     }
 
-    @PostMapping
+    @PostMapping("/registrar")
     public void insertar(@RequestBody UsuarioInsertDTO u){
 
         ModelMapper m = new ModelMapper();
         Usuario usuario = m.map(u, Usuario.class);
-
-        // Buscar y asignar los roles
         if (u.getRoles() != null && !u.getRoles().isEmpty()) {
             List<Rol> rolesAsignados = new ArrayList<>();
-            for (Rol rol : u.getRoles()) {
-                Rol rolEncontrado = rS.findById(rol.getIdRol());
-                if (rolEncontrado != null) {
-                    rolesAsignados.add(rolEncontrado);
+            for (Rol rolDto : u.getRoles()) {
+                Rol rolEncontrado = rS.findById(rolDto.getIdRol());
+                    if (rolEncontrado != null) {
+                        rolesAsignados.add(rolEncontrado);
                 }
             }
             usuario.setRoles(rolesAsignados);
         }
-
         uS.insert(usuario);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Usuario s = uS.listId(id);
         if (s == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe un registro con el ID: " + id);
         }
+
         ModelMapper m = new ModelMapper();
         UsuarioListDTO dto = m.map(s, UsuarioListDTO.class);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Usuario s = uS.listId(id);
         if (s == null) {
@@ -103,19 +109,33 @@ public class UsuarioController {
     }
 
     @PutMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> modificar(@RequestBody UsuarioInsertDTO dto) {
-        ModelMapper m = new ModelMapper();
-        Usuario s = m.map(dto, Usuario.class);
-        Usuario existente = uS.listId(s.getIdUsuario());
+        Usuario existente = uS.listId(dto.getIdUsuario());
         if (existente == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se puede modificar. No existe un registro con el ID: " + s.getIdUsuario());
+                    .body("No se puede modificar. No existe un registro con el ID: " + dto.getIdUsuario());
         }
-        uS.update(s);
-        return ResponseEntity.ok("Registro con ID " + s.getIdUsuario() + " modificado correctamente.");
+
+        ModelMapper m = new ModelMapper();
+        Usuario usuarioActualizado = m.map(dto, Usuario.class);
+        if (dto.getRoles() != null && !dto.getRoles().isEmpty()) {
+            List<Rol> rolesAsignados = new ArrayList<>();
+            for (Rol rol : dto.getRoles()) {
+                Rol rolEncontrado = rS.findById(rol.getIdRol());
+                if (rolEncontrado != null) {
+                    rolesAsignados.add(rolEncontrado);
+                }
+            }
+            usuarioActualizado.setRoles(rolesAsignados);
+        }
+        uS.update(usuarioActualizado);
+        return ResponseEntity.ok("Registro con ID " + dto.getIdUsuario() + " modificado correctamente.");
     }
 
+
     @GetMapping("/pacientesPorMedico")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> buscarPacientePorMedico(@RequestParam String email) {
         List<Usuario> usuarios = uS.buscarPacientesPorMedico(email);
 
@@ -133,19 +153,18 @@ public class UsuarioController {
     }
 
     @GetMapping("/totalPacientesPorEspecialista")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> totalPacientesPorEspecialista(){
-        List<String[]> total = uS.cantidadDePacientesPorEspecialista();
+        List<String[]> total = uS.cantidadDePacientesPorEspecialidad();
         List<TotalPacienteDTO> dtoList = new ArrayList<>();
 
         for (String[] columna : total) {
             TotalPacienteDTO dto = new TotalPacienteDTO();
-            dto.setId(Integer.parseInt(columna[0]));
-            dto.setNombre(columna[1]);
-            dto.setApellido(columna[2]);
-            dto.setEspecialidad(columna[3]);
-            dto.setCantidadPacientes(Integer.parseInt(columna[4]));
+            dto.setEspecialidad(columna[0]);
+            dto.setCantidadPacientes(Integer.parseInt(columna[1]));
             dtoList.add(dto);
         }
         return ResponseEntity.ok(dtoList);
     }
+
 }

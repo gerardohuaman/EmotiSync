@@ -21,7 +21,7 @@ public interface IEmocionesRepository extends JpaRepository<Emociones, Integer> 
             "from crisis c\n" +
             "join emociones e on c.id_crisis = e.id_crisis\n" +
             "group by c.id_usuario\n" +
-            "having avg(e.intensidad) >= 5", nativeQuery = true)
+            "having avg(e.intensidad) >= 2.5", nativeQuery = true)
     public List<String[]> buscarPromedioEmocionesIntensidad();
 
     //holaaaa

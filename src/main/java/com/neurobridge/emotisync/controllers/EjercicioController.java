@@ -22,7 +22,7 @@ public class EjercicioController {
     private IEjercicioService eS;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     public List<EjercicioDTO>listar(){
         return eS.getEjercicios().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -74,7 +74,7 @@ public class EjercicioController {
     }
 
 
-    @GetMapping("/{nombre}")
+    @GetMapping("/busqueda/{nombre}")
     public ResponseEntity<?> ejerciciosPorNombre(@PathVariable String nombre) {
         List<Ejercicio> ejercicios = eS.buscarEjercicioPorNOmbre(nombre);
 

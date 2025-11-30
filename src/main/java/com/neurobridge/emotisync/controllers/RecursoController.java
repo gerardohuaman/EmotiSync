@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/recursos")
 public class RecursoController {
     @Autowired
@@ -28,29 +27,46 @@ public class RecursoController {
         return rService.list().stream().map(r -> {
             ModelMapper m = new ModelMapper();
             RecursoDTO dto = m.map(r, RecursoDTO.class);
-
-            // usar idUsuario en vez de id
             dto.setCreadorId(r.getCreador().getIdUsuario());
             dto.setDestinatarioId(r.getDestinatario().getIdUsuario());
-
+            dto.setNombreCreador(r.getCreador().getUsername());
             return dto;
         }).collect(Collectors.toList());
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Recurso r = rService.listId(id);
+        if (r == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un recurso con el ID: " + id);
+        }
+        // --- CÓDIGO ARREGLADO ---
+        ModelMapper m = new ModelMapper();
+        RecursoDTO dto = m.map(r, RecursoDTO.class);
+        // Ya no necesitas las líneas setCreadorId()
+        return ResponseEntity.ok(dto);
+    }
+
     @PostMapping
     public ResponseEntity<String> insertar(@RequestBody RecursoDTO dto) {
+
         ModelMapper m = new ModelMapper();
         Recurso r = m.map(dto, Recurso.class);
+        r.setId(null);
 
-        // setear relaciones con Usuario usando idUsuario
-        Usuario creador = new Usuario();
-        creador.setIdUsuario(dto.getCreadorId());
-        r.setCreador(creador);
+        if(dto.getCreadorId() != null){
+            Usuario u = new Usuario();
+            u.setIdUsuario(dto.getCreadorId());
+            r.setCreador(u);
+        }
 
-        Usuario destinatario = new Usuario();
-        destinatario.setIdUsuario(dto.getDestinatarioId());
-        r.setDestinatario(destinatario);
-
+        if(dto.getDestinatarioId() != null){
+            Usuario u = new Usuario();
+            u.setIdUsuario(dto.getDestinatarioId());
+            r.setDestinatario(u);
+        }
         rService.insert(r);
         return ResponseEntity.status(HttpStatus.CREATED).body("Recurso creado correctamente");
     }
@@ -62,22 +78,13 @@ public class RecursoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No se puede modificar: no existe el ID " + dto.getId());
         }
+
         ModelMapper m = new ModelMapper();
         Recurso r = m.map(dto, Recurso.class);
-
-        // setear relaciones con Usuario usando idUsuario
-        Usuario creador = new Usuario();
-        creador.setIdUsuario(dto.getCreadorId());
-        r.setCreador(creador);
-
-        Usuario destinatario = new Usuario();
-        destinatario.setIdUsuario(dto.getDestinatarioId());
-        r.setDestinatario(destinatario);
 
         rService.update(r);
         return ResponseEntity.ok("Recurso modificado correctamente");
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Recurso r = rService.listId(id);

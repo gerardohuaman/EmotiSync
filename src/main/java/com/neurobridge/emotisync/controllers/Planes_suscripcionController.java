@@ -1,18 +1,22 @@
 package com.neurobridge.emotisync.controllers;
 
+import com.neurobridge.emotisync.dtos.Usuario_suscripcionDTO;
 import com.neurobridge.emotisync.entities.Planes_suscripcion;
+import com.neurobridge.emotisync.entities.Usuario_suscripcion;
 import org.modelmapper.ModelMapper;
 import com.neurobridge.emotisync.dtos.Planes_suscripcionDTO;
 import com.neurobridge.emotisync.servicesinterfaces.IPlanes_suscripcionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/planesSuscripcion")
 public class Planes_suscripcionController {
     @Autowired
@@ -55,5 +59,17 @@ public class Planes_suscripcionController {
         }
         pS.update(s);
         return ResponseEntity.ok("Plan de suscripcion con ID: " + s.getIdPlanesSuscripcion() + " actualizado correctamente.");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Planes_suscripcion s = pS.listId(id);
+        if (s == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        Planes_suscripcionDTO dto = m.map(s, Planes_suscripcionDTO.class);
+        return ResponseEntity.ok(dto);
     }
 }
