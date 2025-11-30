@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface IUsuarioEjercicioRepository extends JpaRepository<UsuarioEjercicio, Integer> {
 
+    List<UsuarioEjercicio> findByUsuario_Username(String username);
+
     @Query(value = "SELECT \n" +
             "    u.id_usuario as usuario_id,\n" +
             "    u.nombre,\n" +

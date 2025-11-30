@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -135,9 +137,15 @@ public class UsuarioController {
 
 
     @GetMapping("/pacientesPorMedico")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
     public ResponseEntity<?> buscarPacientePorMedico(@RequestParam String email) {
         List<Usuario> usuarios = uS.buscarPacientesPorMedico(email);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"));
+
+        if (!isAdmin && !auth.getName().equals(email)) { // Asumiendo que username es el email
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Solo puedes ver tus propios pacientes");
+        }
 
         if (usuarios.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

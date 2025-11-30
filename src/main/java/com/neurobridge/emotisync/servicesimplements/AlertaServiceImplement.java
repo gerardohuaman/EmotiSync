@@ -63,6 +63,11 @@ public class AlertaServiceImplement implements IAlertaService {
         return repository.obtenerUsuariosConAlertasCriticas(nivelCritico);
     }
 
+    @Override
+    public List<Alertas> listarPorUsuario(String username) {
+        return repository.findByUsuario_Username(username);
+    }
+
 
 }
 

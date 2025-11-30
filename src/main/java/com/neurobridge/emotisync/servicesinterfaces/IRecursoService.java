@@ -12,5 +12,6 @@ public interface IRecursoService {
     void update(Recurso r);
     boolean existeRelacionEntreUsuarios(int creadorId, int destinatarioId);
     List<RecursoPromedioDTO> promedioRecursosPorCreador();
+    List<Recurso> listarPorCreador(String username);
 
 }
