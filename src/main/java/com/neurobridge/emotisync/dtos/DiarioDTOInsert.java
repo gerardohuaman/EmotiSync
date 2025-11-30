@@ -7,8 +7,8 @@ public class DiarioDTOInsert {
     private String titulo;
     private String contenido;
     private LocalDate fecha;
-    private UsuarioInsertDTO usuario;
-    private EmocionesDTOInsert emociones;
+    private int usuario;
+    private int emociones;
 
     public int getIdDiario() {
         return idDiario;
@@ -42,19 +42,19 @@ public class DiarioDTOInsert {
         this.fecha = fecha;
     }
 
-    public UsuarioInsertDTO getUsuario() {
+    public int getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(UsuarioInsertDTO usuario) {
+    public void setUsuario(int usuario) {
         this.usuario = usuario;
     }
 
-    public EmocionesDTOInsert getEmociones() {
+    public int getEmociones() {
         return emociones;
     }
 
-    public void setEmociones(EmocionesDTOInsert emociones) {
+    public void setEmociones(int emociones) {
         this.emociones = emociones;
     }
 }
