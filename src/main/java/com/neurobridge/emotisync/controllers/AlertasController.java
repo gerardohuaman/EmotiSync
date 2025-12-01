@@ -1,7 +1,6 @@
 package com.neurobridge.emotisync.controllers;
 
 import com.neurobridge.emotisync.dtos.*;
-import com.neurobridge.emotisync.entities.Ejercicio;
 import com.neurobridge.emotisync.entities.Usuario;
 import com.neurobridge.emotisync.repositories.IUsuarioRepository;
 import com.neurobridge.emotisync.servicesinterfaces.IAlertaService;
@@ -15,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.neurobridge.emotisync.entities.Alertas;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,6 +97,7 @@ public class AlertasController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ESPECIALISTA')")
     public ResponseEntity<String> modificar(@RequestBody AlertasDTOList dto) {
         ModelMapper m = new ModelMapper();
         Alertas s = m.map(dto, Alertas.class);
@@ -129,7 +128,7 @@ public class AlertasController {
     }
 
     @GetMapping("/conteo-usuarios")
-    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ESPECIALISTA')")
     public ResponseEntity<List<UsuarioAlertaCountDTO>> contarAlertasPorUsuario() {
         List<UsuarioAlertaCountDTO> conteo = service.contarAlertasPorUsuario();
 
@@ -141,7 +140,7 @@ public class AlertasController {
     }
 
     @GetMapping("/buscar-por-nombre")
-    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ESPECIALISTA')")
     public ResponseEntity<List<AlertasBusquedaDTO>> buscarAlertasPorNombreUsuario(
             @RequestParam("letra") String letra) {
 
@@ -156,7 +155,7 @@ public class AlertasController {
 
     // DECISIÓN: Usuarios cuyo promedio de alertas >= nivel crítico
     @GetMapping("/promedio-critico")
-    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ESPECIALISTA')")
     public ResponseEntity<List<UsuarioPromedioAlertasDTO>> usuariosConPromedioAlertasAltas(
             @RequestParam("nivel") double nivel) {
 
@@ -171,7 +170,7 @@ public class AlertasController {
 
     //Detecta a los usuarios cuyo nivel máximo de alerta es crítico
     @GetMapping("/criticas")
-    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ESPECIALISTA')")
     public ResponseEntity<List<UsuarioAlertaDTO>> obtenerUsuariosConAlertasCriticas(
             @RequestParam(defaultValue = "4") int nivel) {
         List<UsuarioAlertaDTO> lista = service.obtenerUsuariosConAlertasCriticas(nivel);

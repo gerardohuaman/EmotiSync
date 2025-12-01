@@ -137,7 +137,7 @@ public class UsuarioController {
 
 
     @GetMapping("/pacientesPorMedico")
-    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ESPECIALISTA')")
     public ResponseEntity<?> buscarPacientePorMedico(@RequestParam String email) {
         List<Usuario> usuarios = uS.buscarPacientesPorMedico(email);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

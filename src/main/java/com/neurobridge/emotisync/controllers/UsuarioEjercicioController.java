@@ -54,7 +54,7 @@ public class UsuarioEjercicioController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ESPECIALISTA')")
     public ResponseEntity<String> insertar(@RequestBody UsuarioEjercicioInsertDTO u){
         ModelMapper m = new ModelMapper();
         UsuarioEjercicio usuarioEjercicio=m.map(u, UsuarioEjercicio.class);
@@ -75,7 +75,7 @@ public class UsuarioEjercicioController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ESPECIALISTA')")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         UsuarioEjercicio usuarioEjercicio = service.listId(id);
         if (usuarioEjercicio == null) {
