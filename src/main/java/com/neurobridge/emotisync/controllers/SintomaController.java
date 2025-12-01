@@ -29,7 +29,7 @@ public class SintomaController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ESPECIALISTA')")
     public ResponseEntity<String> insertar(@RequestBody SintomaDTO dto) {
         ModelMapper m = new ModelMapper();
         Sintoma s = m.map(dto, Sintoma.class);
@@ -39,7 +39,7 @@ public class SintomaController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('ADMIN', 'ESPECIALISTA')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ESPECIALISTA')")
     public ResponseEntity<String> modificar(@RequestBody SintomaDTO dto) {
         Sintoma existente = sService.listId(dto.getId());
         if (existente == null) {
