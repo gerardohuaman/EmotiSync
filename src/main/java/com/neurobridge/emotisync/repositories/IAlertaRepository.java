@@ -15,6 +15,8 @@ import java.util.List;
 
 @Repository
 public interface IAlertaRepository extends JpaRepository<Alertas, Integer>{
+    List<Alertas> findByUsuario_Username(String username);
+
     @Query("SELECT new com.neurobridge.emotisync.dtos.UsuarioAlertaCountDTO(u.idUsuario, u.nombre, COUNT(a)) " +
             "FROM Alertas a JOIN a.usuario u " +
             "GROUP BY u.idUsuario, u.nombre")
@@ -33,9 +35,11 @@ public interface IAlertaRepository extends JpaRepository<Alertas, Integer>{
             "HAVING AVG(a.nivel_alerta) >= :nivelCritico")
     List<UsuarioPromedioAlertasDTO> usuariosConPromedioAlertasAltas(@Param("nivelCritico") double nivelCritico);
 
-    @Query("SELECT new com.neurobridge.emotisync.dtos.UsuarioAlertaDTO(a.usuario.idUsuario, MAX(a.nivel_alerta)) " +
-            "FROM Alertas a " +
-            "GROUP BY a.usuario.idUsuario " +
-            "HAVING MAX(a.nivel_alerta) >= :nivelCritico")
-    List<UsuarioAlertaDTO> findUsuariosConAlertasCriticas(@Param("nivelCritico") int nivelCritico);
+    // En tu IAlertasRepository (o como se llame tu interfaz de repositorio)
+
+    @Query("SELECT new com.neurobridge.emotisync.dtos.UsuarioAlertaDTO(u.idUsuario, u.nombre, MAX(a.nivel_alerta)) " +
+            "FROM Alertas a JOIN a.usuario u " +
+            "WHERE a.nivel_alerta >= :nivel " +
+            "GROUP BY u.idUsuario, u.nombre")
+    List<UsuarioAlertaDTO> obtenerUsuariosConAlertasCriticas(@Param("nivel") int nivel);
 }

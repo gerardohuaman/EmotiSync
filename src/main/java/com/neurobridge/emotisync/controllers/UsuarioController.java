@@ -5,11 +5,15 @@ import com.neurobridge.emotisync.entities.Rol;
 import com.neurobridge.emotisync.entities.Usuario;
 import com.neurobridge.emotisync.servicesinterfaces.IRolService;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuarioService;
+import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,7 +22,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarios")
-@PreAuthorize("hasAuthority('ADMIN')")
 public class UsuarioController {
     @Autowired
     private IUsuarioService uS;
@@ -26,7 +29,11 @@ public class UsuarioController {
     @Autowired
     private IRolService rS;
 
+    @Autowired
+    private PasswordEncoder pE;
+
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public List<UsuarioListDTO>listarUsuarios(){
 
         return uS.getUsuarios().stream().map(x->{
@@ -59,12 +66,11 @@ public class UsuarioController {
         }).collect(Collectors.toList());
     }
 
-    @PostMapping
+    @PostMapping("/registrar")
     public void insertar(@RequestBody UsuarioInsertDTO u){
 
         ModelMapper m = new ModelMapper();
         Usuario usuario = m.map(u, Usuario.class);
-
         if (u.getRoles() != null && !u.getRoles().isEmpty()) {
             List<Rol> rolesAsignados = new ArrayList<>();
             for (Rol rolDto : u.getRoles()) {
@@ -79,6 +85,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Usuario s = uS.listId(id);
         if (s == null) {
@@ -92,6 +99,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Usuario s = uS.listId(id);
         if (s == null) {
@@ -103,6 +111,7 @@ public class UsuarioController {
     }
 
     @PutMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> modificar(@RequestBody UsuarioInsertDTO dto) {
         Usuario existente = uS.listId(dto.getIdUsuario());
         if (existente == null) {
@@ -128,8 +137,15 @@ public class UsuarioController {
 
 
     @GetMapping("/pacientesPorMedico")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ESPECIALISTA')")
     public ResponseEntity<?> buscarPacientePorMedico(@RequestParam String email) {
         List<Usuario> usuarios = uS.buscarPacientesPorMedico(email);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"));
+
+        if (!isAdmin && !auth.getName().equals(email)) { // Asumiendo que username es el email
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Solo puedes ver tus propios pacientes");
+        }
 
         if (usuarios.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -144,8 +160,9 @@ public class UsuarioController {
         return ResponseEntity.ok(listaDTO);
     }
 
-    @GetMapping("/totalPacientesPorEspecialidad")
-    public ResponseEntity<?> totalPacientesPorEspecialidad(){
+    @GetMapping("/totalPacientesPorEspecialista")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<?> totalPacientesPorEspecialista(){
         List<String[]> total = uS.cantidadDePacientesPorEspecialidad();
         List<TotalPacienteDTO> dtoList = new ArrayList<>();
 
@@ -157,4 +174,5 @@ public class UsuarioController {
         }
         return ResponseEntity.ok(dtoList);
     }
+
 }

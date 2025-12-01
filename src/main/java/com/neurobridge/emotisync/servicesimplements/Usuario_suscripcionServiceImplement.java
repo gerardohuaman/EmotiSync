@@ -60,4 +60,9 @@ public class Usuario_suscripcionServiceImplement implements IUsuario_suscripcion
         return repository.buscarPlanesMenosSuscriptoresActivos();
     }
 
+    @Override
+    public List<Usuario_suscripcion> listarPorUsuario(String username) {
+        return repository.findByUsuario_Username(username);
+    }
+
 }

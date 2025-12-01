@@ -41,6 +41,11 @@ public class CrisisServiceImplement implements ICrisisService {
         return crisisRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public List<Crisis> listarPorUsuario(String username) {
+        return crisisRepository.findByUsuario_Username(username);
+    }
+
     //queries
     @Override
     public List<Crisis> buscarPorRitmo(float ritmo) {
@@ -56,4 +61,6 @@ public class CrisisServiceImplement implements ICrisisService {
     public List<String[]> cantidadCrisisDelUsuario() {
         return crisisRepository.cantidadCrisisDelUsuario();
     }
+
+
 }
