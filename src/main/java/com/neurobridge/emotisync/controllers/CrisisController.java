@@ -36,21 +36,22 @@ public class CrisisController {
     //read
     @GetMapping
     public List<CrisisDTO> listar(){
-        // 1. Detectar quién es
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        boolean isAdmin = auth.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ADMIN"));
+
+        // Permitir ver a Admin y Especialista
+        boolean isStaff = auth.getAuthorities().stream().anyMatch(a ->
+                a.getAuthority().equals("ADMIN") || a.getAuthority().equals("ESPECIALISTA"));
 
         List<Crisis> lista;
 
-        // 2. Filtrar datos
-        if (isAdmin) {
-            lista = crisisService.list();
+        if (isStaff) {
+            lista = crisisService.list(); // Staff ve todo (o podrías filtrar por pacientes asignados)
         } else {
-            lista = crisisService.listarPorUsuario(username);
+            lista = crisisService.listarPorUsuario(username); // Paciente solo ve lo suyo
         }
 
-        return lista.stream().map( x->{
+        return lista.stream().map(x -> {
             ModelMapper m = new ModelMapper();
             return m.map(x, CrisisDTO.class);
         }).collect(Collectors.toList());
@@ -59,7 +60,6 @@ public class CrisisController {
     //create
     @PostMapping
     public ResponseEntity<?> insertar(@RequestBody CrisisDTO crisisDTO){
-        // 1. Obtener usuario real
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuarioLogueado = usuarioRepository.findOneByUsername(auth.getName());
 
@@ -68,9 +68,20 @@ public class CrisisController {
         ModelMapper m = new ModelMapper();
         Crisis cri = m.map(crisisDTO, Crisis.class);
 
-        // 2. Asignación Forzosa (Seguridad)
-        cri.setUsuario(usuarioLogueado);
-        cri.setIdCrisis(0); // Reset ID por si acaso
+        // --- CORRECCIÓN: Lógica de Asignación Inteligente ---
+        boolean isStaff = auth.getAuthorities().stream().anyMatch(a ->
+                a.getAuthority().equals("ADMIN") || a.getAuthority().equals("ESPECIALISTA"));
+
+        // Si es Staff y envía un usuario válido en el JSON, respetamos esa asignación
+        if (isStaff && crisisDTO.getUsuario() != null && crisisDTO.getUsuario().getIdUsuario() > 0) {
+            // Se mantiene el usuario que viene del DTO
+        } else {
+            // Si es paciente (o staff registrando para sí mismo), forzamos el usuario logueado
+            cri.setUsuario(usuarioLogueado);
+        }
+        // -----------------------------------------------------
+
+        cri.setIdCrisis(0); // Reset ID para asegurar creación
 
         crisisService.insert(cri);
         return ResponseEntity.ok("Crisis registrada correctamente");
@@ -80,20 +91,29 @@ public class CrisisController {
     @PutMapping
     public ResponseEntity<String> actualizar(@RequestBody CrisisDTO crisisDTO){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        boolean isStaff = auth.getAuthorities().stream().anyMatch(a ->
+                a.getAuthority().equals("ADMIN") || a.getAuthority().equals("ESPECIALISTA"));
 
         Crisis existente = crisisService.listId(crisisDTO.getIdCrisis());
         if(existente == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe");
 
-        if(!existente.getUsuario().getUsername().equals(auth.getName())){
+        // --- CORRECCIÓN: Permitir que Staff edite ---
+        // Solo bloqueamos si NO es staff Y NO es el dueño
+        if(!isStaff && !existente.getUsuario().getUsername().equals(username)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No puedes editar esta crisis");
         }
+        // --------------------------------------------
 
         ModelMapper m = new ModelMapper();
         Crisis cri = m.map(crisisDTO, Crisis.class);
+
+        // Mantener el dueño original para que no se pierda o cambie por error
         cri.setUsuario(existente.getUsuario());
 
         crisisService.update(cri);
-        return ResponseEntity.ok( "Registro con ID " + cri.getIdCrisis() + " modificado correctamente.");
+        return ResponseEntity.ok("Registro modificado correctamente.");
     }
 
     //delete
