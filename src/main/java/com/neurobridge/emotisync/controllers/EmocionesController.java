@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("permitAll()")
 @RequestMapping("/emociones")
 public class EmocionesController {
     @Autowired
@@ -68,8 +69,22 @@ public class EmocionesController {
         return ResponseEntity.ok("Registro con ID: " + id + "eliminado correctamente.");
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
+        Emociones emoci = emocionesService.listId(id);
+        if (emoci == null) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("No existe un registro con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        EmocionesDTOList dto = m.map(emoci, EmocionesDTOList.class);
+        return ResponseEntity.ok(dto);
+    }
+
     //queries
     @GetMapping("/busquedaemoint5")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> buscaremoint5() {
         List<Emociones> emociones = emocionesService.buscarEmocionesIntensidad5();
         if (emociones.isEmpty()) {
