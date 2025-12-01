@@ -36,6 +36,7 @@ com\neurobridge\emotisync\dtos\SintomaDTO.class
 com\neurobridge\emotisync\dtos\UsuarioPromedioAlertasDTO.class
 com\neurobridge\emotisync\util\CORS.class
 com\neurobridge\emotisync\repositories\IRolRepository.class
+com\neurobridge\emotisync\servicesimplements\GeminiService.class
 com\neurobridge\emotisync\dtos\QuantityDTOCrisis.class
 com\neurobridge\emotisync\servicesimplements\EmocionesServiceImplement.class
 com\neurobridge\emotisync\repositories\IRecursoRepository.class
@@ -51,8 +52,10 @@ com\neurobridge\emotisync\servicesimplements\RecursoServiceImplement.class
 com\neurobridge\emotisync\dtos\EjercicioDTO.class
 com\neurobridge\emotisync\repositories\IPlanes_suscripcionRepository.class
 com\neurobridge\emotisync\dtos\FamiliarDTO.class
+com\neurobridge\emotisync\dtos\SolicitudCambioRolDTO.class
 com\neurobridge\emotisync\entities\UsuarioEjercicio.class
 com\neurobridge\emotisync\repositories\IEmocionesRepository.class
+com\neurobridge\emotisync\dtos\EmocionDTOForDiario.class
 com\neurobridge\emotisync\dtos\UsuarioAlertaCountDTO.class
 com\neurobridge\emotisync\entities\Recurso.class
 com\neurobridge\emotisync\securities\JwtTokenUtil.class
@@ -62,11 +65,13 @@ com\neurobridge\emotisync\servicesinterfaces\ICrisisService.class
 com\neurobridge\emotisync\controllers\CrisisController.class
 com\neurobridge\emotisync\entities\Ejercicio.class
 com\neurobridge\emotisync\repositories\IUsuarioEjercicioRepository.class
+com\neurobridge\emotisync\controllers\ChatController.class
 com\neurobridge\emotisync\controllers\EmocionesController.class
 com\neurobridge\emotisync\controllers\RecursoController.class
 com\neurobridge\emotisync\dtos\PacienteListDTO.class
 com\neurobridge\emotisync\dtos\AlertasDTOList.class
 com\neurobridge\emotisync\dtos\DiarioDTOInsert.class
+com\neurobridge\emotisync\dtos\ChatDTO.class
 com\neurobridge\emotisync\dtos\EjercicioCompletadoDTO.class
 com\neurobridge\emotisync\repositories\IAlertaRepository.class
 com\neurobridge\emotisync\servicesimplements\SintomaServiceImplement.class

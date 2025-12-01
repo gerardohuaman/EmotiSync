@@ -1,4 +1,5 @@
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\controllers\AlertasController.java
+C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\controllers\ChatController.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\controllers\CrisisController.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\controllers\CrisisSintomaController.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\controllers\DiarioController.java
@@ -16,12 +17,14 @@ C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobr
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\AlertasDTOInsert.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\AlertasDTOList.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\AverageDTOEmocionesInt.java
+C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\ChatDTO.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\CrisisDTO.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\CrisisSintomaDTO.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\DiarioDTOInsert.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\DiarioListDTO.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\EjercicioCompletadoDTO.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\EjercicioDTO.java
+C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\EmocionDTOForDiario.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\EmocionesDTOInsert.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\EmocionesDTOList.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\EspecialistaDTO.java
@@ -40,6 +43,7 @@ C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobr
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\RolInsertDTO.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\RolListDTO.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\SintomaDTO.java
+C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\SolicitudCambioRolDTO.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\SuscripcionesActivasInfoUsuarioDTO.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\TotalPacienteDTO.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\dtos\Usuario_suscripcionDTO.java
@@ -87,6 +91,7 @@ C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobr
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\servicesimplements\DiarioServiceImplement.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\servicesimplements\EjercicioServiceImplement.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\servicesimplements\EmocionesServiceImplement.java
+C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\servicesimplements\GeminiService.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\servicesimplements\JwtUserDetailsService.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\servicesimplements\Planes_suscripcionServiceImplement.java
 C:\Users\USUARIO\OneDrive\Escritorio\backend\EmotiSync\src\main\java\com\neurobridge\emotisync\servicesimplements\RecursoServiceImplement.java
