@@ -1,9 +1,11 @@
 package com.neurobridge.emotisync.controllers;
 
 import com.neurobridge.emotisync.dtos.*;
+import com.neurobridge.emotisync.entities.Planes_suscripcion;
 import com.neurobridge.emotisync.entities.Usuario;
 import com.neurobridge.emotisync.entities.Usuario_suscripcion;
 import com.neurobridge.emotisync.repositories.IUsuarioRepository;
+import com.neurobridge.emotisync.servicesinterfaces.IPlanes_suscripcionService;
 import com.neurobridge.emotisync.servicesinterfaces.IUsuario_suscripcionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,6 +32,9 @@ public class Usuario_suscripcionController {
 
     @Autowired
     private IUsuarioRepository usuarioRepository;
+
+    @Autowired
+    private IPlanes_suscripcionService planesService;
 
     @GetMapping
     public List<Usuario_suscripcionDTO> listar(){
@@ -55,39 +62,50 @@ public class Usuario_suscripcionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> insertar(@RequestBody Usuario_suscripcion u) {
+    public ResponseEntity<?> insertar(@RequestBody Usuario_suscripcion u) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
-        // Verificar si es ADMIN
-        boolean isAdmin = auth.getAuthorities().stream()
-                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
-
-        if (isAdmin) {
-            // CASO 1: Es ADMIN
-            // Respetamos el usuario que viene del formulario (u.getUsuario())
-            // Solo verificamos que no sea nulo
-            if (u.getUsuario() == null || u.getUsuario().getIdUsuario() == 0) {
-                return ResponseEntity.badRequest().body("Debe seleccionar un usuario");
-            }
-        } else {
-            // CASO 2: Es PACIENTE/NORMAL
-            // Forzamos que la suscripción sea para él mismo
-            Usuario usuarioLogueado = usuarioRepository.findOneByUsername(username);
-            if (usuarioLogueado == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            u.setUsuario(usuarioLogueado);
+        // 1. Obtener usuario logueado
+        Usuario usuarioLogueado = usuarioRepository.findOneByUsername(username);
+        if (usuarioLogueado == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        // Lógica de fechas por defecto
-        if (u.getFechaInicio() == null) u.setFechaInicio(LocalDate.now());
+        // 2. Validar que se haya enviado un plan
+        if (u.getPlanesSuscripcion() == null || u.getPlanesSuscripcion().getIdPlanesSuscripcion() == 0) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", "Debe seleccionar un plan válido"));
+        }
+
+        // 3. Obtener detalles del plan desde la BD
+        Planes_suscripcion planElegido = planesService.listId(u.getPlanesSuscripcion().getIdPlanesSuscripcion());
+        if (planElegido == null) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", "El plan seleccionado no existe"));
+        }
+
+        // 4. Configuración Automática de la Suscripción
+        u.setUsuario(usuarioLogueado); // Siempre se asigna al usuario que paga
+        u.setFechaInicio(LocalDate.now());
+        u.setEstado("Activo");
+
+        // 5. Cálculo de Fecha Fin según el nombre del plan
+        String nombrePlan = planElegido.getNombre_plan().toLowerCase(); // Ojo: verifica si tu getter es getNombre_plan o getNombrePlan
+
+        if (nombrePlan.contains("anual") || nombrePlan.contains("año") || nombrePlan.contains("year")) {
+            u.setFechaFin(LocalDate.now().plusYears(1));
+        } else if (nombrePlan.contains("semestral") || nombrePlan.contains("6 meses")) {
+            u.setFechaFin(LocalDate.now().plusMonths(6));
+        } else {
+            // Por defecto asumimos Mensual
+            u.setFechaFin(LocalDate.now().plusMonths(1));
+        }
 
         uS.insert(u);
-        return ResponseEntity.ok("Suscripción realizada con éxito");
-    }
 
-    // ... (MANTÉN EL RESTO DE MÉTODOS IGUAL: buscarActivos, buscarPorEmail, etc.) ...
-    // Solo asegúrate de copiar el resto del archivo si lo tenías,
-    // pero la corrección clave está en el método insertar() de arriba.
+        // 6. Retornar JSON (Soluciona el error de SyntaxError en Angular)
+        Map<String, String> response = Collections.singletonMap("mensaje", "Suscripción exitosa. Vence el: " + u.getFechaFin());
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/usuarioActivoQuery")
     @PreAuthorize("hasAuthority('ADMIN')")
