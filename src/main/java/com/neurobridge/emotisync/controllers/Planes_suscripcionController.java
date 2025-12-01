@@ -16,13 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/planesSuscripcion")
 public class Planes_suscripcionController {
     @Autowired
     private IPlanes_suscripcionService pS;
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public List<Planes_suscripcionDTO> listar(){
         return pS.list().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -31,6 +31,7 @@ public class Planes_suscripcionController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void insertar(@RequestBody Planes_suscripcion planesDTO) {
         ModelMapper m = new ModelMapper();
         Planes_suscripcionDTO dto = m.map(planesDTO,Planes_suscripcionDTO.class);
@@ -38,6 +39,7 @@ public class Planes_suscripcionController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id){
         Planes_suscripcion s = pS.listId(id);
         if(s == null){
@@ -49,6 +51,7 @@ public class Planes_suscripcionController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> modificar(@RequestBody Planes_suscripcionDTO dto){
         ModelMapper m = new ModelMapper();
         Planes_suscripcion s = m.map(dto, Planes_suscripcion.class);
@@ -62,6 +65,7 @@ public class Planes_suscripcionController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Planes_suscripcion s = pS.listId(id);
         if (s == null) {

@@ -8,7 +8,7 @@ public class DiarioListDTO {
     private String contenido;
     private LocalDate fecha;
     private UsuarioListDTO usuario;
-    private EmocionesDTOList emociones;
+    private EmocionDTOForDiario emociones;
 
     public int getIdDiario() {
         return idDiario;
@@ -42,11 +42,11 @@ public class DiarioListDTO {
         this.fecha = fecha;
     }
 
-    public EmocionesDTOList getEmociones() {
+    public EmocionDTOForDiario getEmociones() {
         return emociones;
     }
 
-    public void setEmociones(EmocionesDTOList emociones) {
+    public void setEmociones(EmocionDTOForDiario emociones) {
         this.emociones = emociones;
     }
 

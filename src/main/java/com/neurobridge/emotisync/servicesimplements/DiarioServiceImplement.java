@@ -37,4 +37,11 @@ public class DiarioServiceImplement implements IDiarioService {
     public void update(Diario diario) {
         diarioRepository.save(diario);
     }
+
+    @Override
+    public List<Diario> listarPorUsuario(String username) {
+        return diarioRepository.findByUsuario_Username(username);
+    }
+
+
 }
